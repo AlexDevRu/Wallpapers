@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel target="1.7">
+      <module name="Kulakov_P3_Wallpapers_app.app" target="11" />
+      <module name="Kulakov_P3_Wallpapers_app.data" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

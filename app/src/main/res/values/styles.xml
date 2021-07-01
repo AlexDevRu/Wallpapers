@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="splashTitleStyle">
+        <item name="fontFamily">@font/courgette_regular</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/splash_title_size</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">8%</item>
+    </style>
+</resources>

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Kulakov_P3_Wallpapers_app</string>
+    <string name="splash_screen_title">Wallpapers</string>
+    <string name="search_bottom_nav">Поиск</string>
+    <string name="favorite_bottom_nav">Избранное</string>
+    <string name="history_bottom_nav">История</string>
+</resources>

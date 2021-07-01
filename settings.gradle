@@ -1,0 +1,4 @@
+rootProject.name = "Kulakov_P3_Wallpapers_app"
+include ':app'
+include ':domain'
+include ':data'
