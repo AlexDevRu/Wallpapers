@@ -10,3 +10,5 @@ data class PhotoItemApiResponse(
     val width: Int,
     val description: String
 )
+
+data class PhotoResponseError(val errors: String)

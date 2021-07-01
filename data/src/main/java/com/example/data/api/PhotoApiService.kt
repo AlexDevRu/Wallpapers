@@ -6,6 +6,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface PhotoApiService {
-    @GET(".")
-    fun getPhotos(@Query("results") results: Int, @Query("seed") seed: String): Call<PhotoItemApiResponse>?
+    @GET("photos")
+    fun getPhotos(@Query("page") page: Int, @Query("client_id") clientId: String): Call<List<PhotoItemApiResponse>>?
 }
