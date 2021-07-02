@@ -12,6 +12,7 @@ data class PhotoItem(
     var description: String = "",
     var thumb: String = "",
     var regular: String = "",
-    var full: String = ""
+    var full: String = "",
+    var isFavorite: Boolean = false
 ) {
 }

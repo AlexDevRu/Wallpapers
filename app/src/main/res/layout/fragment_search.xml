@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -10,25 +11,44 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
+        android:padding="@dimen/app_padding"
         android:layout_height="match_parent">
+
+
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:clickable="true"
             android:layout_width="0dp"
-            android:queryHint="Search"
-
+            android:background="@drawable/searchview_bg"
+            android:layout_margin="10dp"
+            android:queryHint="@string/search_hint"
             app:queryTextListener="@{viewModel.queryTextListener}"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" >
+
+        </androidx.appcompat.widget.SearchView>
+
+        <ImageButton
+            android:id="@+id/imageView"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:icon="@{viewModel.managerIcon}"
+            android:background="@null"
+            android:onClick="@{() -> viewModel.changeColumnCount()}"
+            app:layout_constraintEnd_toEndOf="@id/searchView"
+            app:layout_constraintTop_toTopOf="@id/searchView"
+            app:layout_constraintBottom_toBottomOf="@id/searchView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/photoList"
+            android:layout_marginTop="16dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:spanCount="3"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

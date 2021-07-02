@@ -1,11 +1,23 @@
 package com.example.data.api
 
 import com.example.domain.data.api.PhotoItemApiResponse
-import retrofit2.Call
+import com.example.domain.data.api.PhotoSearchByKeywordResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface PhotoApiService {
+    @GET("search/photos")
+    suspend fun getPhotos(
+        @Query("page") page: Int,
+        @Query("query") query: String?,
+        @Query("per_page") perPage: Int,
+        @Query("client_id") clientId: String
+    ): PhotoSearchByKeywordResult
+
     @GET("photos")
-    fun getPhotos(@Query("page") page: Int, @Query("client_id") clientId: String): Call<List<PhotoItemApiResponse>>?
+    suspend fun getPhotos(
+        @Query("page") page: Int,
+        @Query("per_page") perPage: Int,
+        @Query("client_id") clientId: String
+    ): List<PhotoItemApiResponse>
 }
