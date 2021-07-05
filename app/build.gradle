@@ -5,6 +5,7 @@ plugins {
 }
 
 apply plugin: 'kotlin-kapt'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
@@ -42,9 +43,18 @@ dependencies {
     implementation project(':domain')
     implementation project(':data')
 
-    implementation 'com.ogaclejapan.smarttablayout:library:2.0.0@aar'
-    //Optional: see how to use the utility.
-    implementation 'com.ogaclejapan.smarttablayout:utils-v4:2.0.0@aar'
+    // Dagger Core
+    implementation "com.google.dagger:dagger:2.37"
+    kapt "com.google.dagger:dagger-compiler:2.37"
+
+    // Dagger Android
+    api 'com.google.dagger:dagger-android:2.37'
+    api 'com.google.dagger:dagger-android-support:2.37'
+    kapt 'com.google.dagger:dagger-android-processor:2.37'
+
+    // Dagger - Hilt
+    implementation "com.google.dagger:hilt-android:2.37"
+    kapt "com.google.dagger:hilt-android-compiler:2.37"
 
 
     implementation 'com.squareup.picasso:picasso:2.71828'
@@ -52,8 +62,9 @@ dependencies {
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
+
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
 
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

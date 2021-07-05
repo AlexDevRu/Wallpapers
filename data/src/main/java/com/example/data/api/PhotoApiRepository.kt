@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.example.domain.data.PhotoItem
+import com.example.domain.data.SearchItem
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,5 +29,12 @@ class PhotoApiRepository {
             ),
             pagingSourceFactory = { PhotosPageSource(service, query) }
         ).flow
+    }
+
+    suspend fun getMetaFromPhotosSearch(query: String): SearchItem {
+        val response = service.getPhotos(query = query,
+            clientId = PhotosPageSource.ACCESS_KEY
+        )
+        return SearchItem(query = query, resultsCount = response.total)
     }
 }

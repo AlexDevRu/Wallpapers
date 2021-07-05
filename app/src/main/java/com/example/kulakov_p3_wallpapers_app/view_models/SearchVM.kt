@@ -5,34 +5,57 @@ import androidx.appcompat.widget.SearchView
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewModelScope
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.data.api.PhotoApiRepository
+import com.example.data.database.PhotoDao
+import com.example.data.database.PhotoRepository
 import com.example.domain.data.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchVM: BaseVM() {
+@HiltViewModel
+class SearchVM @Inject constructor(
+    photoDao: PhotoDao
+) : BaseVM() {
     private val apiRepository = PhotoApiRepository()
+    private val repository = PhotoRepository(photoDao)
 
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
+
     private var currentQueryValue: String? = null
     var searchQuery: String? = null
-    var adapter = PhotoAdapter()
+
+    val adapter = PhotoAdapter()
+
     private var searchJob: Job? = null
 
-
     val livePhotoSearch = MutableLiveData<Boolean>()
+    val livePhotoError = MutableLiveData<String?>()
+
+    init {
+        adapter.addLoadStateListener { state ->
+            loading = state.refresh == LoadState.Loading
+            if(state.refresh is LoadState.Error) {
+                livePhotoError.value = (state.refresh as LoadState.Error).error.localizedMessage
+            } else {
+                livePhotoError.value = null
+            }
+        }
+    }
 
     @Bindable
-    var loading = false
+    var loading: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.loading)
@@ -47,15 +70,14 @@ class SearchVM: BaseVM() {
 
     @get:Bindable
     val managerIcon
-        get() = if(liveColumnCount.value == 3) R.drawable.grid_three else R.drawable.grid_two
+        get() = if(columnListCount == 3) R.drawable.grid_three else R.drawable.grid_two
 
-    val liveColumnCount = MutableLiveData(3)
+    @get:Bindable
+    val managerIconVisible
+        get() = searchQuery.isNullOrEmpty()
 
     fun changeColumnCount() {
-        if(liveColumnCount.value == 2)
-            liveColumnCount.value = 3
-        else
-            liveColumnCount.value = 2
+        columnListCount = if(columnListCount == 2) 3 else 2
         notifyPropertyChanged(BR.managerIcon)
     }
 
@@ -70,15 +92,18 @@ class SearchVM: BaseVM() {
         livePhotoSearch.value = true
     }
 
+    private var searchSaved = false
+
     private fun searchPhotos(): Flow<PagingData<PhotoItem>> {
         val lastResult = currentSearchResult
         if (searchQuery == currentQueryValue && lastResult != null) {
             return lastResult
         }
         currentQueryValue = searchQuery
-        Log.w("asd", searchQuery.toString())
-        val newResult: Flow<PagingData<PhotoItem>> = apiRepository.getSearchResultStream(searchQuery)
-            .cachedIn(viewModelScope)
+        Log.w("asd", "query ${searchQuery.toString()}")
+
+        val newResult = apiRepository.getSearchResultStream(searchQuery).cachedIn(viewModelScope)
+
         currentSearchResult = newResult
         return newResult
     }
@@ -88,12 +113,23 @@ class SearchVM: BaseVM() {
         get() {
             return object: SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    searchSaved = false
+                    Log.w("asd", "submit")
+                    if(!searchSaved && !searchQuery.isNullOrEmpty()) {
+                        viewModelScope.launch(Dispatchers.IO) {
+                            val searchItem = apiRepository.getMetaFromPhotosSearch(searchQuery.toString())
+                            Log.w("asd", "item from api ${searchItem}")
+                            repository.insertQuery(searchItem)
+                        }
+                        searchSaved = true
+                    }
                     searchByKeyword()
                     return true
                 }
 
                 override fun onQueryTextChange(query: String?): Boolean {
-                    searchQuery = query.orEmpty()
+                    searchQuery = query
+                    notifyPropertyChanged(BR.managerIconVisible)
                     return true
                 }
             }

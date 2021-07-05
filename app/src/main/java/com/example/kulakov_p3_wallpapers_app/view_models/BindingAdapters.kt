@@ -8,13 +8,23 @@ import android.widget.ImageView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.BindingAdapter
+import androidx.databinding.BindingConversion
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.kulakov_p3_wallpapers_app.R
 import com.squareup.picasso.Picasso
 
 
-@BindingAdapter("query")
-fun setQuery(searchView: SearchView, queryText: String?) {
-    searchView.setQuery(queryText, false)
+@BindingConversion
+fun convertBooleanToVisibility(visible: Boolean): Int {
+    if(visible) return View.VISIBLE
+    return View.GONE
+}
+
+@BindingAdapter("columnCount")
+fun setColumnCount(recyclerView: RecyclerView, columnCount: Int) {
+    if(recyclerView.layoutManager is GridLayoutManager)
+        (recyclerView.layoutManager as GridLayoutManager).spanCount = columnCount
 }
 
 @BindingAdapter("queryTextListener")

@@ -3,18 +3,29 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentFavoriteSearchBinding
+import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteImagesVM
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteSearchVM
+import dagger.hilt.android.AndroidEntryPoint
 
-class FavoriteSearchFragment: BaseFragment<FavoriteSearchVM>(R.layout.fragment_favorite_search, FavoriteSearchVM::class.java) {
-    private lateinit var binding: FragmentFavoriteSearchBinding
+@AndroidEntryPoint
+class FavoriteSearchFragment: BaseFragment<FavoriteSearchVM, FragmentFavoriteSearchBinding>
+    (R.layout.fragment_favorite_search) {
+
+    override val viewModel: FavoriteSearchVM by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
-
         binding.viewModel = viewModel
+
+        viewModel.getQueries()
+
+        viewModel.liveQueriesLoading.observe(viewLifecycleOwner, {
+            binding.queriesList.scrollToPosition(0)
+        })
+
+        binding.queriesList.adapter = viewModel.adapter
     }
 }

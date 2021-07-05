@@ -1,9 +1,12 @@
-package com.example.domain.data
+package com.example.data.database.entities
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.util.*
 
-data class PhotoItem(
-    var id: String =  "",
+@Entity(tableName = "photos")
+data class PhotoItemEntity(
+    @PrimaryKey val id: String,
     var width: Int = 0,
     var height: Int = 0,
     var created: Date = Date(),
