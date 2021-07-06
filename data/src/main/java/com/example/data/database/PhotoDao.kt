@@ -10,10 +10,10 @@ interface PhotoDao {
     @Query("select * from photos")
     suspend fun getPhotos(): List<PhotoItemEntity>
 
-    @Query("SELECT * FROM search_queries")
+    @Query("select * from search_queries order by date desc")
     fun getQueries(): PagingSource<Int, SearchQueryEntity>
 
-    @Query("SELECT * FROM search_queries where isFavorite=1")
+    @Query("select * from search_queries where isFavorite=1 order by date desc")
     fun getFavoriteQueries(): PagingSource<Int, SearchQueryEntity>
 
     @Insert

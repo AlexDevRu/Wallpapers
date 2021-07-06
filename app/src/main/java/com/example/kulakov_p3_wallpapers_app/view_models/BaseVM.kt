@@ -8,13 +8,8 @@ import androidx.navigation.NavDirections
 
 abstract class BaseVM : ViewModel(), Observable {
     val newDestination = MutableLiveData<NavDirections>()
-
-    fun setNewDestination(destination: NavDirections) {
-        newDestination.value = destination
-    }
-
-
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
+
 
     override fun addOnPropertyChangedCallback(
         callback: Observable.OnPropertyChangedCallback) {

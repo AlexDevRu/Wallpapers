@@ -6,13 +6,65 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment">
+        <argument
+            android:name="searchQuery"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <action
+            android:id="@+id/action_searchFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment">
+            <argument
+                android:name="photoItem"
+                app:argType="com.example.data.models.PhotoItem"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/favoriteFragment"
         android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.FavoriteFragment"
-        android:label="FavoriteFragment" />
+        android:label="FavoriteFragment" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_searchFragment"
+            app:destination="@id/searchFragment">
+            <argument
+                android:name="searchQuery"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
+    </fragment>
     <fragment
         android:id="@+id/historyFragment"
         android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.HistoryFragment"
-        android:label="HistoryFragment" />
+        android:label="HistoryFragment" >
+        <action
+            android:id="@+id/action_historyFragment_to_searchFragment"
+            app:destination="@id/searchFragment">
+
+            <argument
+                android:name="searchQuery"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/photoDetailFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoDetailFragment"
+        android:label="PhotoDetailFragment">
+
+        <argument
+            android:name="photoItem"
+            app:argType="com.example.data.models.PhotoItem"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+        <action
+            android:id="@+id/action_photoDetailFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
+
+    </fragment>
 </navigation>

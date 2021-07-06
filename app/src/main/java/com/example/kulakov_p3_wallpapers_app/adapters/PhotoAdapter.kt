@@ -2,20 +2,20 @@ package com.example.kulakov_p3_wallpapers_app.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.annotation.NonNull
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.NavDirections
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.data.PhotoItem
+import com.example.data.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoItemBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.PhotoItemVM
 
+class PhotoAdapter(private val navigateByDirection: (NavDirections) -> Unit)
+    : PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(PhotoDiffUtilCallback()) {
 
-class PhotoAdapter: PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(PhotoDiffUtilCallback()) {
-    @NonNull
-    override fun onCreateViewHolder(@NonNull parent: ViewGroup, viewType: Int): PhotoItemHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoItemHolder {
         val binding = DataBindingUtil.inflate<PhotoItemBinding>(
             LayoutInflater.from(parent.context),
             R.layout.photo_item,
@@ -26,14 +26,14 @@ class PhotoAdapter: PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(P
         return PhotoItemHolder(binding)
     }
 
-    override fun onBindViewHolder(@NonNull holder: PhotoItemHolder, position: Int) {
+    override fun onBindViewHolder(holder: PhotoItemHolder, position: Int) {
         holder.bind(getItem(position))
     }
 
     inner class PhotoItemHolder(private val binding: PhotoItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = PhotoItemVM()
+            val viewModel = PhotoItemVM(navigateByDirection)
             binding.viewModel = viewModel
         }
 

@@ -1,10 +1,9 @@
 package com.example.data.api
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.mappers.PhotoResponseMapper
-import com.example.domain.data.PhotoItem
+import com.example.data.models.PhotoItem
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -16,7 +15,7 @@ class PhotosPageSource(private val service: PhotoApiService,
 
     companion object {
         const val SECRET_KEY = "cGiA-zQITn8pXjm6LFRVxqL7xkirJqwBwCaHcMNB0pM"
-        const val ACCESS_KEY = "DAfRSeCPQrk3mi4JVzVJ3NuTLSiPbHKHzCMfydsseDE"
+        const val ACCESS_KEY = "1CUrZhtUDv_A65KXORYdlBVynKVwrOPAG4byMdsQFzc"//"DAfRSeCPQrk3mi4JVzVJ3NuTLSiPbHKHzCMfydsseDE"
     }
 
     override fun getRefreshKey(state: PagingState<Int, PhotoItem>): Int? {

@@ -1,6 +1,7 @@
 package com.example.data.mappers
 
-import com.example.domain.data.PhotoItem
+
+import com.example.data.models.PhotoItem
 import com.example.domain.data.api.PhotoItemApiResponse
 import java.text.SimpleDateFormat
 import java.util.*

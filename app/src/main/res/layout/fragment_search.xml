@@ -28,7 +28,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:queryTextListener="@{viewModel.queryTextListener}" />
+            app:query="@={viewModel.searchQuery}"
+            app:onQueryTextSubmit="@{() -> viewModel.submitQuery()}"/>
 
         <ImageButton
             android:id="@+id/managerChangeButton"
@@ -40,7 +41,8 @@
             android:onClick="@{() -> viewModel.changeColumnCount()}"
             app:layout_constraintEnd_toEndOf="@id/searchView"
             app:layout_constraintTop_toTopOf="@id/searchView"
-            app:layout_constraintBottom_toBottomOf="@id/searchView"/>
+            app:layout_constraintBottom_toBottomOf="@id/searchView"
+            android:contentDescription="@string/change_grid_columns" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/photoList"

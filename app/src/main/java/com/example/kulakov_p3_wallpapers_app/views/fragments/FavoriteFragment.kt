@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.Lifecycle
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentFavoriteBinding
+import com.example.kulakov_p3_wallpapers_app.tab_adapters.FavoriteAdapter
 import com.google.android.material.tabs.TabLayout
-
 
 class FavoriteFragment: Fragment(R.layout.fragment_favorite) {
     private lateinit var binding: FragmentFavoriteBinding
@@ -42,16 +39,5 @@ class FavoriteFragment: Fragment(R.layout.fragment_favorite) {
                 binding.tabs.selectTab(binding.tabs.getTabAt(position))
             }
         })
-    }
-}
-
-class FavoriteAdapter(fragmentManager: FragmentManager, lifeCycle: Lifecycle):
-    FragmentStateAdapter(fragmentManager, lifeCycle) {
-
-    override fun getItemCount(): Int = 2
-
-    override fun createFragment(position: Int): Fragment {
-        if(position == 0) return FavoriteImagesFragment()
-        return FavoriteSearchFragment()
     }
 }

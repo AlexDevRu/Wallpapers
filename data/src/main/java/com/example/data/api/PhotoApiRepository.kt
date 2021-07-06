@@ -3,7 +3,7 @@ package com.example.data.api
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.domain.data.PhotoItem
+import com.example.data.models.PhotoItem
 import com.example.domain.data.SearchItem
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit

@@ -1,6 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
@@ -18,7 +19,7 @@ abstract class BaseFragment<TViewModel: BaseVM, TBinding: ViewDataBinding>(
     @LayoutRes layout: Int
 ): Fragment(layout) {
 
-    private lateinit var navController: NavController
+    protected lateinit var navController: NavController
     protected abstract val viewModel: TViewModel
     protected lateinit var binding: TBinding
 
@@ -26,17 +27,15 @@ abstract class BaseFragment<TViewModel: BaseVM, TBinding: ViewDataBinding>(
         super.onViewCreated(view, savedInstanceState)
         binding = DataBindingUtil.bind(view)!!
         binding.lifecycleOwner = viewLifecycleOwner
-        init()
-    }
 
-    private fun init() {
         navController = findNavController()
         viewModel.newDestination.observe(viewLifecycleOwner) { direction ->
+            Log.w("asd", "observe")
             navigate(direction)
         }
     }
 
-    private fun navigate(direction: NavDirections) {
-        navController.navigate(direction)
+    protected fun navigate(direction: NavDirections) {
+        findNavController().navigate(direction)
     }
 }

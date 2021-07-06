@@ -1,0 +1,11 @@
+package com.example.kulakov_p3_wallpapers_app.binding_adapters
+
+import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
+@BindingAdapter("columnCount")
+fun setColumnCount(recyclerView: RecyclerView, columnCount: Int) {
+    if(recyclerView.layoutManager is GridLayoutManager)
+        (recyclerView.layoutManager as GridLayoutManager).spanCount = columnCount
+}

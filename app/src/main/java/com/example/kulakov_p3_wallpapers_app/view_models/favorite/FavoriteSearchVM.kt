@@ -9,7 +9,7 @@ import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
 import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.mappers.SearchItemMapper
-import com.example.kulakov_p3_wallpapers_app.adapters.SearchItemsAdapter
+import com.example.kulakov_p3_wallpapers_app.adapters.FavoriteSearchItemsAdapter
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +27,7 @@ class FavoriteSearchVM @Inject constructor(
 
     private var currentSearchResult: Flow<PagingData<SearchQueryEntity>>? = null
 
-    val adapter = SearchItemsAdapter(photoDao)
+    val adapter = FavoriteSearchItemsAdapter(photoDao) { direction -> newDestination.value = direction }
 
     private var searchJob: Job? = null
 

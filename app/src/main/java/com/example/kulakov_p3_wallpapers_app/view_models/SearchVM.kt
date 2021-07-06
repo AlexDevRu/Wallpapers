@@ -1,7 +1,6 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
 import android.util.Log
-import androidx.appcompat.widget.SearchView
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +11,7 @@ import androidx.paging.cachedIn
 import com.example.data.api.PhotoApiRepository
 import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
-import com.example.domain.data.PhotoItem
+import com.example.data.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.count
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -34,14 +32,15 @@ class SearchVM @Inject constructor(
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
 
     private var currentQueryValue: String? = null
-    var searchQuery: String? = null
 
-    val adapter = PhotoAdapter()
+    val adapter = PhotoAdapter() { direction -> newDestination.value = direction }
 
     private var searchJob: Job? = null
 
     val livePhotoSearch = MutableLiveData<Boolean>()
     val livePhotoError = MutableLiveData<String?>()
+
+    private var searchSaved = false
 
     init {
         adapter.addLoadStateListener { state ->
@@ -53,6 +52,13 @@ class SearchVM @Inject constructor(
             }
         }
     }
+
+    @Bindable
+    var searchQuery: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.searchQuery)
+        }
 
     @Bindable
     var loading: Boolean = false
@@ -89,10 +95,17 @@ class SearchVM @Inject constructor(
             }
         }
 
+        if(!searchSaved && !searchQuery.isNullOrEmpty()) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val searchItem = apiRepository.getMetaFromPhotosSearch(searchQuery.toString())
+                Log.w("asd", "item from api ${searchItem}")
+                repository.insertQuery(searchItem)
+            }
+            searchSaved = true
+        }
+
         livePhotoSearch.value = true
     }
-
-    private var searchSaved = false
 
     private fun searchPhotos(): Flow<PagingData<PhotoItem>> {
         val lastResult = currentSearchResult
@@ -108,30 +121,9 @@ class SearchVM @Inject constructor(
         return newResult
     }
 
-    @get:Bindable
-    val queryTextListener: SearchView.OnQueryTextListener
-        get() {
-            return object: SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    searchSaved = false
-                    Log.w("asd", "submit")
-                    if(!searchSaved && !searchQuery.isNullOrEmpty()) {
-                        viewModelScope.launch(Dispatchers.IO) {
-                            val searchItem = apiRepository.getMetaFromPhotosSearch(searchQuery.toString())
-                            Log.w("asd", "item from api ${searchItem}")
-                            repository.insertQuery(searchItem)
-                        }
-                        searchSaved = true
-                    }
-                    searchByKeyword()
-                    return true
-                }
-
-                override fun onQueryTextChange(query: String?): Boolean {
-                    searchQuery = query
-                    notifyPropertyChanged(BR.managerIconVisible)
-                    return true
-                }
-            }
-        }
+    fun submitQuery() {
+        searchSaved = false
+        Log.w("asd", "submit")
+        searchByKeyword()
+    }
 }
