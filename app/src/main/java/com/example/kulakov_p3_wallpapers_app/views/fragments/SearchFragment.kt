@@ -3,9 +3,11 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kulakov_p3_wallpapers_app.R
+import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoLoadStateAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentSearchBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.SearchVM
@@ -25,7 +27,6 @@ class SearchFragment: BaseFragment<SearchVM, FragmentSearchBinding>
 
         binding.viewModel = viewModel
         viewModel.searchQuery = args.searchQuery
-        //binding.searchView.setQuery(viewModel.searchQuery, false)
 
         binding.photoList.adapter = viewModel.adapter.withLoadStateHeaderAndFooter(
             PhotoLoadStateAdapter(), PhotoLoadStateAdapter()

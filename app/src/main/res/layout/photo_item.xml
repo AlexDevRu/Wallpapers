@@ -15,6 +15,7 @@
         android:layout_height="wrap_content">
 
         <com.google.android.material.imageview.ShapeableImageView
+            android:transitionName="imageView"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
@@ -24,7 +25,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:photo="@{viewModel.thumb}"
-            app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize50Percent" />
+            app:shapeAppearanceOverlay="@style/roundedImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

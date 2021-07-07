@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.PhotoDetailVM" />
+            type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,38 +25,33 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <ImageButton
+                android:id="@+id/backButton"
+                android:onClick="@{() -> viewModel.navigateBack()}"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <ImageButton
-                    android:id="@+id/backButton"
-                    android:onClick="@{() -> viewModel.navigateBack()}"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    app:srcCompat="@drawable/ic_baseline_arrow_back_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.toolbarTitle}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/backButton"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.toolbarTitle}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/backButton"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </androidx.appcompat.widget.Toolbar>
 
         <ImageView
             android:id="@+id/imageView"
+            android:transitionName="imageView"
             android:background="@color/black"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -69,6 +64,8 @@
 
         <ImageButton
             android:id="@+id/expandButton"
+            android:transitionName="button"
+            android:onClick="@{() -> viewModel.navigateToFullScreen()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="10dp"
@@ -100,6 +97,7 @@
 
                 <ImageButton
                     android:id="@+id/shareButton"
+                    android:onClick="@{() -> viewModel.share()}"
                     android:background="@null"
                     android:padding="10dp"
                     android:layout_width="wrap_content"
@@ -111,6 +109,7 @@
 
                 <ImageButton
                     android:id="@+id/functionButton"
+                    android:onClick="@{() -> viewModel.openDialog()}"
                     android:background="@null"
                     android:padding="10dp"
                     android:layout_width="wrap_content"
@@ -119,10 +118,11 @@
                     app:layout_constraintEnd_toStartOf="@+id/infoButton"
                     app:layout_constraintStart_toEndOf="@+id/shareButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_info_24" />
+                    app:srcCompat="@drawable/ic_baseline_tune_24" />
 
                 <ImageButton
                     android:id="@+id/infoButton"
+                    android:onClick="@{() -> viewModel.navigateToInfo()}"
                     android:background="@null"
                     android:padding="10dp"
                     android:layout_width="wrap_content"

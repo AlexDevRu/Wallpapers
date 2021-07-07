@@ -22,6 +22,9 @@ data class PhotoItemApiResponse(
         val name: String?,
         val portfolio_url: String?,
         val twitter_username: String?,
-        val username: String?
-    )
+        val username: String?,
+        val profile_image: ProfileImage?
+    ) {
+        data class ProfileImage(var small:  String?)
+    }
 }

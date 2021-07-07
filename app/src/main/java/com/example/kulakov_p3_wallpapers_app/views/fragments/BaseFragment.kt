@@ -9,6 +9,7 @@ import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
@@ -29,13 +30,14 @@ abstract class BaseFragment<TViewModel: BaseVM, TBinding: ViewDataBinding>(
         binding.lifecycleOwner = viewLifecycleOwner
 
         navController = findNavController()
-        viewModel.newDestination.observe(viewLifecycleOwner) { direction ->
-            Log.w("asd", "observe")
-            navigate(direction)
+        viewModel.newDestination.singleObserve(viewLifecycleOwner) { direction ->
+            if(direction != null) {
+                navigate(direction)
+            }
         }
     }
 
     protected fun navigate(direction: NavDirections) {
-        findNavController().navigate(direction)
+        navController.navigate(direction)
     }
 }

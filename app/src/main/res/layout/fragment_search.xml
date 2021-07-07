@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="android.view.View"/>
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.SearchVM"/>
@@ -62,10 +63,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="@{viewModel.loading}"
+            tools:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/photoList"
             app:layout_constraintEnd_toEndOf="@id/photoList"
             app:layout_constraintStart_toStartOf="@id/photoList"
             app:layout_constraintTop_toTopOf="@id/photoList" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/load_error"
+            app:layout_constraintBottom_toBottomOf="@+id/photoList"
+            app:layout_constraintEnd_toEndOf="@+id/photoList"
+            app:layout_constraintStart_toStartOf="@id/photoList"
+            app:layout_constraintTop_toTopOf="@id/photoList"
+            android:visibility="@{viewModel.error != null ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone"
+            app:message="@{viewModel.error}" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

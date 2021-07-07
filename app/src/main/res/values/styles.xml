@@ -6,7 +6,11 @@
         <item name="android:textSize">@dimen/splash_title_size</item>
     </style>
 
-    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+    <style name="roundedImage" >
         <item name="cornerSize">8%</item>
+    </style>
+
+    <style name="circleImage" >
+        <item name="cornerSize">50%</item>
     </style>
 </resources>

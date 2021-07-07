@@ -46,8 +46,10 @@ class SearchVM @Inject constructor(
         adapter.addLoadStateListener { state ->
             loading = state.refresh == LoadState.Loading
             if(state.refresh is LoadState.Error) {
+                error = (state.refresh as LoadState.Error).error.localizedMessage
                 livePhotoError.value = (state.refresh as LoadState.Error).error.localizedMessage
             } else {
+                error = null
                 livePhotoError.value = null
             }
         }
@@ -58,6 +60,13 @@ class SearchVM @Inject constructor(
         set(value) {
             field = value
             notifyPropertyChanged(BR.searchQuery)
+        }
+
+    @Bindable
+    var error: String? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.error)
         }
 
     @Bindable
@@ -76,7 +85,7 @@ class SearchVM @Inject constructor(
 
     @get:Bindable
     val managerIcon
-        get() = if(columnListCount == 3) R.drawable.grid_three else R.drawable.grid_two
+        get() = if(columnListCount == 3) R.drawable.grid_two else R.drawable.grid_three
 
     @get:Bindable
     val managerIconVisible
@@ -113,7 +122,6 @@ class SearchVM @Inject constructor(
             return lastResult
         }
         currentQueryValue = searchQuery
-        Log.w("asd", "query ${searchQuery.toString()}")
 
         val newResult = apiRepository.getSearchResultStream(searchQuery).cachedIn(viewModelScope)
 
@@ -123,7 +131,6 @@ class SearchVM @Inject constructor(
 
     fun submitQuery() {
         searchSaved = false
-        Log.w("asd", "submit")
         searchByKeyword()
     }
 }

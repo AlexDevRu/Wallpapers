@@ -11,4 +11,14 @@
     <string name="remove_from_favorite">Удалить из избранного</string>
     <string name="change_grid_columns">Изменить количество столбцов</string>
     <string name="expand_image">Увеличить картинку</string>
+
+    <string name="set_wallpapers_main">Установить как обои рабочего стола</string>
+    <string name="set_wallpapers_lock">Установить на завставку экрана блокировки</string>
+    <string name="save_to_favorite">Сохранить в избранное</string>
+    <string name="retry_loading">Повторить</string>
+    <string name="portfolio">Портфолио</string>
+
+    <string name="date">Дата</string>
+    <string name="color">Цвет</string>
+    <string name="size">Размеры</string>
 </resources>

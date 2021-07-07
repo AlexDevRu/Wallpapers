@@ -63,8 +63,64 @@
             app:nullable="true"
             android:defaultValue="@null"/>
         <action
-            android:id="@+id/action_photoDetailFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
+            android:id="@+id/action_photoDetailFragment_to_photoFunctionsDialog"
+            app:destination="@id/photoFunctionsDialog">
+            <argument
+                android:name="photoItem"
+                app:argType="com.example.data.models.PhotoItem"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
+        <action
+            android:id="@+id/action_photoDetailFragment_to_photoFullscreenFragment"
+            app:destination="@id/photoFullscreenFragment">
+            <argument
+                android:name="photoUrl"
+                app:argType="string"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
+        <action
+            android:id="@+id/action_photoDetailFragment_to_photoInfoFragment"
+            app:destination="@id/photoInfoFragment">
+            <argument
+                android:name="photoItem"
+                app:argType="com.example.data.models.PhotoItem"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
 
+    </fragment>
+    <dialog
+        android:id="@+id/photoFunctionsDialog"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.dialogs.PhotoFunctionsDialog"
+        android:label="PhotoFunctionsDialog">
+        <argument
+            android:name="photoItem"
+            app:argType="com.example.data.models.PhotoItem"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+    </dialog>
+    <fragment
+        android:id="@+id/photoFullscreenFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoFullscreenFragment"
+        android:label="PhotoFullscreenFragment">
+
+        <argument
+            android:name="photoUrl"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null"/>
+
+    </fragment>
+    <fragment
+        android:id="@+id/photoInfoFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoInfoFragment"
+        android:label="PhotoInfoFragment">
+        <argument
+            android:name="photoItem"
+            app:argType="com.example.data.models.PhotoItem"
+            app:nullable="true"
+            android:defaultValue="@null"/>
     </fragment>
 </navigation>

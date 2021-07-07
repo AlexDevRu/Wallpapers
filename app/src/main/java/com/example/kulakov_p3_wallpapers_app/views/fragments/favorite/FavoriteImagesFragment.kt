@@ -18,5 +18,13 @@ class FavoriteImagesFragment: BaseFragment<FavoriteImagesVM, FragmentFavoriteIma
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+
+        viewModel.getFavoritePhotos()
+
+        viewModel.livePhotosLoading.observe(viewLifecycleOwner, {
+            binding.favoritePhotosList.scrollToPosition(0)
+        })
+
+        binding.favoritePhotosList.adapter = viewModel.adapter
     }
 }

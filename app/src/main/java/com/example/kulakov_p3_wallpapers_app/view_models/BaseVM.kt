@@ -5,9 +5,10 @@ import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDirections
+import com.example.kulakov_p3_wallpapers_app.utils.SingleLiveEvent
 
 abstract class BaseVM : ViewModel(), Observable {
-    val newDestination = MutableLiveData<NavDirections>()
+    val newDestination = SingleLiveEvent<NavDirections>()
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
 
 

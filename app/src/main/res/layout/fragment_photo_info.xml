@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoInfoVM" />
+    </data>
+
+    <FrameLayout
+        android:background="@color/black"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/photoImageView"
+            android:scaleType="centerCrop"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:photo="@{viewModel.photoItem.regular}"/>
+
+        <ImageButton
+            android:id="@+id/backButton"
+            android:padding="10dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/circle_image_button_bg"
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="400dp"
+            android:layout_gravity="bottom"
+            android:background="@drawable/bottom_info_bg">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/authorPhoto"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:scaleType="centerCrop"
+                app:photo="@{viewModel.photoItem.user.photoUrl}"
+                app:layout_constraintEnd_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+            <TextView
+                android:id="@+id/authorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.photoItem.user.name}"
+                app:layout_constraintStart_toEndOf="@+id/authorPhoto"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/twitterUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.photoItem.user.twitter_username}"
+                app:layout_constraintStart_toStartOf="@+id/guideline"
+                app:layout_constraintTop_toBottomOf="@+id/authorName" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.35" />
+
+            <TextView
+                android:id="@+id/instagramLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.photoItem.user.instagram_username}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/authorPhoto" />
+
+            <TextView
+                android:id="@+id/twitterLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.photoItem.user.twitter_username}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/instagramLink" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/portfolioButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/portfolio"
+                app:cornerRadius="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintWidth_percent="0.6"
+                app:layout_constraintTop_toBottomOf="@id/twitterLink" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray"
+                app:layout_constraintTop_toBottomOf="@+id/portfolioButton" />
+
+            <TextView
+                android:id="@+id/photoDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.photoItem.description}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/photoDescription"
+                android:orientation="horizontal">
+
+<!--                <include-->
+<!--                    layout="@layout/photo_parameter_item"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    app:color="@{@color/light_green}"-->
+<!--                    app:icon="@{@drawable/ic_baseline_access_time_24}"-->
+<!--                    app:title="@{@string/date}"-->
+<!--                    app:data="@{viewModel.photoItem.created.toLocaleString()}"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content" />-->
+<!--                <include-->
+<!--                    layout="@layout/photo_parameter_item"-->
+<!--                    android:layout_marginEnd="10dp"-->
+<!--                    app:color="@{@color/light_yellow}"-->
+<!--                    app:icon="@{@drawable/ic_baseline_color_lens_24}"-->
+<!--                    app:title="@{@string/color}"-->
+<!--                    app:data="@{viewModel.photoItem.color}"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
+<!--                <include-->
+<!--                    layout="@layout/photo_parameter_item"-->
+<!--                    app:color="@{@color/light_red}"-->
+<!--                    app:icon="@{@drawable/ic_baseline_aspect_ratio_24}"-->
+<!--                    app:title="@{@string/size}"-->
+<!--                    app:data="@{viewModel.photoItem.color}"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"/>-->
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </FrameLayout>
+</layout>

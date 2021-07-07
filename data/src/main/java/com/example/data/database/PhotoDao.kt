@@ -7,9 +7,6 @@ import com.example.data.database.entities.SearchQueryEntity
 
 @Dao
 interface PhotoDao {
-    @Query("select * from photos")
-    suspend fun getPhotos(): List<PhotoItemEntity>
-
     @Query("select * from search_queries order by date desc")
     fun getQueries(): PagingSource<Int, SearchQueryEntity>
 
@@ -24,4 +21,14 @@ interface PhotoDao {
 
     @Delete
     suspend fun deleteSearchQuery(query: SearchQueryEntity)
+
+
+    @Query("select * from photos")
+    fun getPhotos(): PagingSource<Int, PhotoItemEntity>
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun addToFavoritePhoto(photoItemEntity: PhotoItemEntity)
+
+    @Delete
+    suspend fun deleteFromFavoritePhoto(photoItemEntity: PhotoItemEntity)
 }

@@ -30,6 +30,15 @@ class PhotoResponseMapper {
                 item.regular = result.urls?.regular.orEmpty()
                 item.full = result.urls?.full.orEmpty()
 
+                item.user.id = result.user?.id
+                item.user.bio = result.user?.bio
+                item.user.instagram_username = result.user?.instagram_username
+                item.user.name = result.user?.name
+                item.user.portfolio_url = result.user?.portfolio_url
+                item.user.twitter_username = result.user?.twitter_username
+                item.user.username = result.user?.username
+                item.user.photoUrl = result.user?.profile_image?.small
+
                 list.add(item)
             }
             return list
