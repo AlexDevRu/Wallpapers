@@ -3,7 +3,6 @@ package com.example.kulakov_p3_wallpapers_app.view_models.favorite
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
-import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
 import com.example.domain.data.SearchItem
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
@@ -13,8 +12,7 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class SearchItemVM(photoDao: PhotoDao): BaseVM() {
-    private val repository = PhotoRepository(photoDao)
+abstract class SearchItemVM(private val repository: PhotoRepository): BaseVM() {
     private var searchJob: Job? = null
 
     var searchItem: SearchItem? = null

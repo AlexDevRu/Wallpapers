@@ -1,6 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.binding_adapters
 
-import androidx.appcompat.widget.SearchView
+
+import android.widget.SearchView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener

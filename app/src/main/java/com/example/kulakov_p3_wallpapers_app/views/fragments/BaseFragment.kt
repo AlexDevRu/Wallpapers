@@ -1,20 +1,17 @@
 package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.example.kulakov_p3_wallpapers_app.R
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
-import dagger.hilt.android.AndroidEntryPoint
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 abstract class BaseFragment<TViewModel: BaseVM, TBinding: ViewDataBinding>(
     @LayoutRes layout: Int
@@ -30,14 +27,25 @@ abstract class BaseFragment<TViewModel: BaseVM, TBinding: ViewDataBinding>(
         binding.lifecycleOwner = viewLifecycleOwner
 
         navController = findNavController()
-        viewModel.newDestination.singleObserve(viewLifecycleOwner) { direction ->
-            if(direction != null) {
-                navigate(direction)
+        viewModel.newDestination.singleObserve(viewLifecycleOwner) { navEvent ->
+            if(navEvent != null) {
+                navigate(navEvent)
             }
         }
+
+        requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigationView).visibility =
+            when(navController.currentDestination?.id) {
+                R.id.searchFragment, R.id.favoriteFragment, R.id.historyFragment -> View.VISIBLE
+                else -> View.GONE
+            }
     }
 
-    protected fun navigate(direction: NavDirections) {
-        navController.navigate(direction)
+    protected fun navigate(navEvent: NavigationEvent) {
+        if(navEvent.direction != null) {
+            if(navEvent.extras != null)
+                navController.navigate(navEvent.direction!!, navEvent.extras!!)
+            else
+                navController.navigate(navEvent.direction!!)
+        }
     }
 }

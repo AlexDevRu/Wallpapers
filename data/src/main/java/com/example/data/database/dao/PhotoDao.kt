@@ -1,9 +1,10 @@
-package com.example.data.database
+package com.example.data.database.dao
 
 import androidx.paging.PagingSource
 import androidx.room.*
 import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.database.entities.SearchQueryEntity
+import com.example.data.database.entities.UserEntity
 
 @Dao
 interface PhotoDao {
@@ -31,4 +32,27 @@ interface PhotoDao {
 
     @Delete
     suspend fun deleteFromFavoritePhoto(photoItemEntity: PhotoItemEntity)
+
+    @Insert
+    suspend fun insertUser(user: UserEntity)
+
+    @Delete
+    suspend fun deleteUser(user: UserEntity)
+
+
+    @Transaction
+    suspend fun insertPhoto(photoItemEntity: PhotoItemEntity, user: UserEntity) {
+        insertUser(user)
+        photoItemEntity.userId = user.id
+        addToFavoritePhoto(photoItemEntity)
+    }
+
+    @Transaction
+    suspend fun deletePhoto(photoItemEntity: PhotoItemEntity, user: UserEntity) {
+        deleteUser(user)
+        deleteFromFavoritePhoto(photoItemEntity)
+    }
+
+    @Query("select * from users where id=:id")
+    suspend fun getUserById(id: String)
 }

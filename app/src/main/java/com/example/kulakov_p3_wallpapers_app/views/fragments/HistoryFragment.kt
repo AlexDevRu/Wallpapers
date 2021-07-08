@@ -2,12 +2,10 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentHistoryBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.HistoryVM
-import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteSearchVM
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

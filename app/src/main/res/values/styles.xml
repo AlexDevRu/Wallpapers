@@ -13,4 +13,52 @@
     <style name="circleImage" >
         <item name="cornerSize">50%</item>
     </style>
+
+
+    <style name="standardAuthorInfoStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="authorUsernameStyle" parent="standardAuthorInfoStyle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="twitterUsernameStyle" parent="standardAuthorInfoStyle">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/twitter_username_color</item>
+    </style>
+
+    <style name="authorLinkStyle" parent="standardAuthorInfoStyle">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="portfolioLinkStyle">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">20dp</item>
+    </style>
+
+    <style name="lineStyle">
+        <item name="android:background">@color/line_color</item>
+    </style>
+
+    <style name="authorDescription" parent="standardAuthorInfoStyle">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="titleParameterStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="dataParameterStyle">
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="circleImageButton">
+        <item name="android:background">@drawable/circle_image_button_bg</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:padding">10dp</item>
+    </style>
 </resources>

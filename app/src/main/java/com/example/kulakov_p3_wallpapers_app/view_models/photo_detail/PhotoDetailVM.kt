@@ -4,20 +4,15 @@ import android.content.Intent
 import android.util.Log
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.NavDirections
-import com.example.data.database.PhotoDao
+import androidx.navigation.fragment.FragmentNavigator
 import com.example.data.models.PhotoItem
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.utils.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoDetailFragmentDirections
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
 
-@HiltViewModel
-class PhotoDetailVM @Inject constructor(
-    photoDao: PhotoDao
-): BaseVM() {
+class PhotoDetailVM: BaseVM() {
     val liveNavigateBack = SingleLiveEvent<Boolean>()
     val liveIntent = MutableLiveData<Intent>()
 
@@ -50,20 +45,24 @@ class PhotoDetailVM @Inject constructor(
     }
 
     fun openDialog() {
-        val direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoFunctionsDialog(photoItem)
-        newDestination.value = direction
+        val event = NavigationEvent()
+        event.direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoFunctionsDialog(photoItem)
+        newDestination.value = event
     }
 
-    val liveFullscreen = MutableLiveData<NavDirections>()
+
+    var fullScreenExtras: FragmentNavigator.Extras? = null
 
     fun navigateToFullScreen() {
-        val direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoFullscreenFragment(photoItem?.regular)
-        liveFullscreen.value = direction
-        //newDestination.value = direction
+        val event = NavigationEvent()
+        event.direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoFullscreenFragment(photoItem?.regular)
+        event.extras = fullScreenExtras
+        newDestination.value = event
     }
 
     fun navigateToInfo() {
-        val direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoInfoFragment(photoItem)
-        newDestination.value = direction
+        val event = NavigationEvent()
+        event.direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoInfoFragment(photoItem)
+        newDestination.value = event
     }
 }

@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
 import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.mappers.SearchItemMapper
@@ -21,13 +20,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteSearchVM @Inject constructor(
-    photoDao: PhotoDao
+    private val repository: PhotoRepository
 ): BaseVM() {
-    private val repository: PhotoRepository = PhotoRepository(photoDao)
 
     private var currentSearchResult: Flow<PagingData<SearchQueryEntity>>? = null
 
-    val adapter = FavoriteSearchItemsAdapter(photoDao) { direction -> newDestination.value = direction }
+    val adapter = FavoriteSearchItemsAdapter(repository) { navEvent -> newDestination.value = navEvent }
 
     private var searchJob: Job? = null
 

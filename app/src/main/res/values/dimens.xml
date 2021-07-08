@@ -2,4 +2,5 @@
 <resources>
     <dimen name="splash_title_size">48sp</dimen>
     <dimen name="app_padding">10dp</dimen>
+    <dimen name="parameter_item_size">120dp</dimen>
 </resources>

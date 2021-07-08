@@ -25,6 +25,6 @@ data class PhotoItemApiResponse(
         val username: String?,
         val profile_image: ProfileImage?
     ) {
-        data class ProfileImage(var small:  String?)
+        data class ProfileImage(var large:  String?)
     }
 }

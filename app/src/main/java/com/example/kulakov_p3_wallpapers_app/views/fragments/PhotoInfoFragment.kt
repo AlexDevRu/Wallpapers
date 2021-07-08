@@ -20,6 +20,17 @@ class PhotoInfoFragment: BaseFragment<PhotoInfoVM, FragmentPhotoInfoBinding>
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        viewModel.photoItem = args.photoItem
+        if(savedInstanceState == null) {
+            viewModel.photoItem = args.photoItem
+        }
+
+        viewModel.liveNavigateBack.singleObserve(viewLifecycleOwner, {
+            if(it != null)
+                navController.navigateUp()
+        })
+
+        viewModel.liveIntent.observe(viewLifecycleOwner, {
+            startActivity(it)
+        })
     }
 }

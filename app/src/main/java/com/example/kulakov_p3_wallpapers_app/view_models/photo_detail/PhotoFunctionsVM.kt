@@ -5,7 +5,6 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
 import com.example.data.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
@@ -13,16 +12,14 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.io.InputStream
 import java.net.URL
 import javax.inject.Inject
 
 
 @HiltViewModel
 class PhotoFunctionsVM @Inject constructor(
-    photoDao: PhotoDao
+    private val repository: PhotoRepository
 ): BaseVM() {
-    private val repository = PhotoRepository(photoDao)
 
     val liveSetWallpapers = MutableLiveData<Bitmap>()
     val liveSetLockScreen = MutableLiveData<Bitmap>()

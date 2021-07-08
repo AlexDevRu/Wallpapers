@@ -1,6 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
@@ -27,8 +28,11 @@ class PhotoFullscreenFragment: BaseFragment<PhotoFullscreenVM, FragmentPhotoFull
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        viewModel.photoUrl = args.photoUrl
+        if(savedInstanceState == null) {
+            viewModel.photoUrl = args.photoUrl
+        }
         viewModel.liveNavigateBack.observe(viewLifecycleOwner, {
+            Log.e("asd", "fullscreen back")
             navController.navigateUp()
         })
     }

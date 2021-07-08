@@ -1,19 +1,19 @@
-package com.example.data.api
+package com.example.data.sources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.data.api.ApiConstants.Companion.NETWORK_PAGE_SIZE
+import com.example.data.api.PhotoApiService
 import com.example.data.mappers.PhotoResponseMapper
 import com.example.data.models.PhotoItem
 import retrofit2.HttpException
 import java.io.IOException
 
-private const val STARTING_PAGE_INDEX = 1
-const val NETWORK_PAGE_SIZE = 60
-
 class PhotosPageSource(private val service: PhotoApiService,
                        private val query: String?): PagingSource<Int, PhotoItem>() {
 
     companion object {
+        private const val STARTING_PAGE_INDEX = 1
         const val SECRET_KEY = "cGiA-zQITn8pXjm6LFRVxqL7xkirJqwBwCaHcMNB0pM"
         const val ACCESS_KEY = "1CUrZhtUDv_A65KXORYdlBVynKVwrOPAG4byMdsQFzc"//"DAfRSeCPQrk3mi4JVzVJ3NuTLSiPbHKHzCMfydsseDE"
     }

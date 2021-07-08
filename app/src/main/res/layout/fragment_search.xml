@@ -18,7 +18,7 @@
         android:paddingRight="@dimen/app_padding"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.SearchView
+        <SearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -79,7 +79,8 @@
             app:layout_constraintTop_toTopOf="@id/photoList"
             android:visibility="@{viewModel.error != null ? View.VISIBLE : View.GONE}"
             tools:visibility="gone"
-            app:message="@{viewModel.error}" />
+            app:message="@{viewModel.error}"
+            app:onRetryClick="@{() -> viewModel.submitQuery()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

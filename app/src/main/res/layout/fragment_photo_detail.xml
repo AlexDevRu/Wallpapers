@@ -4,9 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="kotlin.jvm.functions.Function0"/>
+        <import type="kotlin.Unit"/>
+
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM" />
+
+        <variable
+            name="startTransition"
+            type="Function0&lt;Unit>"/>
+
+        <variable
+            name="resizeWidth"
+            type="int" />
+
+        <variable
+            name="resizeHeight"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +75,10 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:photo="@{viewModel.fullImage}" />
+            app:photo="@{viewModel.fullImage}"
+            app:resizeWidth="@{resizeWidth}"
+            app:resizeHeight="@{resizeHeight}"
+            app:startTransition="@{() -> startTransition.invoke()}"/>
 
         <ImageButton
             android:id="@+id/expandButton"
@@ -68,12 +86,10 @@
             android:onClick="@{() -> viewModel.navigateToFullScreen()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:elevation="10dp"
-            android:padding="10dp"
+            style="@style/circleImageButton"
             android:layout_margin="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            android:background="@drawable/circle_image_button_bg"
             app:srcCompat="@drawable/ic_baseline_crop_free_24"
             android:contentDescription="@string/expand_image" />
 

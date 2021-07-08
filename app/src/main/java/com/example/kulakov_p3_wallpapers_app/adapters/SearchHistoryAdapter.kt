@@ -3,19 +3,19 @@ package com.example.kulakov_p3_wallpapers_app.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.NavDirections
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.database.PhotoDao
+import com.example.data.database.PhotoRepository
 import com.example.domain.data.SearchItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.SearchItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.SearchItemBinding
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.HistorySearchItemVM
 
 class SearchHistoryAdapter(
-    private val photoDao: PhotoDao,
-    private val navigateByDirection: (NavDirections) -> Unit
+    private val repository: PhotoRepository,
+    private val navigateByDirection: (NavigationEvent) -> Unit
 ): PagingDataAdapter<SearchItem, SearchHistoryAdapter.SearchItemViewHolder>(SearchItemDiff()) {
 
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
@@ -30,15 +30,15 @@ class SearchHistoryAdapter(
             false
         )
 
-        return SearchItemViewHolder(binding, photoDao)
+        return SearchItemViewHolder(binding, repository)
     }
 
     inner class SearchItemViewHolder(
         private val binding: SearchItemBinding,
-        photoDao: PhotoDao
+        repository: PhotoRepository
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = HistorySearchItemVM(photoDao, navigateByDirection)
+            val viewModel = HistorySearchItemVM(repository, navigateByDirection)
             binding.viewModel = viewModel
         }
 

@@ -37,7 +37,7 @@ class PhotoResponseMapper {
                 item.user.portfolio_url = result.user?.portfolio_url
                 item.user.twitter_username = result.user?.twitter_username
                 item.user.username = result.user?.username
-                item.user.photoUrl = result.user?.profile_image?.small
+                item.user.photoUrl = result.user?.profile_image?.large
 
                 list.add(item)
             }

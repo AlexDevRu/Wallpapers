@@ -3,21 +3,24 @@ package com.example.kulakov_p3_wallpapers_app.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.database.PhotoDao
+import com.example.data.database.PhotoRepository
 import com.example.data.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
+import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM
 
 class FavoriteImagesAdapter(
-    private val photoDao: PhotoDao
+    private val repository: PhotoRepository,
+    private val navigateByDirection: (NavigationEvent) -> Unit
 ): PagingDataAdapter<PhotoItem, FavoriteImagesAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
     override fun onBindViewHolder(holder: PhotoItemViewHolder, position: Int) {
-        getItem(position)?.let { photoItem -> holder.bind(photoItem) }
+        getItem(position)?.let { photoItem -> holder.bind(photoItem, "photoItem_${position}") }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoItemViewHolder {
@@ -28,28 +31,27 @@ class FavoriteImagesAdapter(
             false
         )
 
-        return PhotoItemViewHolder(binding, photoDao)
+        return PhotoItemViewHolder(binding, repository)
     }
 
     inner class PhotoItemViewHolder(
         private val binding: PhotoFavoriteItemBinding,
-        photoDao: PhotoDao
+        repository: PhotoRepository
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = FavoritePhotoItemVM(photoDao) { refresh() }
+            val viewModel = FavoritePhotoItemVM(repository, { refresh() }, navigateByDirection)
             binding.viewModel = viewModel
         }
 
-        fun bind(photoItem: PhotoItem) {
+        fun bind(photoItem: PhotoItem, transitionName: String) {
             binding.apply {
                 viewModel?.photoItem = photoItem
+                photoImageView.transitionName = transitionName
+                viewModel?.detailExtras = FragmentNavigatorExtras(
+                    binding.photoImageView to "imageView"
+                )
                 executePendingBindings()
             }
         }
-    }
-
-    class PhotoItemDiff: DiffUtil.ItemCallback<PhotoItem>() {
-        override fun areItemsTheSame(oldItem: PhotoItem, newItem: PhotoItem): Boolean = oldItem.id == newItem.id
-        override fun areContentsTheSame(oldItem: PhotoItem, newItem: PhotoItem): Boolean = oldItem == newItem
     }
 }

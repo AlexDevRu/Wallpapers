@@ -14,7 +14,12 @@
     <color name="gray">#ADADAD</color>
 
 
-    <color name="light_green">#C7FFA9</color>
-    <color name="light_yellow">#FFF0A2</color>
-    <color name="light_red">#FF9B94</color>
+    <color name="light_green">#2600C853</color>
+    <color name="light_yellow">#26FFD700</color>
+    <color name="light_red">#26FF543E</color>
+    <color name="yellow">#FFD700</color>
+    <color name="green">#00C853</color>
+
+    <color name="line_color">#33000000</color>
+    <color name="twitter_username_color">#80000000</color>
 </resources>

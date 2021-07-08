@@ -15,5 +15,5 @@ data class PhotoItemEntity(
     var thumb: String = "",
     var regular: String = "",
     var full: String = "",
-    var isFavorite: Boolean = false
+    var userId: String
 )

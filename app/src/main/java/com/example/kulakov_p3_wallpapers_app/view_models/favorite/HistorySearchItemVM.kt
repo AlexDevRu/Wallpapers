@@ -1,14 +1,14 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.favorite
 
 import android.util.Log
-import androidx.navigation.NavDirections
-import com.example.data.database.PhotoDao
+import com.example.data.database.PhotoRepository
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.views.fragments.HistoryFragmentDirections
 
 class HistorySearchItemVM(
-    photoDao: PhotoDao,
-    private val navigateByDirection: (NavDirections) -> Unit
-): SearchItemVM(photoDao) {
+    repository: PhotoRepository,
+    private val navigateByDirection: (NavigationEvent) -> Unit
+): SearchItemVM(repository) {
 
     fun updateFavoriteStatus() {
         if(searchItem != null) {
@@ -19,7 +19,8 @@ class HistorySearchItemVM(
 
     override fun goToSearchScreen() {
         Log.w("asd", "click ${searchQuery}")
-        val direction = HistoryFragmentDirections.actionHistoryFragmentToSearchFragment(searchQuery)
-        navigateByDirection(direction)
+        val event = NavigationEvent()
+        event.direction = HistoryFragmentDirections.actionHistoryFragmentToSearchFragment(searchQuery)
+        navigateByDirection(event)
     }
 }

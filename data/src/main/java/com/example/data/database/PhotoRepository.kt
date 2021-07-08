@@ -3,6 +3,7 @@ package com.example.data.database
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.example.data.database.dao.PhotoDao
 import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.mappers.PhotoItemMapper

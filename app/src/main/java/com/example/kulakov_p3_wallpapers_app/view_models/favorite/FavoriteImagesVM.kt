@@ -5,14 +5,10 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
-import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
 import com.example.data.database.entities.PhotoItemEntity
-import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.mappers.PhotoItemMapper
-import com.example.data.mappers.SearchItemMapper
 import com.example.kulakov_p3_wallpapers_app.adapters.FavoriteImagesAdapter
-import com.example.kulakov_p3_wallpapers_app.adapters.FavoriteSearchItemsAdapter
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,10 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteImagesVM @Inject constructor(
-    photoDao: PhotoDao
+    private val repository: PhotoRepository
 ): BaseVM() {
-    private val repository: PhotoRepository = PhotoRepository(photoDao)
-    val adapter = FavoriteImagesAdapter(photoDao)
+    val adapter = FavoriteImagesAdapter(repository) { navEvent -> newDestination.value = navEvent }
 
     private var getJob: Job? = null
 

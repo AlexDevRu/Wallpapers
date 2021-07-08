@@ -2,7 +2,10 @@ package com.example.kulakov_p3_wallpapers_app.di
 
 import android.app.Application
 import androidx.room.Room
+import com.example.data.api.PhotoApiRepository
+import com.example.data.database.dao.PhotoDao
 import com.example.data.database.PhotoDatabase
+import com.example.data.database.PhotoRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -24,4 +27,10 @@ object AppModule {
 
     @Provides
     fun providesPhotoDao(db: PhotoDatabase) = db.photoDao()
+
+    @Provides
+    fun providesRepository(dao: PhotoDao) = PhotoRepository(dao)
+
+    @Provides
+    fun providesApiRepository() = PhotoApiRepository()
 }

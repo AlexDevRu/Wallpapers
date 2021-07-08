@@ -35,6 +35,15 @@
                 app:nullable="true"
                 android:defaultValue="@null"/>
         </action>
+        <action
+            android:id="@+id/action_favoriteFragment_to_photoDetailFragment"
+            app:destination="@id/photoDetailFragment">
+            <argument
+                android:name="photoItem"
+                app:argType="com.example.data.models.PhotoItem"
+                app:nullable="true"
+                android:defaultValue="@null"/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/historyFragment"

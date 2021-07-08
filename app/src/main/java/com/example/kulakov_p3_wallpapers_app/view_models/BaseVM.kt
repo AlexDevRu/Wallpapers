@@ -2,13 +2,14 @@ package com.example.kulakov_p3_wallpapers_app.view_models
 
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.navigation.NavDirections
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.utils.SingleLiveEvent
 
 abstract class BaseVM : ViewModel(), Observable {
-    val newDestination = SingleLiveEvent<NavDirections>()
+    val newDestination = SingleLiveEvent<NavigationEvent>()
+
+
     private val callbacks: PropertyChangeRegistry = PropertyChangeRegistry()
 
 

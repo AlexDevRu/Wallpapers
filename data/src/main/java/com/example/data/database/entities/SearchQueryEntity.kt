@@ -11,5 +11,4 @@ data class SearchQueryEntity(
     var resultsCount: Int = 0,
     var date: Date = Date(),
     var isFavorite: Boolean = false
-) {
-}
+)

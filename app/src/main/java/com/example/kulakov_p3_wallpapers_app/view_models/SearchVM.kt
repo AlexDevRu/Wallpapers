@@ -9,11 +9,11 @@ import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.example.data.api.PhotoApiRepository
-import com.example.data.database.PhotoDao
 import com.example.data.database.PhotoRepository
 import com.example.data.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
+import com.example.kulakov_p3_wallpapers_app.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -24,10 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchVM @Inject constructor(
-    photoDao: PhotoDao
+    private val repository: PhotoRepository,
+    private val apiRepository: PhotoApiRepository
 ) : BaseVM() {
-    private val apiRepository = PhotoApiRepository()
-    private val repository = PhotoRepository(photoDao)
 
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
 
@@ -37,7 +36,7 @@ class SearchVM @Inject constructor(
 
     private var searchJob: Job? = null
 
-    val livePhotoSearch = MutableLiveData<Boolean>()
+    val livePhotoSearch = SingleLiveEvent<Boolean>()
     val livePhotoError = MutableLiveData<String?>()
 
     private var searchSaved = false

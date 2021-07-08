@@ -1,14 +1,15 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.favorite
 
-import androidx.navigation.NavDirections
-import com.example.data.database.PhotoDao
+import com.example.data.database.PhotoRepository
+import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
 import com.example.kulakov_p3_wallpapers_app.views.fragments.FavoriteFragmentDirections
 
 class FavoriteSearchItemVM(
-    photoDao: PhotoDao,
+    repository: PhotoRepository,
     private val refresh: () -> Unit,
-    private val navigateByDirection: (NavDirections) -> Unit
-): SearchItemVM(photoDao) {
+    private val navigateByDirection: (NavigationEvent) -> Unit
+): SearchItemVM(repository) {
+
     fun deleteFromFavorite() {
         searchItem?.isFavorite = false
         refresh()
@@ -16,7 +17,8 @@ class FavoriteSearchItemVM(
     }
 
     override fun goToSearchScreen() {
-        val direction = FavoriteFragmentDirections.actionFavoriteFragmentToSearchFragment(searchQuery)
-        navigateByDirection(direction)
+        val event = NavigationEvent()
+        event.direction = FavoriteFragmentDirections.actionFavoriteFragmentToSearchFragment(searchQuery)
+        navigateByDirection(event)
     }
 }

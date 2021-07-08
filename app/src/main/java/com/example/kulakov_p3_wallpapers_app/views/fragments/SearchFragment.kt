@@ -3,11 +3,10 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.TransitionInflater
 import com.example.kulakov_p3_wallpapers_app.R
-import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoLoadStateAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentSearchBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.SearchVM
@@ -22,11 +21,19 @@ class SearchFragment: BaseFragment<SearchVM, FragmentSearchBinding>
 
     private val args: SearchFragmentArgs by navArgs()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
-        viewModel.searchQuery = args.searchQuery
+        if(savedInstanceState == null) {
+            viewModel.searchQuery = args.searchQuery
+        }
 
         binding.photoList.adapter = viewModel.adapter.withLoadStateHeaderAndFooter(
             PhotoLoadStateAdapter(), PhotoLoadStateAdapter()
@@ -42,7 +49,7 @@ class SearchFragment: BaseFragment<SearchVM, FragmentSearchBinding>
         })
 
         viewModel.searchByKeyword()
-        viewModel.livePhotoSearch.observe(viewLifecycleOwner, {
+        viewModel.livePhotoSearch.singleObserve(viewLifecycleOwner, {
             binding.photoList.scrollToPosition(0)
         })
 
