@@ -2,6 +2,7 @@ package com.example.data.mappers
 
 
 import com.example.data.models.PhotoItem
+import com.example.data.models.User
 import com.example.domain.data.api.PhotoItemApiResponse
 import java.text.SimpleDateFormat
 import java.util.*
@@ -11,8 +12,7 @@ class PhotoResponseMapper {
         fun toModel(results: List<PhotoItemApiResponse>): List<PhotoItem> {
             val list = mutableListOf<PhotoItem>()
             for(result in results) {
-                val item = PhotoItem()
-                item.id = if(result.id.isNullOrEmpty()) UUID.randomUUID().toString() else result.id!!
+                val item = PhotoItem(result.id, user = User(result.user.id))
                 item.width = result.width ?: 0
                 item.height = result.height ?: 0
 
@@ -30,14 +30,15 @@ class PhotoResponseMapper {
                 item.regular = result.urls?.regular.orEmpty()
                 item.full = result.urls?.full.orEmpty()
 
-                item.user.id = result.user?.id
-                item.user.bio = result.user?.bio
-                item.user.instagram_username = result.user?.instagram_username
-                item.user.name = result.user?.name
-                item.user.portfolio_url = result.user?.portfolio_url
-                item.user.twitter_username = result.user?.twitter_username
-                item.user.username = result.user?.username
-                item.user.photoUrl = result.user?.profile_image?.large
+                item.user.bio = result.user.bio
+                item.user.instagram_username = result.user.instagram_username
+                item.user.name = result.user.name
+                item.user.portfolio_url = result.user.portfolio_url
+                item.user.twitter_username = result.user.twitter_username
+                item.user.username = result.user.username
+                item.user.photoUrl = result.user.profile_image?.large
+
+                item.userIsLoaded = true
 
                 list.add(item)
             }

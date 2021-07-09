@@ -2,6 +2,7 @@ package com.example.data.mappers
 
 import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.models.PhotoItem
+import com.example.data.models.User
 
 class PhotoItemMapper {
     companion object {
@@ -15,7 +16,8 @@ class PhotoItemMapper {
                 entity.description,
                 entity.thumb,
                 entity.regular,
-                entity.full
+                entity.full,
+                user = User(entity.userId)
             )
         }
 
@@ -36,7 +38,8 @@ class PhotoItemMapper {
                 model.description,
                 model.thumb,
                 model.regular,
-                model.full
+                model.full,
+                model.user.id
             )
         }
     }

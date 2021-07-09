@@ -16,6 +16,8 @@ class PhotoDetailVM: BaseVM() {
     val liveNavigateBack = SingleLiveEvent<Boolean>()
     val liveIntent = MutableLiveData<Intent>()
 
+    var fullScreenExtras: FragmentNavigator.Extras? = null
+
     var photoItem: PhotoItem? = null
         set(value) {
             field = value
@@ -32,7 +34,6 @@ class PhotoDetailVM: BaseVM() {
 
 
     fun navigateBack() {
-        Log.w("asd", "click")
         liveNavigateBack.value = true
     }
 
@@ -41,7 +42,7 @@ class PhotoDetailVM: BaseVM() {
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, "${photoItem?.full}")
         sendIntent.type = "text/plain"
-        liveIntent.value = Intent.createChooser(sendIntent, "Поделиться")
+        liveIntent.value = sendIntent
     }
 
     fun openDialog() {
@@ -49,9 +50,6 @@ class PhotoDetailVM: BaseVM() {
         event.direction = PhotoDetailFragmentDirections.actionPhotoDetailFragmentToPhotoFunctionsDialog(photoItem)
         newDestination.value = event
     }
-
-
-    var fullScreenExtras: FragmentNavigator.Extras? = null
 
     fun navigateToFullScreen() {
         val event = NavigationEvent()

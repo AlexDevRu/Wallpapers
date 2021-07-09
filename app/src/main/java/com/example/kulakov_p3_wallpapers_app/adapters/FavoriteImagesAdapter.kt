@@ -20,7 +20,7 @@ class FavoriteImagesAdapter(
 ): PagingDataAdapter<PhotoItem, FavoriteImagesAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
     override fun onBindViewHolder(holder: PhotoItemViewHolder, position: Int) {
-        getItem(position)?.let { photoItem -> holder.bind(photoItem, "photoItem_${position}") }
+        getItem(position)?.let { photoItem -> holder.bind(photoItem) }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoItemViewHolder {
@@ -43,10 +43,10 @@ class FavoriteImagesAdapter(
             binding.viewModel = viewModel
         }
 
-        fun bind(photoItem: PhotoItem, transitionName: String) {
+        fun bind(photoItem: PhotoItem) {
             binding.apply {
                 viewModel?.photoItem = photoItem
-                photoImageView.transitionName = transitionName
+                photoImageView.transitionName = photoItem.id
                 viewModel?.detailExtras = FragmentNavigatorExtras(
                     binding.photoImageView to "imageView"
                 )

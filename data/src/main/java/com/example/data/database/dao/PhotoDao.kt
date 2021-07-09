@@ -24,6 +24,7 @@ interface PhotoDao {
     suspend fun deleteSearchQuery(query: SearchQueryEntity)
 
 
+
     @Query("select * from photos")
     fun getPhotos(): PagingSource<Int, PhotoItemEntity>
 
@@ -33,7 +34,9 @@ interface PhotoDao {
     @Delete
     suspend fun deleteFromFavoritePhoto(photoItemEntity: PhotoItemEntity)
 
-    @Insert
+
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertUser(user: UserEntity)
 
     @Delete
@@ -49,10 +52,15 @@ interface PhotoDao {
 
     @Transaction
     suspend fun deletePhoto(photoItemEntity: PhotoItemEntity, user: UserEntity) {
-        deleteUser(user)
         deleteFromFavoritePhoto(photoItemEntity)
+        val count = getCountPhotosByUserId(user.id)
+        if(count == 0)
+            deleteUser(user)
     }
 
     @Query("select * from users where id=:id")
-    suspend fun getUserById(id: String)
+    suspend fun getUserById(id: String): UserEntity?
+
+    @Query("select count(*) from photos where userId=:userId")
+    suspend fun getCountPhotosByUserId(userId: String): Int
 }

@@ -1,12 +1,12 @@
 package com.example.domain.data.api
 
 data class PhotoItemApiResponse(
-    val id: String?,
+    val id: String,
     val color: String?,
     val created_at: String?,
     val height: Int?,
     val urls: Urls?,
-    val user: User?,
+    val user: User,
     val width: Int?,
     val description: String?
 ) {
@@ -16,8 +16,8 @@ data class PhotoItemApiResponse(
         val thumb: String?
     )
     data class User(
+        val id: String,
         val bio: String?,
-        val id: String?,
         val instagram_username: String?,
         val name: String?,
         val portfolio_url: String?,

@@ -18,26 +18,27 @@
         android:paddingRight="@dimen/app_padding"
         android:layout_height="match_parent">
 
-        <SearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:background="@drawable/searchview_bg"
-            app:iconifiedByDefault="false"
             app:queryHint="@string/search_hint"
+            app:closeIcon="@null"
+            app:queryBackground="@android:color/transparent"
+            app:iconifiedByDefault="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:query="@={viewModel.searchQuery}"
-            app:onQueryTextSubmit="@{() -> viewModel.submitQuery()}"/>
+            app:query="@{viewModel.searchQuery}" />
 
         <ImageButton
             android:id="@+id/managerChangeButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:visibility="@{viewModel.managerIconVisible}"
-            app:icon="@{viewModel.managerIcon}"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_marginEnd="12dp"
+            android:src="@{viewModel.columnListCount == 3 ? @drawable/grid_two : @drawable/grid_three}"
             android:background="@null"
             android:onClick="@{() -> viewModel.changeColumnCount()}"
             app:layout_constraintEnd_toEndOf="@id/searchView"
@@ -55,7 +56,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchView" />
+            app:layout_constraintTop_toBottomOf="@id/searchView"
+            app:scrollPosition="@{viewModel.listPosition}"/>
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -80,7 +82,7 @@
             android:visibility="@{viewModel.error != null ? View.VISIBLE : View.GONE}"
             tools:visibility="gone"
             app:message="@{viewModel.error}"
-            app:onRetryClick="@{() -> viewModel.submitQuery()}"/>
+            app:onRetryClick="@{() -> viewModel.searchByKeyword()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

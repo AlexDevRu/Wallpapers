@@ -2,20 +2,21 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoInfoBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoInfoVM
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class PhotoInfoFragment: BaseFragment<PhotoInfoVM, FragmentPhotoInfoBinding>
     (R.layout.fragment_photo_info) {
 
     private val args: PhotoInfoFragmentArgs by navArgs()
 
-    override val viewModel: PhotoInfoVM by lazy {
-        ViewModelProvider(this).get(PhotoInfoVM::class.java)
-    }
+    override val viewModel: PhotoInfoVM by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

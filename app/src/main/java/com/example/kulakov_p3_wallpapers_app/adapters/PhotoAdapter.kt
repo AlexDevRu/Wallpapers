@@ -28,7 +28,7 @@ class PhotoAdapter(private val navigateByDirection: (NavigationEvent) -> Unit)
     }
 
     override fun onBindViewHolder(holder: PhotoItemHolder, position: Int) {
-        holder.bind(getItem(position), "photoItem_${position}")
+        holder.bind(getItem(position))
     }
 
     inner class PhotoItemHolder(private val binding: PhotoItemBinding)
@@ -38,12 +38,12 @@ class PhotoAdapter(private val navigateByDirection: (NavigationEvent) -> Unit)
             binding.viewModel = viewModel
         }
 
-        fun bind(photoItem: PhotoItem?, transitionName: String) {
+        fun bind(photoItem: PhotoItem?) {
             binding.apply {
                 viewModel?.photoItem = photoItem
-                photoImageView.transitionName = transitionName
+                photoImageView.transitionName = photoItem?.id
                 viewModel?.detailExtras = FragmentNavigatorExtras(
-                    binding.photoImageView to "imageView"
+                    binding.photoImageView to photoItem?.id.orEmpty()
                 )
                 executePendingBindings()
             }

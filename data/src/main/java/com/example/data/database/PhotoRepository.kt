@@ -8,7 +8,9 @@ import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.mappers.PhotoItemMapper
 import com.example.data.mappers.SearchItemMapper
+import com.example.data.mappers.UserMapper
 import com.example.data.models.PhotoItem
+import com.example.data.models.User
 import com.example.domain.data.SearchItem
 import kotlinx.coroutines.flow.Flow
 
@@ -44,6 +46,7 @@ class PhotoRepository(private val photoDao: PhotoDao) {
 
 
 
+
     fun getFavoritePhotos(): Flow<PagingData<PhotoItemEntity>> {
         return Pager(PagingConfig(PHOTO_PAGE_SIZE)) {
             photoDao.getPhotos()
@@ -51,10 +54,14 @@ class PhotoRepository(private val photoDao: PhotoDao) {
     }
 
     suspend fun addToFavoritePhotoItem(photoItem: PhotoItem) {
-        return photoDao.addToFavoritePhoto(PhotoItemMapper.fromModel(photoItem))
+        return photoDao.insertPhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user))
     }
 
     suspend fun deleteFromFavoritePhotoItem(photoItem: PhotoItem) {
-        return photoDao.deleteFromFavoritePhoto(PhotoItemMapper.fromModel(photoItem))
+        return photoDao.deletePhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user))
+    }
+
+    suspend fun getUserByPhoto(photoItem: PhotoItem): User? {
+        return UserMapper.toModel(photoDao.getUserById(photoItem.user.id))
     }
 }

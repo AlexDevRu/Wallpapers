@@ -15,20 +15,16 @@ fun bindPhoto(view: ImageView, photo: Any?, startTransition: (() -> Unit)?, resi
     if(photo is Bitmap) view.setImageBitmap(photo)
     else if(photo is Drawable) view.setImageDrawable(photo)
     else if(photo is String) {
-        var requestCreator = Picasso.get().load(photo)
-        if(resizeWidth != null && resizeHeight != null) {
-            //requestCreator = requestCreator.resize(resizeWidth, resizeHeight)
-        }
-        requestCreator
+        Picasso.get().load(photo)
             .placeholder(R.drawable.no_photo)
             .error(R.drawable.no_photo)
             .into(view, object: Callback {
                 override fun onSuccess() {
-                    startTransition?.invoke()
+                    //startTransition?.invoke()
                 }
 
                 override fun onError(e: Exception?) {
-                    startTransition?.invoke()
+                    //startTransition?.invoke()
                 }
             })
     }

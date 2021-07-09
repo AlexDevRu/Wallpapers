@@ -5,23 +5,47 @@ import android.net.Uri
 import android.util.Log
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.data.database.PhotoRepository
 import com.example.data.models.PhotoItem
+import com.example.data.models.User
 import com.example.kulakov_p3_wallpapers_app.utils.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
-
-class PhotoInfoVM: BaseVM() {
+@HiltViewModel
+class PhotoInfoVM @Inject constructor(
+    private val repository: PhotoRepository
+): BaseVM() {
     val liveNavigateBack = SingleLiveEvent<Boolean>()
     val liveIntent = MutableLiveData<Intent>()
+
+    private var userJob: Job? = null
 
     @Bindable
     var photoItem: PhotoItem? = null
         set(value) {
             field = value
-            Log.e("asd", "photoItem - $photoItem\n")
-            Log.e("asd", "hasTwitter - $hasTwitter\n")
+            if(field != null) {
+                Log.e("asd", "photoItem - $photoItem\n")
+                Log.e("asd", "hasTwitter - $hasTwitter\n")
+                if(!field!!.userIsLoaded) {
+                    userJob?.cancel()
+                    userJob = viewModelScope.launch(Dispatchers.IO) {
+                        val user = repository.getUserByPhoto(value!!)
+                        if (user != null) {
+                            photoItem?.user = user
+                            notifyChange()
+                        }
+                    }
+                }
+            }
             notifyChange()
         }
 

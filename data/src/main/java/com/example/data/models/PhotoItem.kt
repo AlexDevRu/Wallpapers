@@ -6,7 +6,7 @@ import java.util.*
 
 @Parcelize
 data class PhotoItem(
-    var id: String =  "",
+    var id: String,
     var width: Int = 0,
     var height: Int = 0,
     var created: Date = Date(),
@@ -15,6 +15,6 @@ data class PhotoItem(
     var thumb: String = "",
     var regular: String = "",
     var full: String = "",
-    var userId: String = "",
-    var user: User = User()
+    var userIsLoaded: Boolean = false,
+    var user: User
 ): Parcelable

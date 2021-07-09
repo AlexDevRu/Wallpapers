@@ -11,16 +11,18 @@ import androidx.paging.cachedIn
 import com.example.data.api.PhotoApiRepository
 import com.example.data.database.PhotoRepository
 import com.example.data.models.PhotoItem
-import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
-import com.example.kulakov_p3_wallpapers_app.utils.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import com.example.domain.common.Result
 
 @HiltViewModel
 class SearchVM @Inject constructor(
@@ -33,33 +35,31 @@ class SearchVM @Inject constructor(
     private var currentQueryValue: String? = null
 
     val adapter = PhotoAdapter() { direction -> newDestination.value = direction }
-
     private var searchJob: Job? = null
 
-    val livePhotoSearch = SingleLiveEvent<Boolean>()
-    val livePhotoError = MutableLiveData<String?>()
+    val livePhotoError = MutableLiveData<String>()
 
-    private var searchSaved = false
+
+    private var compositeDisposable = CompositeDisposable()
+    val searchQuery = BehaviorSubject.createDefault("")
 
     init {
         adapter.addLoadStateListener { state ->
             loading = state.refresh == LoadState.Loading
-            if(state.refresh is LoadState.Error) {
-                error = (state.refresh as LoadState.Error).error.localizedMessage
-                livePhotoError.value = (state.refresh as LoadState.Error).error.localizedMessage
-            } else {
-                error = null
-                livePhotoError.value = null
-            }
-        }
-    }
+            error =
+                if(state.refresh is LoadState.Error)
+                    (state.refresh as LoadState.Error).error.localizedMessage
+                else null
 
-    @Bindable
-    var searchQuery: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.searchQuery)
+            livePhotoError.value = error
         }
+
+        compositeDisposable.add(searchQuery
+            .debounce(1200, TimeUnit.MILLISECONDS)
+            .subscribe { _ ->
+                searchByKeyword()
+            })
+    }
 
     @Bindable
     var error: String? = null
@@ -82,20 +82,32 @@ class SearchVM @Inject constructor(
             notifyPropertyChanged(BR.columnListCount)
         }
 
-    @get:Bindable
-    val managerIcon
-        get() = if(columnListCount == 3) R.drawable.grid_two else R.drawable.grid_three
-
-    @get:Bindable
-    val managerIconVisible
-        get() = searchQuery.isNullOrEmpty()
+    @Bindable
+    var listPosition = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.listPosition)
+        }
 
     fun changeColumnCount() {
         columnListCount = if(columnListCount == 2) 3 else 2
-        notifyPropertyChanged(BR.managerIcon)
     }
 
     fun searchByKeyword() {
+        if(currentQueryValue != searchQuery.value && searchQuery.value?.isNotEmpty() == true) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val res = apiRepository.getMetaFromPhotosSearch(searchQuery.value.orEmpty())
+                Log.w("asd", "item from api ${res}")
+                when(res) {
+                    is Result.Success -> {
+                        error = null
+                        repository.insertQuery(res.value)
+                    }
+                    is Result.Failure -> error = res.throwable.localizedMessage
+                }
+            }
+        }
+
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             searchPhotos().collectLatest {
@@ -103,33 +115,25 @@ class SearchVM @Inject constructor(
             }
         }
 
-        if(!searchSaved && !searchQuery.isNullOrEmpty()) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val searchItem = apiRepository.getMetaFromPhotosSearch(searchQuery.toString())
-                Log.w("asd", "item from api ${searchItem}")
-                repository.insertQuery(searchItem)
-            }
-            searchSaved = true
-        }
-
-        livePhotoSearch.value = true
+        listPosition = 0
     }
 
     private fun searchPhotos(): Flow<PagingData<PhotoItem>> {
         val lastResult = currentSearchResult
-        if (searchQuery == currentQueryValue && lastResult != null) {
+        if (searchQuery.value == currentQueryValue && lastResult != null) {
             return lastResult
         }
-        currentQueryValue = searchQuery
+        currentQueryValue = searchQuery.value
 
-        val newResult = apiRepository.getSearchResultStream(searchQuery).cachedIn(viewModelScope)
+        val newResult = apiRepository.getSearchResultStream(searchQuery.value).cachedIn(viewModelScope)
 
         currentSearchResult = newResult
         return newResult
     }
 
-    fun submitQuery() {
-        searchSaved = false
-        searchByKeyword()
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 }

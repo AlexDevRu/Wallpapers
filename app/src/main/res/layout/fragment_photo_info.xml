@@ -54,15 +54,16 @@
 
                 <TextView
                     android:id="@+id/authorName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     style="@style/authorUsernameStyle"
-                    android:layout_marginTop="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    tools:text="shfkldkl"
+                    android:layout_marginTop="10dp"
                     android:text="@{viewModel.photoItem.user.name}"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/authorPhoto"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="shfkldkl" />
 
                 <TextView
                     android:id="@+id/twitterUsername"

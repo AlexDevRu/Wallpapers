@@ -1,5 +1,6 @@
 package com.example.data.api
 
+import android.accounts.NetworkErrorException
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -10,6 +11,8 @@ import com.example.domain.data.SearchItem
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import com.example.domain.common.Result
+import java.lang.Exception
 
 class PhotoApiRepository {
     companion object {
@@ -33,10 +36,15 @@ class PhotoApiRepository {
         ).flow
     }
 
-    suspend fun getMetaFromPhotosSearch(query: String): SearchItem {
-        val response = service.getPhotos(query = query,
-            clientId = PhotosPageSource.ACCESS_KEY
-        )
-        return SearchItem(query = query, resultsCount = response.total)
+    suspend fun getMetaFromPhotosSearch(query: String): Result<SearchItem> {
+        return try {
+            val response = service.getPhotos(query = query,
+                clientId = PhotosPageSource.ACCESS_KEY
+            )
+            Result.Success(SearchItem(query = query, resultsCount = response.total))
+        } catch (e: NetworkErrorException) {
+            Result.Failure(e)
+        }
+        //return SearchItem(query = query, resultsCount = response.total)
     }
 }

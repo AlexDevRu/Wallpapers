@@ -9,3 +9,8 @@ fun setColumnCount(recyclerView: RecyclerView, columnCount: Int) {
     if(recyclerView.layoutManager is GridLayoutManager)
         (recyclerView.layoutManager as GridLayoutManager).spanCount = columnCount
 }
+
+@BindingAdapter("scrollPosition")
+fun setListPosition(recyclerView: RecyclerView, position: Int) {
+    recyclerView.scrollToPosition(position)
+}

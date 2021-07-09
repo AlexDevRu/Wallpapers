@@ -22,4 +22,6 @@
     <string name="color">Цвет</string>
     <string name="size">Размеры</string>
     <string name="loading_photo_error">Ошибка!</string>
+
+    <string name="share">Поделиться</string>
 </resources>

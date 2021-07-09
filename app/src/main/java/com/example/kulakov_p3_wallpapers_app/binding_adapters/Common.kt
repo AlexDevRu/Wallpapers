@@ -9,8 +9,3 @@ fun convertBooleanToVisibility(visible: Boolean): Int {
     if(visible) return View.VISIBLE
     return View.GONE
 }
-
-@BindingAdapter("app:isLoading")
-fun bindIsLoading(view: View, isLoading: Boolean) {
-    view.visibility = if (isLoading) View.VISIBLE else View.GONE
-}

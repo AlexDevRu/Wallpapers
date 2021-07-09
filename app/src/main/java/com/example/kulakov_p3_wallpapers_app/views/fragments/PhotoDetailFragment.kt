@@ -1,5 +1,6 @@
 package com.example.kulakov_p3_wallpapers_app.views.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
@@ -31,6 +32,9 @@ class PhotoDetailFragment: BaseFragment<PhotoDetailVM, FragmentPhotoDetailBindin
         if(savedInstanceState == null) {
             viewModel.photoItem = args.photoItem
         }
+
+        binding.imageView.transitionName = viewModel.photoItem?.id
+
         viewModel.liveNavigateBack.observe(viewLifecycleOwner, {
             if(it != null) {
                 navController.navigateUp()
@@ -38,7 +42,7 @@ class PhotoDetailFragment: BaseFragment<PhotoDetailVM, FragmentPhotoDetailBindin
         })
 
         viewModel.liveIntent.observe(viewLifecycleOwner, {
-            startActivity(it)
+            startActivity(Intent.createChooser(it, resources.getString(R.string.share)))
         })
 
         viewModel.fullScreenExtras = FragmentNavigatorExtras(
@@ -49,6 +53,6 @@ class PhotoDetailFragment: BaseFragment<PhotoDetailVM, FragmentPhotoDetailBindin
         binding.startTransition = { startPostponedEnterTransition() }
 
         binding.resizeWidth = binding.imageView.measuredWidth
-        binding.resizeHeight = binding.imageView.measuredHeight
+        binding.resizeHeight = binding.imageView.height
     }
 }
