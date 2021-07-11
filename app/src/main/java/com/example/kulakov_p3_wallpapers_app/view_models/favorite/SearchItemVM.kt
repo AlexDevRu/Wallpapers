@@ -4,7 +4,7 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
 import com.example.data.database.PhotoRepository
-import com.example.domain.data.SearchItem
+import com.example.domain.models.SearchItem
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -48,6 +48,4 @@ abstract class SearchItemVM(private val repository: PhotoRepository): BaseVM() {
         }
         notifyPropertyChanged(BR.favorite)
     }
-
-    abstract fun goToSearchScreen()
 }

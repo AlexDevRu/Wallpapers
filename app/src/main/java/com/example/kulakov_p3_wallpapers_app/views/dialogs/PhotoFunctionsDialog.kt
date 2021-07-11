@@ -2,7 +2,6 @@ package com.example.kulakov_p3_wallpapers_app.views.dialogs
 
 import android.app.WallpaperManager
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -10,16 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.navArgs
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.DialogPhotoFunctionsBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFunctionsVM
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -41,7 +36,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         )
         binding = DialogPhotoFunctionsBinding.bind(view)
         binding.viewModel = viewModel
-        viewModel.photoItem = args.photoItem
+        viewModel.photoItem = args.photoItem?.model
         return binding.root
     }
 

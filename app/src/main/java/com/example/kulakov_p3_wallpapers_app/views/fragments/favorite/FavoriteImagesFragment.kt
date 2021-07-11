@@ -10,21 +10,13 @@ import com.example.kulakov_p3_wallpapers_app.views.fragments.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteImagesFragment: BaseFragment<FavoriteImagesVM, FragmentFavoriteImagesBinding>
+class FavoriteImagesFragment: BaseFragment<FragmentFavoriteImagesBinding>
     (R.layout.fragment_favorite_images) {
 
-    override val viewModel: FavoriteImagesVM by viewModels()
+    private val viewModel: FavoriteImagesVM by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-
-        viewModel.getFavoritePhotos()
-
-        viewModel.livePhotosLoading.observe(viewLifecycleOwner, {
-            binding.favoritePhotosList.scrollToPosition(0)
-        })
-
-        binding.favoritePhotosList.adapter = viewModel.adapter
     }
 }

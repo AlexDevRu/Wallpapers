@@ -6,16 +6,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.database.PhotoRepository
-import com.example.domain.data.SearchItem
+import com.example.domain.models.SearchItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.SearchItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.SearchFavoriteItemBinding
-import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
+import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteSearchItemVM
 
 class FavoriteSearchItemsAdapter(
-    private val repository: PhotoRepository,
-    private val navigateByDirection: (NavigationEvent) -> Unit
+    private val repository: PhotoRepository
 ): PagingDataAdapter<SearchItem, FavoriteSearchItemsAdapter.SearchItemViewHolder>(SearchItemDiff()) {
 
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
@@ -33,18 +32,27 @@ class FavoriteSearchItemsAdapter(
         return SearchItemViewHolder(binding, repository)
     }
 
+    interface Delegate {
+        fun onItemClick()
+    }
+
     inner class SearchItemViewHolder(
         private val binding: SearchFavoriteItemBinding,
         repository: PhotoRepository
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = FavoriteSearchItemVM(repository, { refresh() }, navigateByDirection)
+            val viewModel = FavoriteSearchItemVM(repository) { refresh() }
             binding.viewModel = viewModel
         }
 
         fun bind(searchItem: SearchItem) {
             binding.apply {
                 viewModel?.searchItem = searchItem
+                delegate = object: Delegate {
+                    override fun onItemClick() {
+                        Navigator.getInstance().favoriteFragmentNavigator.showSearch(viewModel?.searchQuery)
+                    }
+                }
                 executePendingBindings()
             }
         }

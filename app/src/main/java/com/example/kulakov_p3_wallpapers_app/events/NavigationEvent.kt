@@ -1,4 +1,4 @@
-package com.example.kulakov_p3_wallpapers_app.utils
+package com.example.kulakov_p3_wallpapers_app.events
 
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigator

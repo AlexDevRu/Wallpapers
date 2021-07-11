@@ -10,21 +10,15 @@ import com.example.kulakov_p3_wallpapers_app.views.fragments.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class FavoriteSearchFragment: BaseFragment<FavoriteSearchVM, FragmentFavoriteSearchBinding>
+class FavoriteSearchFragment: BaseFragment<FragmentFavoriteSearchBinding>
     (R.layout.fragment_favorite_search) {
 
-    override val viewModel: FavoriteSearchVM by viewModels()
+    private val viewModel: FavoriteSearchVM by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
 
         viewModel.getQueries()
-
-        viewModel.liveQueriesLoading.observe(viewLifecycleOwner, {
-            binding.queriesList.scrollToPosition(0)
-        })
-
-        binding.queriesList.adapter = viewModel.adapter
     }
 }

@@ -1,4 +1,4 @@
-package com.example.domain.data.api
+package com.example.domain.models.api
 
 data class PhotoItemApiResponse(
     val id: String,
@@ -25,6 +25,6 @@ data class PhotoItemApiResponse(
         val username: String?,
         val profile_image: ProfileImage?
     ) {
-        data class ProfileImage(var large:  String?)
+        data class ProfileImage(val large:  String?)
     }
 }

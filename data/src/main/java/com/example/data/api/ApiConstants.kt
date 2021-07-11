@@ -1,7 +1,5 @@
 package com.example.data.api
 
-class ApiConstants {
-    companion object {
-        const val NETWORK_PAGE_SIZE = 60
-    }
+object ApiConstants {
+    const val NETWORK_PAGE_SIZE = 60
 }

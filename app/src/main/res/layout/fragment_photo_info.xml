@@ -5,9 +5,16 @@
 
     <data>
         <import type="android.view.View"/>
+        <import type="kotlin.jvm.functions.Function0"/>
+        <import type="kotlin.Unit"/>
+
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoInfoVM" />
+
+        <variable
+            name="onBack"
+            type="Function0&lt;Unit>" />
     </data>
 
     <FrameLayout
@@ -24,7 +31,7 @@
 
         <ImageButton
             android:id="@+id/backButton"
-            android:onClick="@{() -> viewModel.navigateBack()}"
+            android:onClick="@{() -> onBack.invoke()}"
             style="@style/circleImageButton"
             android:layout_margin="20dp"
             android:src="@drawable/ic_baseline_arrow_back_24"

@@ -1,10 +1,12 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
-import androidx.lifecycle.MutableLiveData
+import androidx.databinding.Bindable
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
+import androidx.recyclerview.widget.RecyclerView
 import com.example.data.database.PhotoRepository
 import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.mappers.SearchItemMapper
@@ -19,30 +21,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoryVM @Inject constructor(
-    private val repository: PhotoRepository
+    val repository: PhotoRepository
 ): BaseVM() {
-    private var currentSearchResult: Flow<PagingData<SearchQueryEntity>>? = null
+    private var currentReadResult: Flow<PagingData<SearchQueryEntity>>? = null
 
-    val adapter = SearchHistoryAdapter(repository) { navEvent -> newDestination.value = navEvent }
+    private val _adapter = SearchHistoryAdapter(repository)
 
-    private var searchJob: Job? = null
+    private var readJob: Job? = null
 
-    val liveQueriesLoading = MutableLiveData<Boolean>()
+    init {
+        getQueries()
+    }
 
     private fun getQueriesFlow(): Flow<PagingData<SearchQueryEntity>> {
         val newResult = repository.getQueries().cachedIn(viewModelScope)
-        currentSearchResult = newResult
+        currentReadResult = newResult
         return newResult
     }
 
     fun getQueries() {
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch(Dispatchers.IO) {
+        readJob?.cancel()
+        readJob = viewModelScope.launch(Dispatchers.IO) {
             getQueriesFlow().collectLatest {
-                adapter.submitData(it.map { SearchItemMapper.toModel(it) })
+                _adapter.submitData(it.map { SearchItemMapper.toModel(it) })
             }
         }
 
-        liveQueriesLoading.value = true
+        listPosition = 0
     }
+
+    @Bindable
+    var listPosition = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.listPosition)
+        }
+
+    @get:Bindable
+    val adapter: RecyclerView.Adapter<*>
+        get() = _adapter
 }

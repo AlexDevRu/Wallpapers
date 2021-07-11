@@ -4,6 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.example.data.database.dao.PhotoDao
+import com.example.data.database.dao.SearchQueryDao
 import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.database.entities.SearchQueryEntity
 import com.example.data.database.entities.UserEntity
@@ -13,4 +14,5 @@ import com.example.data.database.entities.UserEntity
 @TypeConverters(PhotoTypeConverters::class)
 abstract class PhotoDatabase : RoomDatabase() {
     abstract fun photoDao(): PhotoDao
+    abstract fun searchQueryDao(): SearchQueryDao
 }

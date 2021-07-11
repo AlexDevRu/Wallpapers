@@ -3,9 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="kotlin.jvm.functions.Function0"/>
+        <import type="kotlin.Unit"/>
+
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFullscreenVM" />
+
+        <variable
+            name="onBack"
+            type="Function0&lt;Unit>" />
     </data>
 
     <FrameLayout
@@ -25,7 +32,7 @@
         <ImageButton
             android:id="@+id/collapseButton"
             android:transitionName="button"
-            android:onClick="@{() -> viewModel.navigateBack()}"
+            android:onClick="@{() -> onBack.invoke()}"
             style="@style/circleImageButton"
             app:srcCompat="@drawable/ic_baseline_fullscreen_exit_24"
             android:layout_margin="20dp"

@@ -4,18 +4,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoFullscreenBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFullscreenVM
 
-class PhotoFullscreenFragment: BaseFragment<PhotoFullscreenVM, FragmentPhotoFullscreenBinding>
+class PhotoFullscreenFragment: BaseFragment<FragmentPhotoFullscreenBinding>
     (R.layout.fragment_photo_fullscreen) {
 
     private val args: PhotoFullscreenFragmentArgs by navArgs()
 
-    override val viewModel: PhotoFullscreenVM by lazy {
+    private val viewModel: PhotoFullscreenVM by lazy {
         ViewModelProvider(this).get(PhotoFullscreenVM::class.java)
     }
 
@@ -31,9 +32,8 @@ class PhotoFullscreenFragment: BaseFragment<PhotoFullscreenVM, FragmentPhotoFull
         if(savedInstanceState == null) {
             viewModel.photoUrl = args.photoUrl
         }
-        viewModel.liveNavigateBack.observe(viewLifecycleOwner, {
-            Log.e("asd", "fullscreen back")
-            navController.navigateUp()
-        })
+        binding.onBack = {
+            findNavController().navigateUp()
+        }
     }
 }

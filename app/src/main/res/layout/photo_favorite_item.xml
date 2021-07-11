@@ -7,10 +7,14 @@
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM" />
+
+        <variable
+            name="delegate"
+            type="com.example.kulakov_p3_wallpapers_app.adapters.FavoriteImagesAdapter.Delegate" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:onClick="@{() -> viewModel.navigatePhotoDetail()}"
+        android:onClick="@{() -> delegate.onItemClick()}"
         android:layout_width="match_parent"
         android:layout_margin="5dp"
         android:layout_height="wrap_content">

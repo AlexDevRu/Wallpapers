@@ -1,4 +1,4 @@
-package com.example.kulakov_p3_wallpapers_app.utils
+package com.example.kulakov_p3_wallpapers_app.events
 
 import android.util.Log
 import androidx.annotation.MainThread

@@ -10,16 +10,12 @@ import com.example.kulakov_p3_wallpapers_app.databinding.FragmentFavoriteBinding
 import com.example.kulakov_p3_wallpapers_app.tab_adapters.FavoriteAdapter
 import com.google.android.material.tabs.TabLayout
 
-class FavoriteFragment: Fragment(R.layout.fragment_favorite) {
-    private lateinit var binding: FragmentFavoriteBinding
+class FavoriteFragment: BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = DataBindingUtil.bind(view)!!
-        binding.lifecycleOwner = viewLifecycleOwner
 
-        val adapter = FavoriteAdapter(childFragmentManager, lifecycle)
-        binding.viewpager.adapter = adapter
+        binding.viewpager.adapter = FavoriteAdapter(childFragmentManager, lifecycle)
 
         binding.tabs.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab?) {

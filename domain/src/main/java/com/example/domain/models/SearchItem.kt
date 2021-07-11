@@ -1,10 +1,10 @@
-package com.example.domain.data
+package com.example.domain.models
 
 import java.util.*
 
-data class SearchItem (
+data class SearchItem(
     val id: UUID = UUID.randomUUID(),
-    var query: String = "",
+    var query: String? = null,
     var resultsCount: Int = 0,
     var date: Date = Date(),
     var isFavorite: Boolean = false

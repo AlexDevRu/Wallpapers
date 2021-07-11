@@ -4,13 +4,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="kotlin.jvm.functions.Function0"/>
+        <import type="kotlin.Unit"/>
+
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.HistorySearchItemVM" />
+
+        <variable
+            name="delegate"
+            type="com.example.kulakov_p3_wallpapers_app.adapters.SearchHistoryAdapter.Delegate" />
     </data>
 
     <androidx.cardview.widget.CardView
-        android:onClick="@{() -> viewModel.goToSearchScreen()}"
+        android:onClick="@{() -> delegate.onItemClick()}"
         android:layout_margin="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

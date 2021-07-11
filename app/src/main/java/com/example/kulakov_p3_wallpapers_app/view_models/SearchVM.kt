@@ -8,10 +8,13 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import androidx.recyclerview.widget.RecyclerView
 import com.example.data.api.PhotoApiRepository
 import com.example.data.database.PhotoRepository
-import com.example.data.models.PhotoItem
+import com.example.domain.common.Result
+import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
+import com.example.kulakov_p3_wallpapers_app.adapters.PhotoLoadStateAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -22,7 +25,6 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import com.example.domain.common.Result
 
 @HiltViewModel
 class SearchVM @Inject constructor(
@@ -34,28 +36,24 @@ class SearchVM @Inject constructor(
 
     private var currentQueryValue: String? = null
 
-    val adapter = PhotoAdapter() { direction -> newDestination.value = direction }
     private var searchJob: Job? = null
 
-    val livePhotoError = MutableLiveData<String>()
-
-
-    private var compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
     val searchQuery = BehaviorSubject.createDefault("")
 
+    private val _adapter = PhotoAdapter()
+
     init {
-        adapter.addLoadStateListener { state ->
+        _adapter.addLoadStateListener { state ->
             loading = state.refresh == LoadState.Loading
             error =
                 if(state.refresh is LoadState.Error)
                     (state.refresh as LoadState.Error).error.localizedMessage
                 else null
-
-            livePhotoError.value = error
         }
 
         compositeDisposable.add(searchQuery
-            .debounce(1200, TimeUnit.MILLISECONDS)
+            .debounce(1500, TimeUnit.MILLISECONDS)
             .subscribe { _ ->
                 searchByKeyword()
             })
@@ -89,11 +87,21 @@ class SearchVM @Inject constructor(
             notifyPropertyChanged(BR.listPosition)
         }
 
+    @get:Bindable
+    val adapter = _adapter.withLoadStateHeaderAndFooter(
+        PhotoLoadStateAdapter(), PhotoLoadStateAdapter()
+    )
+
     fun changeColumnCount() {
         columnListCount = if(columnListCount == 2) 3 else 2
     }
 
-    fun searchByKeyword() {
+    fun retrySearch() {
+        currentQueryValue = null
+        searchByKeyword()
+    }
+
+    private fun searchByKeyword() {
         if(currentQueryValue != searchQuery.value && searchQuery.value?.isNotEmpty() == true) {
             viewModelScope.launch(Dispatchers.IO) {
                 val res = apiRepository.getMetaFromPhotosSearch(searchQuery.value.orEmpty())
@@ -111,7 +119,7 @@ class SearchVM @Inject constructor(
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             searchPhotos().collectLatest {
-                adapter.submitData(it)
+                _adapter.submitData(it)
             }
         }
 

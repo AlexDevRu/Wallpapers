@@ -1,5 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.favorite
 
+import androidx.databinding.Bindable
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -22,14 +24,18 @@ import javax.inject.Inject
 class FavoriteSearchVM @Inject constructor(
     private val repository: PhotoRepository
 ): BaseVM() {
-
+    private var searchJob: Job? = null
     private var currentSearchResult: Flow<PagingData<SearchQueryEntity>>? = null
 
-    val adapter = FavoriteSearchItemsAdapter(repository) { navEvent -> newDestination.value = navEvent }
+    @get:Bindable
+    val adapter = FavoriteSearchItemsAdapter(repository)
 
-    private var searchJob: Job? = null
-
-    val liveQueriesLoading = MutableLiveData<Boolean>()
+    @Bindable
+    var listPosition = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.listPosition)
+        }
 
     private fun getQueriesFlow(): Flow<PagingData<SearchQueryEntity>> {
         val newResult = repository.getFavoriteQueries().cachedIn(viewModelScope)
@@ -45,6 +51,6 @@ class FavoriteSearchVM @Inject constructor(
             }
         }
 
-        liveQueriesLoading.value = true
+        listPosition = 0
     }
 }

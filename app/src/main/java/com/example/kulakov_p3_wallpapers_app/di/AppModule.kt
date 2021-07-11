@@ -6,6 +6,7 @@ import com.example.data.api.PhotoApiRepository
 import com.example.data.database.dao.PhotoDao
 import com.example.data.database.PhotoDatabase
 import com.example.data.database.PhotoRepository
+import com.example.data.database.dao.SearchQueryDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,7 +30,11 @@ object AppModule {
     fun providesPhotoDao(db: PhotoDatabase) = db.photoDao()
 
     @Provides
-    fun providesRepository(dao: PhotoDao) = PhotoRepository(dao)
+    fun providesSearchQueryDao(db: PhotoDatabase) = db.searchQueryDao()
+
+    @Provides
+    fun providesRepository(photoDao: PhotoDao, searchQueryDao: SearchQueryDao)
+    = PhotoRepository(photoDao, searchQueryDao)
 
     @Provides
     fun providesApiRepository() = PhotoApiRepository()

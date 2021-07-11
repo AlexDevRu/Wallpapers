@@ -1,11 +1,9 @@
-package com.example.data.models
+package com.example.domain.models
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
+import java.util.*
 
-@Parcelize
 data class User(
-    val id: String,
+    val id:String = UUID.randomUUID().toString(),
     var bio: String? = null,
     var instagram_username: String? = null,
     var name: String? = null,
@@ -13,4 +11,4 @@ data class User(
     var twitter_username: String? = null,
     var username: String? = null,
     var photoUrl: String? = null
-): Parcelable
+)

@@ -10,10 +10,10 @@ data class PhotoItemEntity(
     var width: Int = 0,
     var height: Int = 0,
     var created: Date = Date(),
-    var color: String = "",
-    var description: String = "",
-    var thumb: String = "",
-    var regular: String = "",
-    var full: String = "",
+    var color: String? = null,
+    var description: String? = null,
+    var thumb: String? = null,
+    var regular: String? = null,
+    var full: String? = null,
     var userId: String
 )

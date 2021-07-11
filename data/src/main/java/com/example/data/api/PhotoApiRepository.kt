@@ -1,13 +1,12 @@
 package com.example.data.api
 
-import android.accounts.NetworkErrorException
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.example.data.api.ApiConstants.Companion.NETWORK_PAGE_SIZE
-import com.example.data.models.PhotoItem
+import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
+import com.example.domain.models.PhotoItem
 import com.example.data.sources.PhotosPageSource
-import com.example.domain.data.SearchItem
+import com.example.domain.models.SearchItem
 import kotlinx.coroutines.flow.Flow
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -42,9 +41,8 @@ class PhotoApiRepository {
                 clientId = PhotosPageSource.ACCESS_KEY
             )
             Result.Success(SearchItem(query = query, resultsCount = response.total))
-        } catch (e: NetworkErrorException) {
+        } catch (e: Exception) {
             Result.Failure(e)
         }
-        //return SearchItem(query = query, resultsCount = response.total)
     }
 }

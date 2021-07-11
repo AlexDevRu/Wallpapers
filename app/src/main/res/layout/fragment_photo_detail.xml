@@ -12,6 +12,10 @@
             type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM" />
 
         <variable
+            name="delegate"
+            type="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoDetailFragment.Delegate" />
+
+        <variable
             name="startTransition"
             type="Function0&lt;Unit>"/>
 
@@ -42,7 +46,7 @@
 
             <ImageButton
                 android:id="@+id/backButton"
-                android:onClick="@{() -> viewModel.navigateBack()}"
+                android:onClick="@{() -> delegate.onBack()}"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:background="@null"
@@ -83,7 +87,7 @@
         <ImageButton
             android:id="@+id/expandButton"
             android:transitionName="button"
-            android:onClick="@{() -> viewModel.navigateToFullScreen()}"
+            android:onClick="@{() -> delegate.onShowFullscreen()}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/circleImageButton"
@@ -125,7 +129,7 @@
 
                 <ImageButton
                     android:id="@+id/functionButton"
-                    android:onClick="@{() -> viewModel.openDialog()}"
+                    android:onClick="@{() -> delegate.onOpenDialog()}"
                     android:background="@null"
                     android:padding="10dp"
                     android:layout_width="wrap_content"
@@ -138,7 +142,7 @@
 
                 <ImageButton
                     android:id="@+id/infoButton"
-                    android:onClick="@{() -> viewModel.navigateToInfo()}"
+                    android:onClick="@{() -> delegate.onOpenInfo()}"
                     android:background="@null"
                     android:padding="10dp"
                     android:layout_width="wrap_content"

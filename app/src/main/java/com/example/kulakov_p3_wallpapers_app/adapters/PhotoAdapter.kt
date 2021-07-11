@@ -6,15 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.models.PhotoItem
+import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoItemBinding
-import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
+import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.PhotoItemVM
 
-class PhotoAdapter(private val navigateByDirection: (NavigationEvent) -> Unit)
-    : PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(PhotoItemDiff()) {
+class PhotoAdapter: PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(PhotoItemDiff()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoItemHolder {
         val binding = DataBindingUtil.inflate<PhotoItemBinding>(
@@ -28,23 +27,32 @@ class PhotoAdapter(private val navigateByDirection: (NavigationEvent) -> Unit)
     }
 
     override fun onBindViewHolder(holder: PhotoItemHolder, position: Int) {
-        holder.bind(getItem(position))
+        getItem(position)?.let { photoItem -> holder.bind(photoItem) }
+    }
+
+    interface Delegate {
+        fun onItemClick()
     }
 
     inner class PhotoItemHolder(private val binding: PhotoItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = PhotoItemVM(navigateByDirection)
+            val viewModel = PhotoItemVM()
             binding.viewModel = viewModel
         }
 
-        fun bind(photoItem: PhotoItem?) {
+        fun bind(photoItem: PhotoItem) {
             binding.apply {
                 viewModel?.photoItem = photoItem
-                photoImageView.transitionName = photoItem?.id
-                viewModel?.detailExtras = FragmentNavigatorExtras(
-                    binding.photoImageView to photoItem?.id.orEmpty()
-                )
+                photoImageView.transitionName = photoItem.id
+                delegate = object: Delegate {
+                    override fun onItemClick() {
+                        val extras = FragmentNavigatorExtras(
+                            binding.photoImageView to photoItem.id
+                        )
+                        Navigator.getInstance().searchFragmentNavigator.showPhotoDetail(photoItem, extras)
+                    }
+                }
                 executePendingBindings()
             }
         }

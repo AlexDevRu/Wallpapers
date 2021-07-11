@@ -3,27 +3,22 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import com.example.data.database.PhotoRepository
 import com.example.kulakov_p3_wallpapers_app.R
+import com.example.kulakov_p3_wallpapers_app.adapters.SearchHistoryAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentHistoryBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.HistoryVM
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class HistoryFragment: BaseFragment<HistoryVM, FragmentHistoryBinding>
+class HistoryFragment: BaseFragment<FragmentHistoryBinding>
     (R.layout.fragment_history) {
 
-    override val viewModel: HistoryVM by viewModels()
+    private val viewModel: HistoryVM by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-
-        viewModel.getQueries()
-
-        viewModel.liveQueriesLoading.observe(viewLifecycleOwner, {
-            binding.historyList.scrollToPosition(0)
-        })
-
-        binding.historyList.adapter = viewModel.adapter
     }
 }

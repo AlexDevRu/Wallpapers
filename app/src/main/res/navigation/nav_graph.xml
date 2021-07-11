@@ -17,7 +17,7 @@
             app:destination="@id/photoDetailFragment">
             <argument
                 android:name="photoItem"
-                app:argType="com.example.data.models.PhotoItem"
+                app:argType="com.example.data.models.PhotoItemParcelable"
                 app:nullable="true"
                 android:defaultValue="@null"/>
         </action>
@@ -40,7 +40,7 @@
             app:destination="@id/photoDetailFragment">
             <argument
                 android:name="photoItem"
-                app:argType="com.example.data.models.PhotoItem"
+                app:argType="com.example.data.models.PhotoItemParcelable"
                 app:nullable="true"
                 android:defaultValue="@null"/>
         </action>
@@ -68,7 +68,7 @@
 
         <argument
             android:name="photoItem"
-            app:argType="com.example.data.models.PhotoItem"
+            app:argType="com.example.data.models.PhotoItemParcelable"
             app:nullable="true"
             android:defaultValue="@null"/>
         <action
@@ -76,7 +76,7 @@
             app:destination="@id/photoFunctionsDialog">
             <argument
                 android:name="photoItem"
-                app:argType="com.example.data.models.PhotoItem"
+                app:argType="com.example.data.models.PhotoItemParcelable"
                 app:nullable="true"
                 android:defaultValue="@null"/>
         </action>
@@ -94,7 +94,7 @@
             app:destination="@id/photoInfoFragment">
             <argument
                 android:name="photoItem"
-                app:argType="com.example.data.models.PhotoItem"
+                app:argType="com.example.data.models.PhotoItemParcelable"
                 app:nullable="true"
                 android:defaultValue="@null"/>
         </action>
@@ -106,7 +106,7 @@
         android:label="PhotoFunctionsDialog">
         <argument
             android:name="photoItem"
-            app:argType="com.example.data.models.PhotoItem"
+            app:argType="com.example.data.models.PhotoItemParcelable"
             app:nullable="true"
             android:defaultValue="@null"/>
     </dialog>
@@ -128,7 +128,7 @@
         android:label="PhotoInfoFragment">
         <argument
             android:name="photoItem"
-            app:argType="com.example.data.models.PhotoItem"
+            app:argType="com.example.data.models.PhotoItemParcelable"
             app:nullable="true"
             android:defaultValue="@null"/>
     </fragment>

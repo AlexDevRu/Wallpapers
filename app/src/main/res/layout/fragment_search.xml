@@ -16,7 +16,8 @@
         android:paddingTop="@dimen/app_padding"
         android:paddingLeft="@dimen/app_padding"
         android:paddingRight="@dimen/app_padding"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:showSnackbarMessage="@{viewModel.error}">
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/searchView"
@@ -52,6 +53,8 @@
             android:layout_marginTop="16dp"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:adapter="@{viewModel.adapter}"
             app:columnCount="@{viewModel.columnListCount}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +85,7 @@
             android:visibility="@{viewModel.error != null ? View.VISIBLE : View.GONE}"
             tools:visibility="gone"
             app:message="@{viewModel.error}"
-            app:onRetryClick="@{() -> viewModel.searchByKeyword()}"/>
+            app:onRetryClick="@{() -> viewModel.retrySearch()}"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

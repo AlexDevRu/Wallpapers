@@ -16,6 +16,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favoritePhotosList"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:adapter="@{viewModel.adapter}"
+            app:scrollPosition="@{viewModel.listPosition}"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

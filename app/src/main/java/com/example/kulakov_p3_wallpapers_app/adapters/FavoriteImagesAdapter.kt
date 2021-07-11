@@ -7,16 +7,15 @@ import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.data.database.PhotoRepository
-import com.example.data.models.PhotoItem
+import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding
-import com.example.kulakov_p3_wallpapers_app.utils.NavigationEvent
+import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM
 
 class FavoriteImagesAdapter(
-    private val repository: PhotoRepository,
-    private val navigateByDirection: (NavigationEvent) -> Unit
+    private val repository: PhotoRepository
 ): PagingDataAdapter<PhotoItem, FavoriteImagesAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
     override fun onBindViewHolder(holder: PhotoItemViewHolder, position: Int) {
@@ -34,12 +33,16 @@ class FavoriteImagesAdapter(
         return PhotoItemViewHolder(binding, repository)
     }
 
+    interface Delegate {
+        fun onItemClick()
+    }
+
     inner class PhotoItemViewHolder(
         private val binding: PhotoFavoriteItemBinding,
         repository: PhotoRepository
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = FavoritePhotoItemVM(repository, { refresh() }, navigateByDirection)
+            val viewModel = FavoritePhotoItemVM(repository, { refresh() })
             binding.viewModel = viewModel
         }
 
@@ -47,9 +50,14 @@ class FavoriteImagesAdapter(
             binding.apply {
                 viewModel?.photoItem = photoItem
                 photoImageView.transitionName = photoItem.id
-                viewModel?.detailExtras = FragmentNavigatorExtras(
-                    binding.photoImageView to "imageView"
-                )
+                delegate = object: Delegate {
+                    override fun onItemClick() {
+                        val extras = FragmentNavigatorExtras(
+                            binding.photoImageView to photoItem.id
+                        )
+                        Navigator.getInstance().favoriteFragmentNavigator.showPhotoDetail(photoItem, extras)
+                    }
+                }
                 executePendingBindings()
             }
         }

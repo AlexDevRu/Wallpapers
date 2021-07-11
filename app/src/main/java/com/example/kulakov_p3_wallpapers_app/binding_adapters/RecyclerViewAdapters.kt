@@ -14,3 +14,8 @@ fun setColumnCount(recyclerView: RecyclerView, columnCount: Int) {
 fun setListPosition(recyclerView: RecyclerView, position: Int) {
     recyclerView.scrollToPosition(position)
 }
+
+@BindingAdapter("adapter")
+fun setAdapter(recyclerView: RecyclerView, adapter: RecyclerView.Adapter<*>) {
+    recyclerView.adapter = adapter
+}
