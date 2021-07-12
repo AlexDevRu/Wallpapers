@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.HistorySearchItemVM" />
+            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.HistorySearchItemVM" />
 
         <variable
             name="delegate"

@@ -1,9 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 
-import android.util.Log
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 
 class PhotoFullscreenVM: BaseVM() {

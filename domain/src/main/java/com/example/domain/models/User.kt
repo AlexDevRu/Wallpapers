@@ -2,8 +2,8 @@ package com.example.domain.models
 
 import java.util.*
 
-data class User(
-    val id:String = UUID.randomUUID().toString(),
+data class User (
+    val id: String = UUID.randomUUID().toString(),
     var bio: String? = null,
     var instagram_username: String? = null,
     var name: String? = null,

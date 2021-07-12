@@ -2,8 +2,8 @@ package com.example.domain.models
 
 import java.util.*
 
-data class PhotoItem(
-    val id: String = UUID.randomUUID().toString(),
+data class PhotoItem (
+    val id: String,
     var width: Int = 0,
     var height: Int = 0,
     var created: Date = Date(),
@@ -12,6 +12,5 @@ data class PhotoItem(
     var thumb: String? = null,
     var regular: String? = null,
     var full: String? = null,
-    var userIsLoaded: Boolean = false,
-    var user: User
+    var user: User? = null
 )

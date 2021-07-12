@@ -10,8 +10,8 @@ import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 
-@BindingAdapter(value = ["app:photo", "app:startTransition", "app:resizeWidth", "app:resizeHeight"], requireAll = false)
-fun bindPhoto(view: ImageView, photo: Any?, startTransition: (() -> Unit)?, resizeWidth: Int?, resizeHeight: Int?) {
+@BindingAdapter(value = ["app:photo", "app:startTransition"], requireAll = false)
+fun bindPhoto(view: ImageView, photo: Any?, startTransition: (() -> Unit)?) {
     if(photo is Bitmap) view.setImageBitmap(photo)
     else if(photo is Drawable) view.setImageDrawable(photo)
     else if(photo is String) {
@@ -20,11 +20,11 @@ fun bindPhoto(view: ImageView, photo: Any?, startTransition: (() -> Unit)?, resi
             .error(R.drawable.no_photo)
             .into(view, object: Callback {
                 override fun onSuccess() {
-                    //startTransition?.invoke()
+                    startTransition?.invoke()
                 }
 
                 override fun onError(e: Exception?) {
-                    //startTransition?.invoke()
+                    startTransition?.invoke()
                 }
             })
     }

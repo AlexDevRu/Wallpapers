@@ -5,23 +5,17 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import androidx.recyclerview.widget.RecyclerView
 import com.example.data.api.PhotoApiRepository
 import com.example.data.database.PhotoRepository
 import com.example.domain.common.Result
 import com.example.domain.models.PhotoItem
-import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
-import com.example.kulakov_p3_wallpapers_app.adapters.PhotoLoadStateAdapter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -35,29 +29,31 @@ class SearchVM @Inject constructor(
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
 
     private var currentQueryValue: String? = null
-
-    private var searchJob: Job? = null
+    //val searchQuery = BehaviorSubject.createDefault("")
 
     private val compositeDisposable = CompositeDisposable()
-    val searchQuery = BehaviorSubject.createDefault("")
 
-    private val _adapter = PhotoAdapter()
+    val collectData = MutableLiveData<Boolean>()
+    val scrollList = MutableLiveData<Int>()
+
+    var initialSearch = true
 
     init {
-        _adapter.addLoadStateListener { state ->
-            loading = state.refresh == LoadState.Loading
-            error =
-                if(state.refresh is LoadState.Error)
-                    (state.refresh as LoadState.Error).error.localizedMessage
-                else null
-        }
 
-        compositeDisposable.add(searchQuery
+        /*compositeDisposable.add(searchQuery
             .debounce(1500, TimeUnit.MILLISECONDS)
             .subscribe { _ ->
-                searchByKeyword()
-            })
+                if(!initialSearch) searchByKeyword()
+            })*/
     }
+
+    @Bindable
+    var searchQuery: String? = null
+        set(value) {
+            field = value
+            searchByKeyword()
+            notifyPropertyChanged(BR.searchQuery)
+        }
 
     @Bindable
     var error: String? = null
@@ -80,18 +76,6 @@ class SearchVM @Inject constructor(
             notifyPropertyChanged(BR.columnListCount)
         }
 
-    @Bindable
-    var listPosition = 0
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.listPosition)
-        }
-
-    @get:Bindable
-    val adapter = _adapter.withLoadStateHeaderAndFooter(
-        PhotoLoadStateAdapter(), PhotoLoadStateAdapter()
-    )
-
     fun changeColumnCount() {
         columnListCount = if(columnListCount == 2) 3 else 2
     }
@@ -102,9 +86,9 @@ class SearchVM @Inject constructor(
     }
 
     private fun searchByKeyword() {
-        if(currentQueryValue != searchQuery.value && searchQuery.value?.isNotEmpty() == true) {
+        if(currentQueryValue != searchQuery && searchQuery?.isNotEmpty() == true) {
             viewModelScope.launch(Dispatchers.IO) {
-                val res = apiRepository.getMetaFromPhotosSearch(searchQuery.value.orEmpty())
+                val res = apiRepository.getMetaFromPhotosSearch(searchQuery.orEmpty())
                 Log.w("asd", "item from api ${res}")
                 when(res) {
                     is Result.Success -> {
@@ -116,26 +100,23 @@ class SearchVM @Inject constructor(
             }
         }
 
-        searchJob?.cancel()
-        searchJob = viewModelScope.launch(Dispatchers.IO) {
-            searchPhotos().collectLatest {
-                _adapter.submitData(it)
-            }
-        }
-
-        listPosition = 0
+        collectData.postValue(true)
     }
 
-    private fun searchPhotos(): Flow<PagingData<PhotoItem>> {
+
+    fun searchPhotos(): Flow<PagingData<PhotoItem>> {
         val lastResult = currentSearchResult
-        if (searchQuery.value == currentQueryValue && lastResult != null) {
+        if (searchQuery == currentQueryValue && lastResult != null) {
             return lastResult
         }
-        currentQueryValue = searchQuery.value
+        currentQueryValue = searchQuery
 
-        val newResult = apiRepository.getSearchResultStream(searchQuery.value).cachedIn(viewModelScope)
+        val newResult = apiRepository.getSearchResultStream(searchQuery).cachedIn(viewModelScope)
 
         currentSearchResult = newResult
+
+        scrollList.postValue(0)
+
         return newResult
     }
 

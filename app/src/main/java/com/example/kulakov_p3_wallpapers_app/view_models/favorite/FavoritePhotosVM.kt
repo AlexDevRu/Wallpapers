@@ -8,10 +8,10 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoriteSearchVM @Inject constructor(
+class FavoritePhotosVM @Inject constructor(
     val repository: PhotoRepository
 ): BaseVM() {
 
-    var flowFavoriteQueries = repository.getFavoriteQueries().cachedIn(viewModelScope)
+    val flowFavoritePhotos = repository.getFavoritePhotos().cachedIn(viewModelScope)
 
 }

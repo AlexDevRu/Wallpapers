@@ -18,14 +18,6 @@
         <variable
             name="startTransition"
             type="Function0&lt;Unit>"/>
-
-        <variable
-            name="resizeWidth"
-            type="int" />
-
-        <variable
-            name="resizeHeight"
-            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,9 +62,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:transitionName="imageView"
             android:background="@color/black"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:scaleType="centerCrop"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -80,8 +71,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
             app:photo="@{viewModel.fullImage}"
-            app:resizeWidth="@{resizeWidth}"
-            app:resizeHeight="@{resizeHeight}"
             app:startTransition="@{() -> startTransition.invoke()}"/>
 
         <ImageButton

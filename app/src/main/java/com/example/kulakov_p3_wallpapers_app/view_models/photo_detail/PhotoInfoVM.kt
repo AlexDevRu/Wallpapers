@@ -2,13 +2,11 @@ package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.database.PhotoRepository
 import com.example.domain.models.PhotoItem
-import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -30,22 +28,22 @@ class PhotoInfoVM @Inject constructor(
     var photoItem: PhotoItem? = null
         set(value) {
             field = value
-            if(field != null) {
-                Log.e("asd", "photoItem - $photoItem\n")
-                Log.e("asd", "hasTwitter - $hasTwitter\n")
-                if(!field!!.userIsLoaded) {
-                    userJob?.cancel()
-                    userJob = viewModelScope.launch(Dispatchers.IO) {
-                        val user = repository.getUserByPhoto(value!!)
-                        if (user != null) {
-                            photoItem?.user = user
-                            notifyChange()
-                        }
-                    }
-                }
+            if(field?.user != null) {
+                getUserFromDb()
             }
             notifyChange()
         }
+
+    private fun getUserFromDb() {
+        userJob?.cancel()
+        userJob = viewModelScope.launch(Dispatchers.IO) {
+            val user = repository.getUserByPhoto(photoItem!!)
+            if (user != null) {
+                photoItem?.user = user
+                notifyChange()
+            }
+        }
+    }
 
     @get:Bindable
     val date: String?

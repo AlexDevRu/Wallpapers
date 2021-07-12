@@ -1,4 +1,4 @@
-package com.example.kulakov_p3_wallpapers_app.view_models.favorite
+package com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item
 
 import com.example.data.database.PhotoRepository
 

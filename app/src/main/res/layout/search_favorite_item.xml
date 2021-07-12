@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteSearchItemVM" />
+            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.FavoriteSearchItemVM" />
 
         <variable
             name="delegate"

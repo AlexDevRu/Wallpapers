@@ -52,7 +52,6 @@ class PhotoFunctionsVM @Inject constructor(
             setDesktopJob?.cancel()
             setDesktopJob = viewModelScope.launch(Dispatchers.IO) {
                 val url = URL(photoItem!!.regular)
-                //val bytes = url.openStream()
                 val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
                 liveSetLockScreen.postValue(image)
                 closeDialog.postValue(true)

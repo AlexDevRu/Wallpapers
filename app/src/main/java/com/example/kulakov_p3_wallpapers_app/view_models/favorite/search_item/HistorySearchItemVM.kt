@@ -1,9 +1,7 @@
-package com.example.kulakov_p3_wallpapers_app.view_models.favorite
+package com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item
 
-import android.util.Log
 import com.example.data.database.PhotoRepository
-import com.example.kulakov_p3_wallpapers_app.events.NavigationEvent
-import com.example.kulakov_p3_wallpapers_app.views.fragments.HistoryFragmentDirections
+import com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.SearchItemVM
 
 class HistorySearchItemVM(
     repository: PhotoRepository

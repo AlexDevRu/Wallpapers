@@ -1,7 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.navigators
 
 import androidx.navigation.NavController
-import com.example.data.models.PhotoItemParcelable
+import com.example.data.parcelables.PhotoItemParcelable
 import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.views.fragments.FavoriteFragmentDirections
 

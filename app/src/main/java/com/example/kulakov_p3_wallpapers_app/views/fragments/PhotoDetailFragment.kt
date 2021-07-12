@@ -3,6 +3,8 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
+import androidx.core.view.doOnPreDraw
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
@@ -23,8 +25,10 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        val transition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+        sharedElementEnterTransition = transition
+        sharedElementReturnTransition = transition
+        postponeEnterTransition()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,9 +67,6 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
         }
 
         binding.startTransition = { startPostponedEnterTransition() }
-
-        binding.resizeWidth = binding.imageView.measuredWidth
-        binding.resizeHeight = binding.imageView.height
     }
 
     interface Delegate {

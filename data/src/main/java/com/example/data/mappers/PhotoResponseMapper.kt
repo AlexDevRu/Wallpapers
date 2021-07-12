@@ -28,15 +28,13 @@ object PhotoResponseMapper: IMapper<PhotoItemApiResponse, PhotoItem> {
         item.regular = entity.urls?.regular
         item.full = entity.urls?.full
 
-        item.user.bio = entity.user.bio
-        item.user.instagram_username = entity.user.instagram_username
-        item.user.name = entity.user.name
-        item.user.portfolio_url = entity.user.portfolio_url
-        item.user.twitter_username = entity.user.twitter_username
-        item.user.username = entity.user.username
-        item.user.photoUrl = entity.user.profile_image?.large
-
-        item.userIsLoaded = true
+        item.user?.bio = entity.user.bio
+        item.user?.instagram_username = entity.user.instagram_username
+        item.user?.name = entity.user.name
+        item.user?.portfolio_url = entity.user.portfolio_url
+        item.user?.twitter_username = entity.user.twitter_username
+        item.user?.username = entity.user.username
+        item.user?.photoUrl = entity.user.profile_image?.large
 
         return item
     }

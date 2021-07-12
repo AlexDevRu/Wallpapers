@@ -6,7 +6,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteImagesVM" />
+            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotosVM" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -16,8 +16,6 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/favoritePhotosList"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:adapter="@{viewModel.adapter}"
-            app:scrollPosition="@{viewModel.listPosition}"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

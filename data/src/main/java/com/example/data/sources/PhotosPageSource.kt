@@ -6,7 +6,6 @@ import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
 import com.example.data.api.PhotoApiService
 import com.example.data.mappers.PhotoResponseMapper
 import com.example.domain.models.PhotoItem
-import com.example.domain.models.SearchItem
 import retrofit2.HttpException
 import java.io.IOException
 

@@ -11,7 +11,7 @@ import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.SearchItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.SearchFavoriteItemBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
-import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoriteSearchItemVM
+import com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.FavoriteSearchItemVM
 
 class FavoriteSearchItemsAdapter(
     private val repository: PhotoRepository

@@ -3,9 +3,6 @@ package com.example.kulakov_p3_wallpapers_app.view_models
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.ViewModel
-import com.example.kulakov_p3_wallpapers_app.events.Event
-import com.example.kulakov_p3_wallpapers_app.events.NavigationEvent
-import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 
 abstract class BaseVM : ViewModel(), Observable {
 

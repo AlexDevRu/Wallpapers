@@ -3,14 +3,8 @@ package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 import android.content.Intent
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
-import androidx.navigation.fragment.FragmentNavigator
-import com.example.data.models.PhotoItemParcelable
 import com.example.domain.models.PhotoItem
-import com.example.kulakov_p3_wallpapers_app.events.Event
-import com.example.kulakov_p3_wallpapers_app.events.NavigationEvent
-import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
-import com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoDetailFragmentDirections
 
 
 class PhotoDetailVM: BaseVM() {

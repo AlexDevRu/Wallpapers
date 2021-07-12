@@ -57,15 +57,15 @@ class PhotoRepository(
     }
 
     suspend fun addToFavoritePhotoItem(photoItem: PhotoItem) {
-        return photoDao.insertPhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user))
+        return photoDao.insertPhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user!!))
     }
 
     suspend fun deleteFromFavoritePhotoItem(photoItem: PhotoItem) {
-        return photoDao.deletePhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user))
+        return photoDao.deletePhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user!!))
     }
 
     suspend fun getUserByPhoto(photoItem: PhotoItem): User? {
-        val userFromDb = photoDao.getUserById(photoItem.user.id) ?: return null
+        val userFromDb = photoDao.getUserById(photoItem.user!!.id) ?: return null
         return UserMapper.toModel(userFromDb)
     }
 }

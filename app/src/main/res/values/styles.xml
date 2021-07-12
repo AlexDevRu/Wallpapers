@@ -6,6 +6,12 @@
         <item name="android:textSize">@dimen/splash_title_size</item>
     </style>
 
+    <style name="photoDetailToolbarTitleStyle">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
     <style name="roundedImage" >
         <item name="cornerSize">8%</item>
     </style>
