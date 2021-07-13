@@ -11,12 +11,12 @@ import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoLoadStateAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentSearchBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.SearchVM
+import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,7 +39,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
         binding.viewModel = viewModel
 
         if(savedInstanceState == null) {
-            viewModel.searchQuery = args.searchQuery
+            viewModel.searchQuery.onNext(args.searchQuery.orEmpty())
         }
 
         postponeEnterTransition()
@@ -65,21 +65,15 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
         viewModel.collectData.observe(viewLifecycleOwner, {
             searchJob?.cancel()
             searchJob = lifecycleScope.launch(Dispatchers.IO) {
-                if(!viewModel.initialSearch) {
-                    viewModel.searchPhotos().debounce(1500).collectLatest {
-                        adapter.submitData(it)
-                    }
-                } else {
-                    viewModel.searchPhotos().collectLatest {
-                        adapter.submitData(it)
-                    }
+                viewModel.searchPhotos().collectLatest {
+                    adapter.submitData(it)
                 }
-                viewModel.initialSearch = false
             }
         })
 
         viewModel.scrollList.observe(viewLifecycleOwner, {
-            binding.photoList.scrollToPosition(it)
+            if(it != null)
+                binding.photoList.scrollToPosition(it)
         })
     }
 

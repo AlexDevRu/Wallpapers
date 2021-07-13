@@ -7,10 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.data.api.PhotoApiRepository
-import com.example.data.database.PhotoRepository
 import com.example.domain.common.Result
 import com.example.domain.models.PhotoItem
+import com.example.domain.repositories.local.ISearchQueryRepository
+import com.example.domain.repositories.remote.IPhotoApiRepository
+import com.example.domain.use_cases.photo.GetMetaInfoPhotoSearchUseCase
+import com.example.domain.use_cases.photo.GetPhotosUseCase
+import com.example.domain.use_cases.queries.InsertQueryUseCase
+import com.example.data.aliases.PhotoItemFlow
+import com.example.data.aliases.SearchQueryFlow
+import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -22,38 +28,45 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchVM @Inject constructor(
-    private val repository: PhotoRepository,
-    private val apiRepository: PhotoApiRepository
+    searchQueryRepository: ISearchQueryRepository<SearchQueryFlow>,
+    apiRepository: IPhotoApiRepository<PhotoItemFlow>
 ) : BaseVM() {
 
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
 
     private var currentQueryValue: String? = null
-    //val searchQuery = BehaviorSubject.createDefault("")
+    val searchQuery = BehaviorSubject.createDefault("")
 
     private val compositeDisposable = CompositeDisposable()
 
     val collectData = MutableLiveData<Boolean>()
-    val scrollList = MutableLiveData<Int>()
+    val scrollList = SingleLiveEvent<Int>()
 
     var initialSearch = true
 
-    init {
 
-        /*compositeDisposable.add(searchQuery
+    private val insertQueryUseCase = InsertQueryUseCase(searchQueryRepository)
+    private val getPhotosUseCase = GetPhotosUseCase(apiRepository)
+    private val getMetaInfoPhotoSearchUseCase = GetMetaInfoPhotoSearchUseCase(apiRepository)
+
+
+    init {
+        compositeDisposable.add(searchQuery
             .debounce(1500, TimeUnit.MILLISECONDS)
             .subscribe { _ ->
                 if(!initialSearch) searchByKeyword()
-            })*/
+            })
+
+        searchByKeyword()
     }
 
-    @Bindable
+    /*@Bindable
     var searchQuery: String? = null
         set(value) {
             field = value
             searchByKeyword()
             notifyPropertyChanged(BR.searchQuery)
-        }
+        }*/
 
     @Bindable
     var error: String? = null
@@ -86,14 +99,14 @@ class SearchVM @Inject constructor(
     }
 
     private fun searchByKeyword() {
-        if(currentQueryValue != searchQuery && searchQuery?.isNotEmpty() == true) {
+        if(currentQueryValue != searchQuery.value && searchQuery.value?.isNotEmpty() == true) {
             viewModelScope.launch(Dispatchers.IO) {
-                val res = apiRepository.getMetaFromPhotosSearch(searchQuery.orEmpty())
+                val res = getMetaInfoPhotoSearchUseCase.invoke(searchQuery.value.orEmpty())
                 Log.w("asd", "item from api ${res}")
                 when(res) {
                     is Result.Success -> {
                         error = null
-                        repository.insertQuery(res.value)
+                        insertQueryUseCase.invoke(res.value)
                     }
                     is Result.Failure -> error = res.throwable.localizedMessage
                 }
@@ -101,17 +114,19 @@ class SearchVM @Inject constructor(
         }
 
         collectData.postValue(true)
+
+        initialSearch = false
     }
 
 
-    fun searchPhotos(): Flow<PagingData<PhotoItem>> {
+    suspend fun searchPhotos(): Flow<PagingData<PhotoItem>> {
         val lastResult = currentSearchResult
-        if (searchQuery == currentQueryValue && lastResult != null) {
+        if (searchQuery.value == currentQueryValue && lastResult != null) {
             return lastResult
         }
-        currentQueryValue = searchQuery
+        currentQueryValue = searchQuery.value
 
-        val newResult = apiRepository.getSearchResultStream(searchQuery).cachedIn(viewModelScope)
+        val newResult = getPhotosUseCase.invoke(searchQuery.value).cachedIn(viewModelScope)
 
         currentSearchResult = newResult
 

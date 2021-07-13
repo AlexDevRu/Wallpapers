@@ -2,13 +2,13 @@ package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 
 import android.content.Intent
 import androidx.databinding.Bindable
-import androidx.lifecycle.MutableLiveData
 import com.example.domain.models.PhotoItem
+import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 
 
 class PhotoDetailVM: BaseVM() {
-    val liveIntent = MutableLiveData<Intent>()
+    val liveIntent = SingleLiveEvent<Intent>()
 
     var photoItem: PhotoItem? = null
         set(value) {

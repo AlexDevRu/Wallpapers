@@ -1,7 +1,6 @@
-package com.example.kulakov_p3_wallpapers_app.views.fragments
+package com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -10,6 +9,7 @@ import androidx.transition.TransitionInflater
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoFullscreenBinding
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFullscreenVM
+import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 
 class PhotoFullscreenFragment: BaseFragment<FragmentPhotoFullscreenBinding>
     (R.layout.fragment_photo_fullscreen) {

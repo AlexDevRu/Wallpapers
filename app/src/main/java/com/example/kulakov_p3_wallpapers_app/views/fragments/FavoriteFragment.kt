@@ -2,12 +2,11 @@ package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.viewpager2.widget.ViewPager2
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentFavoriteBinding
 import com.example.kulakov_p3_wallpapers_app.tab_adapters.FavoriteAdapter
+import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 import com.google.android.material.tabs.TabLayout
 
 class FavoriteFragment: BaseFragment<FragmentFavoriteBinding>(R.layout.fragment_favorite) {

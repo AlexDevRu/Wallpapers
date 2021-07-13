@@ -1,4 +1,4 @@
-package com.example.domain.models.api
+package com.example.data.api.responses
 
 data class PhotoSearchByKeywordResult(
     val total: Int = 0,

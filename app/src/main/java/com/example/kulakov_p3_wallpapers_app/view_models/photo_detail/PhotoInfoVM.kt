@@ -5,8 +5,10 @@ import android.net.Uri
 import androidx.databinding.Bindable
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.database.PhotoRepository
+import com.example.data.database.repositories.PhotoRepository
 import com.example.domain.models.PhotoItem
+import com.example.domain.use_cases.photo.GetUserByPhotoUseCase
+import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -18,11 +20,13 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoInfoVM @Inject constructor(
-    private val repository: PhotoRepository
+    repository: PhotoRepository
 ): BaseVM() {
-    val liveIntent = MutableLiveData<Intent>()
+    val liveIntent = SingleLiveEvent<String>()
 
     private var userJob: Job? = null
+
+    private val getUserByPhotoUseCase = GetUserByPhotoUseCase(repository)
 
     @Bindable
     var photoItem: PhotoItem? = null
@@ -37,7 +41,7 @@ class PhotoInfoVM @Inject constructor(
     private fun getUserFromDb() {
         userJob?.cancel()
         userJob = viewModelScope.launch(Dispatchers.IO) {
-            val user = repository.getUserByPhoto(photoItem!!)
+            val user = getUserByPhotoUseCase.invoke(photoItem!!)
             if (user != null) {
                 photoItem?.user = user
                 notifyChange()
@@ -76,10 +80,11 @@ class PhotoInfoVM @Inject constructor(
     }
 
     private fun openLink(link: String?) {
-        val browserIntent = Intent(
+        liveIntent.value = link
+        /*val browserIntent = Intent(
             Intent.ACTION_VIEW,
             Uri.parse(link)
         )
-        liveIntent.value = browserIntent
+        liveIntent.value = browserIntent*/
     }
 }

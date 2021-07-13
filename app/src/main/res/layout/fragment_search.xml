@@ -13,9 +13,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:focusableInTouchMode="true"
-        android:paddingTop="@dimen/app_padding"
-        android:paddingLeft="@dimen/app_padding"
-        android:paddingRight="@dimen/app_padding"
+        android:paddingTop="@dimen/base_indent"
+        android:paddingLeft="@dimen/base_indent"
+        android:paddingRight="@dimen/base_indent"
         android:layout_height="match_parent"
         app:showSnackbarMessage="@{viewModel.error}">
 
@@ -23,22 +23,18 @@
             android:id="@+id/searchView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/searchview_bg"
-            app:queryHint="@string/search_hint"
-            app:closeIcon="@null"
-            app:queryBackground="@android:color/transparent"
-            app:iconifiedByDefault="false"
+            android:layout_margin="@dimen/base_indent"
+            style="@style/searchViewStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:query="@={viewModel.searchQuery}" />
+            app:query="@{viewModel.searchQuery}" />
 
         <ImageButton
             android:id="@+id/managerChangeButton"
-            android:layout_width="34dp"
-            android:layout_height="34dp"
-            android:layout_marginEnd="12dp"
+            android:layout_width="@dimen/manager_change_button_size"
+            android:layout_height="@dimen/manager_change_button_size"
+            android:layout_marginEnd="@dimen/manager_change_button_mr"
             android:src="@{viewModel.columnListCount == 3 ? @drawable/grid_two : @drawable/grid_three}"
             android:background="@null"
             android:onClick="@{() -> viewModel.changeColumnCount()}"
@@ -50,7 +46,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/photoList"
             android:visibility="@{!viewModel.loading}"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/photo_search_list_mt"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
@@ -76,8 +72,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             layout="@layout/load_error"
-            app:layout_constraintBottom_toBottomOf="@+id/photoList"
-            app:layout_constraintEnd_toEndOf="@+id/photoList"
+            app:layout_constraintBottom_toBottomOf="@id/photoList"
+            app:layout_constraintEnd_toEndOf="@id/photoList"
             app:layout_constraintStart_toStartOf="@id/photoList"
             app:layout_constraintTop_toTopOf="@id/photoList"
             android:visibility="@{viewModel.error != null ? View.VISIBLE : View.GONE}"

@@ -1,10 +1,9 @@
-package com.example.kulakov_p3_wallpapers_app.views.fragments
+package com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.view.doOnPreDraw
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
@@ -13,6 +12,7 @@ import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoDetailBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM
+import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 
 
 class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
@@ -21,14 +21,15 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
     private val viewModel: PhotoDetailVM by lazy {
         ViewModelProvider(this).get(PhotoDetailVM::class.java)
     }
+
     private val args: PhotoDetailFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val transition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        sharedElementEnterTransition = transition
-        sharedElementReturnTransition = transition
-        postponeEnterTransition()
+        //sharedElementEnterTransition = transition
+        //sharedElementReturnTransition = transition
+        //postponeEnterTransition()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,6 +68,13 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
         }
 
         binding.startTransition = { startPostponedEnterTransition() }
+
+        startAnimations()
+    }
+
+    private fun startAnimations() {
+        val translateBt = AnimationUtils.loadAnimation(context, R.anim.translate_bt)
+        binding.functions.startAnimation(translateBt)
     }
 
     interface Delegate {

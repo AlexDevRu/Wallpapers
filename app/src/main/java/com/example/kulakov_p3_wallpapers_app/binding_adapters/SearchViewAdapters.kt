@@ -8,7 +8,7 @@ import io.reactivex.subjects.BehaviorSubject
 import java.util.*
 
 
-/*@BindingAdapter("query")
+@BindingAdapter("query")
 fun rxText(searchView: SearchView, subject: BehaviorSubject<String?>) {
 
     // Initial value
@@ -25,7 +25,7 @@ fun rxText(searchView: SearchView, subject: BehaviorSubject<String?>) {
             return false
         }
     })
-}*/
+}
 
 
 
@@ -34,7 +34,7 @@ fun rxText(searchView: SearchView, subject: BehaviorSubject<String?>) {
 
 
 
-@BindingAdapter("query")
+/*@BindingAdapter("query")
 fun setQuery(searchView: SearchView, query: String?) {
     if (Objects.equals(searchView.query.toString(), query)) {
         return
@@ -81,4 +81,4 @@ fun setOnQueryTextListener(
 
 interface OnQueryTextSubmitListener {
     fun onQueryTextSubmit(query: String?)
-}
+}*/

@@ -1,9 +1,11 @@
 package com.example.domain.repositories.local
 
-interface ISearchQueryRepository<TModel> {
-    fun getQueries(): Any
-    fun getFavoriteQueries(): Any
-    suspend fun insertQuery(model: TModel)
-    suspend fun updateQuery(model: TModel)
-    suspend fun deleteQuery(model: TModel)
+import com.example.domain.models.SearchItem
+
+interface ISearchQueryRepository<TSearchQueryFlow> {
+    suspend fun getQueries(): TSearchQueryFlow
+    suspend fun getFavoriteQueries(): TSearchQueryFlow
+    suspend fun insertQuery(query: SearchItem)
+    suspend fun updateQuery(query: SearchItem)
+    suspend fun deleteQuery(query: SearchItem)
 }

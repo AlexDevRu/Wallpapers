@@ -3,8 +3,10 @@ package com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
-import com.example.data.database.PhotoRepository
+import com.example.data.aliases.SearchQueryFlow
 import com.example.domain.models.SearchItem
+import com.example.domain.repositories.local.ISearchQueryRepository
+import com.example.domain.use_cases.queries.UpdateQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -12,8 +14,9 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class SearchItemVM(private val repository: PhotoRepository): BaseVM() {
+abstract class SearchItemVM(repository: ISearchQueryRepository<SearchQueryFlow>): BaseVM() {
     private var searchJob: Job? = null
+    private val updateQueryUseCase = UpdateQueryUseCase(repository)
 
     var searchItem: SearchItem? = null
         set(value) {
@@ -44,7 +47,7 @@ abstract class SearchItemVM(private val repository: PhotoRepository): BaseVM() {
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             if(searchItem != null)
-                repository.updateQuery(searchItem!!)
+                updateQueryUseCase.invoke(searchItem!!)
         }
         notifyPropertyChanged(BR.favorite)
     }

@@ -6,8 +6,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.database.PhotoRepository
+import com.example.data.aliases.PhotoItemFlow
 import com.example.domain.models.PhotoItem
+import com.example.domain.repositories.local.IPhotoRepository
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding
@@ -15,7 +16,7 @@ import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM
 
 class FavoriteImagesAdapter(
-    private val repository: PhotoRepository
+    private val repository: IPhotoRepository<PhotoItemFlow>
 ): PagingDataAdapter<PhotoItem, FavoriteImagesAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
     override fun onBindViewHolder(holder: PhotoItemViewHolder, position: Int) {
@@ -39,10 +40,10 @@ class FavoriteImagesAdapter(
 
     inner class PhotoItemViewHolder(
         private val binding: PhotoFavoriteItemBinding,
-        repository: PhotoRepository
+        repository: IPhotoRepository<PhotoItemFlow>
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = FavoritePhotoItemVM(repository, { refresh() })
+            val viewModel = FavoritePhotoItemVM(repository) { refresh() }
             binding.viewModel = viewModel
         }
 

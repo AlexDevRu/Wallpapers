@@ -24,4 +24,9 @@
     <string name="loading_photo_error">Ошибка!</string>
 
     <string name="share">Поделиться</string>
+    <string name="photo">Фото</string>
+    <string name="go_back">Вернуться назад</string>
+    <string name="photo_functions">Действия фото</string>
+    <string name="author_info">Информация об авторе</string>
+    <string name="icon">Иконка</string>
 </resources>

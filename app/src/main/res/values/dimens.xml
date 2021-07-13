@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="splash_title_size">48sp</dimen>
-    <dimen name="app_padding">10dp</dimen>
+    <dimen name="base_indent">10dp</dimen>
     <dimen name="parameter_item_size">120dp</dimen>
+    <dimen name="functions_dialog_padding">16dp</dimen>
+    <dimen name="photo_detail_toolbar_title_ml">24dp</dimen>
+    <dimen name="circle_button_margin">20dp</dimen>
+    <dimen name="photo_detail_buttons_container_radius">30dp</dimen>
+    <dimen name="photo_detail_buttons_container_mb">30dp</dimen>
+    <dimen name="photo_detail_layout_padding_lr">20dp</dimen>
+    <dimen name="photo_detail_layout_padding_tb">5dp</dimen>
+    <dimen name="photo_author_info_padding">20dp</dimen>
+    <dimen name="photo_author_size">80dp</dimen>
+    <dimen name="author_name_ml">20dp</dimen>
+    <dimen name="author_instagram_mt">16dp</dimen>
+    <dimen name="author_link_mt">12dp</dimen>
+    <dimen name="author_info_line_mt">14dp</dimen>
+    <dimen name="author_info_line_height">1dp</dimen>
+    <dimen name="author_info_base_indent">14dp</dimen>
+    <dimen name="manager_change_button_size">34dp</dimen>
+    <dimen name="manager_change_button_mr">12dp</dimen>
+    <dimen name="photo_search_list_mt">16dp</dimen>
+    <dimen name="error_message_text_photo_item_size">18sp</dimen>
+    <dimen name="base_item_radius">20dp</dimen>
+    <dimen name="base_item_indent">6dp</dimen>
 </resources>

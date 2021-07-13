@@ -15,12 +15,12 @@
 
     <androidx.cardview.widget.CardView
         android:onClick="@{() -> delegate.onItemClick()}"
-        android:layout_margin="5dp"
+        android:layout_margin="@dimen/base_item_indent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:padding="@dimen/app_padding"
+            android:padding="@dimen/base_indent"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -28,7 +28,7 @@
                 android:id="@+id/searchTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="@dimen/base_indent"
                 tools:text="@{viewModel.searchQuery}"
                 app:layout_constraintEnd_toStartOf="@+id/deleteButton"
                 app:layout_constraintStart_toStartOf="parent"
@@ -37,7 +37,7 @@
             <TextView
                 android:id="@+id/searchInfo"
                 android:layout_width="0dp"
-                android:layout_marginEnd="10dp"
+                android:layout_marginEnd="@dimen/base_indent"
                 android:layout_height="wrap_content"
                 tools:text="@{@string/search_info(viewModel.resultsCount, viewModel.searchDate)}"
                 app:layout_constraintEnd_toStartOf="@+id/deleteButton"

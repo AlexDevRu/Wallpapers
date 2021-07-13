@@ -1,7 +1,7 @@
 package com.example.data.api
 
-import com.example.domain.models.api.PhotoItemApiResponse
-import com.example.domain.models.api.PhotoSearchByKeywordResult
+import com.example.data.api.responses.PhotoItemApiResponse
+import com.example.data.api.responses.PhotoSearchByKeywordResult
 import retrofit2.http.GET
 import retrofit2.http.Query
 

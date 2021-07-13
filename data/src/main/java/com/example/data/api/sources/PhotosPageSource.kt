@@ -1,4 +1,4 @@
-package com.example.data.sources
+package com.example.data.api.sources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -19,9 +19,6 @@ class PhotosPageSource(private val service: PhotoApiService,
     //"DAfRSeCPQrk3mi4JVzVJ3NuTLSiPbHKHzCMfydsseDE"
     }
 
-    //var metaInfo: SearchItem? = null
-    //var metaResult: Result<SearchItem?>? = null
-
     override fun getRefreshKey(state: PagingState<Int, PhotoItem>): Int? {
         return state.anchorPosition?.let { anchorPosition ->
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
@@ -37,9 +34,6 @@ class PhotosPageSource(private val service: PhotoApiService,
                 service.getPhotos(position, params.loadSize, ACCESS_KEY)
             } else {
                 val response = service.getPhotos(position, query, params.loadSize, ACCESS_KEY)
-                if(position == STARTING_PAGE_INDEX) {
-                    //metaInfo = SearchItem(query = query, resultsCount = response.total)
-                }
                 response.results
             }
 

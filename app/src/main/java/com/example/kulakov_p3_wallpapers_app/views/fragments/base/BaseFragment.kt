@@ -1,4 +1,4 @@
-package com.example.kulakov_p3_wallpapers_app.views.fragments
+package com.example.kulakov_p3_wallpapers_app.views.fragments.base
 
 import android.os.Bundle
 import android.view.LayoutInflater

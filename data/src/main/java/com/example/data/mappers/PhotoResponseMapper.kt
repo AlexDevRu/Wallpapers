@@ -4,7 +4,7 @@ package com.example.data.mappers
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User
 import com.example.domain.mappers.IMapper
-import com.example.domain.models.api.PhotoItemApiResponse
+import com.example.data.api.responses.PhotoItemApiResponse
 import java.text.SimpleDateFormat
 import java.util.*
 

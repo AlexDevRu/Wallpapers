@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Kulakov_P3_Wallpapers_app</string>
+    <string name="splash_screen_title">Wallpapers</string>
+    <string name="search_bottom_nav">Search</string>
+    <string name="favorite_bottom_nav">Favorite</string>
+    <string name="history_bottom_nav">History</string>
+    <string name="search_hint">Search</string>
+
+    <string name="search_info">%1$d results, %2$s</string>
+    <string name="add_to_favorite">Add to favorite</string>
+    <string name="remove_from_favorite">Remove from favorite</string>
+    <string name="change_grid_columns">Change column count</string>
+    <string name="expand_image">Expand photo</string>
+
+    <string name="set_wallpapers_main">Set as desktop wallpaper</string>
+    <string name="set_wallpapers_lock">Set to lock screen</string>
+    <string name="save_to_favorite">Save to favorite</string>
+    <string name="retry_loading">Retry</string>
+    <string name="portfolio">Portfolio</string>
+
+    <string name="date">Date</string>
+    <string name="color">Color</string>
+    <string name="size">Dimensions</string>
+    <string name="loading_photo_error">Error!</string>
+
+    <string name="share">Share</string>
+    <string name="photo">Photo</string>
+    <string name="go_back">Go back</string>
+    <string name="photo_functions">Actions photo</string>
+    <string name="author_info">Information about author</string>
+    <string name="icon">Icon</string>
+</resources>

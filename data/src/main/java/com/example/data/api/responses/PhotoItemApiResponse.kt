@@ -1,4 +1,4 @@
-package com.example.domain.models.api
+package com.example.data.api.responses
 
 data class PhotoItemApiResponse(
     val id: String,

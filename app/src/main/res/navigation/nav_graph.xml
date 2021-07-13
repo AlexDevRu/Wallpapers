@@ -14,7 +14,11 @@
             android:defaultValue="@null"/>
         <action
             android:id="@+id/action_searchFragment_to_photoDetailFragment"
-            app:destination="@id/photoDetailFragment">
+            app:destination="@id/photoDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
             <argument
                 android:name="photoItem"
                 app:argType="com.example.data.parcelables.PhotoItemParcelable"
@@ -63,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/photoDetailFragment"
-        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoDetailFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoDetailFragment"
         android:label="PhotoDetailFragment">
 
         <argument
@@ -112,7 +116,7 @@
     </dialog>
     <fragment
         android:id="@+id/photoFullscreenFragment"
-        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoFullscreenFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoFullscreenFragment"
         android:label="PhotoFullscreenFragment">
 
         <argument
@@ -124,12 +128,31 @@
     </fragment>
     <fragment
         android:id="@+id/photoInfoFragment"
-        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.PhotoInfoFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoInfoFragment"
         android:label="PhotoInfoFragment">
         <argument
             android:name="photoItem"
             app:argType="com.example.data.parcelables.PhotoItemParcelable"
             app:nullable="true"
             android:defaultValue="@null"/>
+        <action
+            android:id="@+id/action_photoInfoFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="url"
+                app:argType="string" />
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/webViewFragment"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.WebViewFragment"
+        android:label="WebViewFragment">
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
 </navigation>

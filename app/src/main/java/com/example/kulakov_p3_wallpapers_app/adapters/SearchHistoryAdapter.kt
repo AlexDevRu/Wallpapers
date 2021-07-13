@@ -5,8 +5,12 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.database.PhotoRepository
+import com.example.data.aliases.PhotoItemFlow
+import com.example.data.aliases.SearchQueryFlow
+import com.example.data.database.repositories.PhotoRepository
 import com.example.domain.models.SearchItem
+import com.example.domain.repositories.local.IPhotoRepository
+import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.SearchItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.SearchItemBinding
@@ -14,7 +18,7 @@ import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.HistorySearchItemVM
 
 class SearchHistoryAdapter(
-    private val repository: PhotoRepository
+    private val repository: ISearchQueryRepository<SearchQueryFlow>
 ): PagingDataAdapter<SearchItem, SearchHistoryAdapter.SearchItemViewHolder>(SearchItemDiff()) {
 
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
@@ -38,7 +42,7 @@ class SearchHistoryAdapter(
 
     inner class SearchItemViewHolder(
         private val binding: SearchItemBinding,
-        repository: PhotoRepository
+        repository: ISearchQueryRepository<SearchQueryFlow>
     ): RecyclerView.ViewHolder(binding.root) {
         init {
             val viewModel = HistorySearchItemVM(repository)
