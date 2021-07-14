@@ -108,4 +108,13 @@
     <style name="loadPhotoErrorButtonStyle">
         <item name="android:backgroundTint">@color/red</item>
     </style>
+
+    <style name="searchItemTitleStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="searchItemInfoStyle">
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

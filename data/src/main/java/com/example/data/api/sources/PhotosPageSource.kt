@@ -1,16 +1,24 @@
 package com.example.data.api.sources
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.example.data.aliases.SearchQueryFlow
 import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
+import com.example.domain.models.MetaInfoPhotoSearch
 import com.example.data.api.PhotoApiService
+import com.example.data.database.dao.SearchQueryDao
 import com.example.data.mappers.PhotoResponseMapper
 import com.example.domain.models.PhotoItem
+import com.example.domain.models.SearchItem
+import com.example.domain.use_cases.queries.InsertQueryUseCase
 import retrofit2.HttpException
 import java.io.IOException
+import java.util.*
 
 class PhotosPageSource(private val service: PhotoApiService,
-                       private val query: String?): PagingSource<Int, PhotoItem>() {
+                       private val query: String?,
+                       private val insertQueryUseCase: InsertQueryUseCase<SearchQueryFlow>): PagingSource<Int, PhotoItem>() {
 
     companion object {
         private const val STARTING_PAGE_INDEX = 1
@@ -34,10 +42,16 @@ class PhotosPageSource(private val service: PhotoApiService,
                 service.getPhotos(position, params.loadSize, ACCESS_KEY)
             } else {
                 val response = service.getPhotos(position, query, params.loadSize, ACCESS_KEY)
+                Log.e("asd", "position ${position}")
+                if(position == STARTING_PAGE_INDEX) {
+                    val item = SearchItem(query = query, resultsCount = response.total, date = Date())
+                    insertQueryUseCase.invoke(item)
+                }
                 response.results
             }
 
             val photos = PhotoResponseMapper.toModel(photosResult)
+
             val nextKey = if (photos.isNullOrEmpty()) {
                 null
             } else {

@@ -38,6 +38,7 @@
 
             <ImageButton
                 android:id="@+id/backButton"
+                android:transitionName="backButton"
                 android:onClick="@{() -> delegate.onBack()}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -64,6 +65,7 @@
 
         <ImageView
             android:id="@+id/imageView"
+            android:transitionName="imageView"
             app:layout_collapseMode="parallax"
             tools:background="@color/black"
             android:layout_width="match_parent"

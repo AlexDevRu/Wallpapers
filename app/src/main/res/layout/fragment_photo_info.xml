@@ -4,7 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="android.view.View"/>
         <import type="kotlin.jvm.functions.Function0"/>
         <import type="kotlin.Unit"/>
 
@@ -18,7 +17,7 @@
     </data>
 
     <FrameLayout
-        android:background="@color/black"
+        tools:background="@color/black"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -101,6 +100,7 @@
                     android:drawablePadding="@dimen/base_indent"
                     style="@style/authorLinkStyle"
                     tools:text="sjdfjsdklj"
+                    android:visibility="@{viewModel.hasInstagram}"
                     android:text="@{viewModel.photoItem.user.instagram_username}"
                     app:drawableStartCompat="@drawable/instagram"
                     app:layout_constraintStart_toStartOf="@id/guideline"
@@ -116,7 +116,7 @@
                     style="@style/authorLinkStyle"
                     tools:text="sjdfjsdklj"
                     android:text="@{viewModel.photoItem.user.twitter_username}"
-                    android:visibility="@{viewModel.hasTwitter ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.hasTwitter}"
                     app:drawableStartCompat="@drawable/twitter"
                     app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@id/instagramLink" />
@@ -144,14 +144,14 @@
                     app:layout_constraintTop_toBottomOf="@id/portfolioButton" />
 
                 <TextView
-                    android:id="@+id/photoDescription"
+                    android:id="@+id/authorDescription"
                     android:layout_marginTop="@dimen/author_info_base_indent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/authorDescription"
                     tools:text="sjdfjsdklj"
                     android:text="@{viewModel.photoItem.user.bio}"
-                    android:visibility="@{viewModel.hasDescription ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{viewModel.hasDescription}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view" />
@@ -162,7 +162,7 @@
                     android:layout_marginTop="@dimen/author_info_base_indent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/photoDescription"
+                    app:layout_constraintTop_toBottomOf="@id/authorDescription"
                     android:orientation="horizontal"
                     android:baselineAligned="false">
 

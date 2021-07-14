@@ -23,7 +23,7 @@ class HistoryFragment: BaseFragment<FragmentHistoryBinding>
 
     private lateinit var adapter: SearchHistoryAdapter
 
-    private var readJob: Job? = null
+    private var getJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,8 +37,8 @@ class HistoryFragment: BaseFragment<FragmentHistoryBinding>
     }
 
     private fun getQueries() {
-        readJob?.cancel()
-        readJob = lifecycleScope.launch(Dispatchers.IO) {
+        getJob?.cancel()
+        getJob = lifecycleScope.launch(Dispatchers.IO) {
             viewModel.getQueries().collectLatest {
                 adapter.submitData(it)
             }

@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoFullscreenBinding
+import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFullscreenVM
 import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 
@@ -33,7 +34,7 @@ class PhotoFullscreenFragment: BaseFragment<FragmentPhotoFullscreenBinding>
             viewModel.photoUrl = args.photoUrl
         }
         binding.onBack = {
-            findNavController().navigateUp()
+            Navigator.getInstance().navigateBack()
         }
     }
 }

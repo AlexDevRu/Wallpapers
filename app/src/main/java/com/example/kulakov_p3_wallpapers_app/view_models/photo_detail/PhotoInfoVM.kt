@@ -22,7 +22,7 @@ import javax.inject.Inject
 class PhotoInfoVM @Inject constructor(
     repository: PhotoRepository
 ): BaseVM() {
-    val liveIntent = SingleLiveEvent<String>()
+    val openLink = SingleLiveEvent<String>()
 
     private var userJob: Job? = null
 
@@ -56,6 +56,10 @@ class PhotoInfoVM @Inject constructor(
         else null
 
     @get:Bindable
+    val hasInstagram: Boolean
+        get() = !photoItem?.user?.instagram_username.isNullOrEmpty()
+
+    @get:Bindable
     val hasTwitter: Boolean
         get() = !photoItem?.user?.twitter_username.isNullOrEmpty()
 
@@ -65,26 +69,17 @@ class PhotoInfoVM @Inject constructor(
 
     @get:Bindable
     val hasDescription: Boolean
-        get() = !photoItem?.description.isNullOrEmpty()
+        get() = !photoItem?.user?.bio.isNullOrEmpty()
 
     fun openTwitter() {
-        openLink("https://twitter.com/${photoItem?.user?.twitter_username}")
+        openLink.value = "https://twitter.com/${photoItem?.user?.twitter_username}"
     }
 
     fun openInstagram() {
-        openLink("https://instagram.com/${photoItem?.user?.instagram_username}")
+        openLink.value = "https://instagram.com/${photoItem?.user?.instagram_username}"
     }
 
     fun openPortfolio() {
-        openLink(photoItem?.user?.portfolio_url)
-    }
-
-    private fun openLink(link: String?) {
-        liveIntent.value = link
-        /*val browserIntent = Intent(
-            Intent.ACTION_VIEW,
-            Uri.parse(link)
-        )
-        liveIntent.value = browserIntent*/
+        openLink.value = photoItem?.user?.portfolio_url
     }
 }

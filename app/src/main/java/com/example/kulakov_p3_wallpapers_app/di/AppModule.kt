@@ -13,6 +13,7 @@ import com.example.data.database.repositories.SearchQueryRepository
 import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository
+import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,6 +48,7 @@ object AppModule {
     = SearchQueryRepository(searchQueryDao)
 
     @Provides
-    fun providesApiRepository(): IPhotoApiRepository<PhotoItemFlow>
-    = PhotoApiRepository()
+    fun providesApiRepository(searchQueryRepository: ISearchQueryRepository<SearchQueryFlow>)
+    : IPhotoApiRepository<PhotoItemFlow>
+    = PhotoApiRepository(searchQueryRepository)
 }

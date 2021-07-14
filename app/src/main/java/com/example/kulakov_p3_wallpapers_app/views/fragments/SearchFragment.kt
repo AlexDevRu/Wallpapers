@@ -14,7 +14,6 @@ import com.example.kulakov_p3_wallpapers_app.view_models.SearchVM
 import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -32,7 +31,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
     private var searchJob: Job? = null
 
 
-    @FlowPreview
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -41,9 +39,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
         if(savedInstanceState == null) {
             viewModel.searchQuery.onNext(args.searchQuery.orEmpty())
         }
-
-        postponeEnterTransition()
-        binding.photoList.post { startPostponedEnterTransition() }
 
         adapter.addLoadStateListener { state ->
             viewModel.loading = state.refresh == LoadState.Loading
@@ -57,11 +52,10 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
             PhotoLoadStateAdapter(), PhotoLoadStateAdapter()
         )
 
-        search()
+        observe()
     }
 
-    @FlowPreview
-    private fun search() {
+    private fun observe() {
         viewModel.collectData.observe(viewLifecycleOwner, {
             searchJob?.cancel()
             searchJob = lifecycleScope.launch(Dispatchers.IO) {

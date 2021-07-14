@@ -7,7 +7,6 @@ import android.view.animation.AnimationUtils
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
-import androidx.transition.TransitionInflater
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoDetailBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
@@ -24,22 +23,13 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
 
     private val args: PhotoDetailFragmentArgs by navArgs()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val transition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        //sharedElementEnterTransition = transition
-        //sharedElementReturnTransition = transition
-        //postponeEnterTransition()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         if(savedInstanceState == null) {
             viewModel.photoItem = args.photoItem?.model
+            startAnimations()
         }
-
-        binding.imageView.transitionName = viewModel.photoItem?.id
 
         viewModel.liveIntent.observe(viewLifecycleOwner, {
             startActivity(Intent.createChooser(it, resources.getString(R.string.share)))
@@ -66,10 +56,6 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
                 Navigator.getInstance().navigateBack()
             }
         }
-
-        binding.startTransition = { startPostponedEnterTransition() }
-
-        startAnimations()
     }
 
     private fun startAnimations() {

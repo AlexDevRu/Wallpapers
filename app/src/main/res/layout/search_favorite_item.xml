@@ -15,6 +15,7 @@
 
     <androidx.cardview.widget.CardView
         android:onClick="@{() -> delegate.onItemClick()}"
+        app:cardElevation="@dimen/search_item_card_elevation"
         android:layout_margin="@dimen/base_item_indent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -26,6 +27,7 @@
 
             <TextView
                 android:id="@+id/searchTitle"
+                style="@style/searchItemTitleStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/base_indent"
@@ -36,7 +38,9 @@
 
             <TextView
                 android:id="@+id/searchInfo"
+                style="@style/searchItemInfoStyle"
                 android:layout_width="0dp"
+                android:layout_marginTop="@dimen/base_item_indent"
                 android:layout_marginEnd="@dimen/base_indent"
                 android:layout_height="wrap_content"
                 tools:text="@{@string/search_info(viewModel.resultsCount, viewModel.searchDate)}"

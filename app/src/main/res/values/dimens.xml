@@ -23,4 +23,6 @@
     <dimen name="error_message_text_photo_item_size">18sp</dimen>
     <dimen name="base_item_radius">20dp</dimen>
     <dimen name="base_item_indent">6dp</dimen>
+    <dimen name="search_item_info_mt">6dp</dimen>
+    <dimen name="search_item_card_elevation">6dp</dimen>
 </resources>

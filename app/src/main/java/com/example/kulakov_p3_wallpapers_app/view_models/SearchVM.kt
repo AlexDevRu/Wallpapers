@@ -1,34 +1,25 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
-import android.util.Log
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.domain.common.Result
-import com.example.domain.models.PhotoItem
-import com.example.domain.repositories.local.ISearchQueryRepository
-import com.example.domain.repositories.remote.IPhotoApiRepository
-import com.example.domain.use_cases.photo.GetMetaInfoPhotoSearchUseCase
-import com.example.domain.use_cases.photo.GetPhotosUseCase
-import com.example.domain.use_cases.queries.InsertQueryUseCase
 import com.example.data.aliases.PhotoItemFlow
-import com.example.data.aliases.SearchQueryFlow
+import com.example.domain.models.PhotoItem
+import com.example.domain.repositories.remote.IPhotoApiRepository
+import com.example.domain.use_cases.photo.GetPhotosUseCase
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltViewModel
 class SearchVM @Inject constructor(
-    searchQueryRepository: ISearchQueryRepository<SearchQueryFlow>,
     apiRepository: IPhotoApiRepository<PhotoItemFlow>
 ) : BaseVM() {
 
@@ -44,10 +35,7 @@ class SearchVM @Inject constructor(
 
     var initialSearch = true
 
-
-    private val insertQueryUseCase = InsertQueryUseCase(searchQueryRepository)
     private val getPhotosUseCase = GetPhotosUseCase(apiRepository)
-    private val getMetaInfoPhotoSearchUseCase = GetMetaInfoPhotoSearchUseCase(apiRepository)
 
 
     init {
@@ -59,14 +47,6 @@ class SearchVM @Inject constructor(
 
         searchByKeyword()
     }
-
-    /*@Bindable
-    var searchQuery: String? = null
-        set(value) {
-            field = value
-            searchByKeyword()
-            notifyPropertyChanged(BR.searchQuery)
-        }*/
 
     @Bindable
     var error: String? = null
@@ -99,25 +79,9 @@ class SearchVM @Inject constructor(
     }
 
     private fun searchByKeyword() {
-        if(currentQueryValue != searchQuery.value && searchQuery.value?.isNotEmpty() == true) {
-            viewModelScope.launch(Dispatchers.IO) {
-                val res = getMetaInfoPhotoSearchUseCase.invoke(searchQuery.value.orEmpty())
-                Log.w("asd", "item from api ${res}")
-                when(res) {
-                    is Result.Success -> {
-                        error = null
-                        insertQueryUseCase.invoke(res.value)
-                    }
-                    is Result.Failure -> error = res.throwable.localizedMessage
-                }
-            }
-        }
-
         collectData.postValue(true)
-
         initialSearch = false
     }
-
 
     suspend fun searchPhotos(): Flow<PagingData<PhotoItem>> {
         val lastResult = currentSearchResult
