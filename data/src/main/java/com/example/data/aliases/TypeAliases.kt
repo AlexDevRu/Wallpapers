@@ -7,7 +7,6 @@ import kotlinx.coroutines.flow.Flow
 import com.example.domain.use_cases.photo.AddToFavoritePhotoItemUseCase
 import com.example.domain.use_cases.photo.DeleteFromFavoritePhotoItemUseCase
 import com.example.domain.use_cases.photo.GetFavoritePhotosUseCase
-import com.example.domain.use_cases.photo.GetMetaInfoPhotoSearchUseCase
 import com.example.domain.use_cases.photo.GetPhotosUseCase
 import com.example.domain.use_cases.photo.GetUserByPhotoUseCase
 import com.example.domain.use_cases.queries.DeleteQueryUseCase
@@ -22,7 +21,6 @@ typealias SearchQueryFlow = Flow<PagingData<SearchItem>>
 typealias AddToFavoritePhotoItemUseCase = AddToFavoritePhotoItemUseCase<PhotoItemFlow>
 typealias DeleteFromFavoritePhotoItemUseCase = DeleteFromFavoritePhotoItemUseCase<PhotoItemFlow>
 typealias GetFavoritePhotosUseCase = GetFavoritePhotosUseCase<PhotoItemFlow>
-typealias GetMetaInfoPhotoSearchUseCase = GetMetaInfoPhotoSearchUseCase<PhotoItemFlow>
 typealias GetPhotosUseCase = GetPhotosUseCase<PhotoItemFlow>
 typealias GetUserByPhotoUseCase = GetUserByPhotoUseCase<PhotoItemFlow>
 

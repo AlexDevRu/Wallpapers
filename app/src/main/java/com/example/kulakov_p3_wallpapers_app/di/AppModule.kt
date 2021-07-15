@@ -2,6 +2,7 @@ package com.example.kulakov_p3_wallpapers_app.di
 
 import android.app.Application
 import androidx.room.Room
+
 import com.example.data.aliases.PhotoItemFlow
 import com.example.data.aliases.SearchQueryFlow
 import com.example.data.api.PhotoApiRepository
@@ -13,6 +14,7 @@ import com.example.data.database.repositories.SearchQueryRepository
 import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository
+import com.example.domain.use_cases.queries.InsertQueryUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -47,7 +49,7 @@ object AppModule {
     = SearchQueryRepository(searchQueryDao)
 
     @Provides
-    fun providesApiRepository(searchQueryRepository: ISearchQueryRepository<SearchQueryFlow>)
+    fun providesApiRepository(insertQueryUseCase: InsertQueryUseCase<SearchQueryFlow>)
     : IPhotoApiRepository<PhotoItemFlow>
-    = PhotoApiRepository(searchQueryRepository)
+    = PhotoApiRepository(insertQueryUseCase)
 }

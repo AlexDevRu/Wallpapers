@@ -12,8 +12,8 @@ class FavoriteFragmentNavigator(navController: NavController): BaseNavigator(nav
         navigate(direction, extras)
     }
 
-    fun showSearch(searchQuery: String?) {
+    fun showSearch(searchQuery: String?, extras: androidx.navigation.Navigator.Extras? = null) {
         val direction = FavoriteFragmentDirections.actionFavoriteFragmentToSearchFragment(searchQuery)
-        navigate(direction)
+        navigate(direction, extras)
     }
 }

@@ -2,6 +2,7 @@ package com.example.kulakov_p3_wallpapers_app.view_models
 
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
@@ -28,10 +29,12 @@ class SearchVM @Inject constructor(
 
     private val compositeDisposable = CompositeDisposable()
 
-    val collectData = MutableLiveData<Boolean>()
+    private val _collectData = MutableLiveData<Boolean>()
+    val collectData: LiveData<Boolean> = _collectData
+
     val scrollList = SingleLiveEvent<Int>()
 
-    var initialSearch = true
+    private var initialSearch = true
 
     init {
         compositeDisposable.add(searchQuery
@@ -74,7 +77,7 @@ class SearchVM @Inject constructor(
     }
 
     private fun searchByKeyword() {
-        collectData.postValue(true)
+        _collectData.postValue(true)
         initialSearch = false
     }
 

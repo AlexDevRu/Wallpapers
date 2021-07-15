@@ -3,6 +3,7 @@ package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 import androidx.databinding.Bindable
 import androidx.lifecycle.viewModelScope
 import com.example.data.aliases.GetUserByPhotoUseCase
+import com.example.domain.common.Result
 import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
@@ -35,10 +36,11 @@ class PhotoInfoVM @Inject constructor(
     private fun getUserFromDb() {
         userJob?.cancel()
         userJob = viewModelScope.launch(Dispatchers.IO) {
-            val user = getUserByPhotoUseCase.invoke(photoItem!!)
-            if (user != null) {
-                photoItem?.user = user
-                notifyChange()
+            when(val result = getUserByPhotoUseCase.invoke(photoItem!!)) {
+                is Result.Success -> {
+                    photoItem?.user = result.value
+                    notifyChange()
+                }
             }
         }
     }

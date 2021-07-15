@@ -10,6 +10,9 @@ interface PhotoDao {
     @Query("select * from photos")
     fun getPhotos(): PagingSource<Int, PhotoItemEntity>
 
+    @Query("select * from photos where id=:id")
+    suspend fun getPhotoById(id: String): PhotoItemEntity?
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun createPhotoItem(photoItemEntity: PhotoItemEntity)
 

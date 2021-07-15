@@ -11,7 +11,9 @@ import com.example.domain.repositories.local.ISearchQueryRepository
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class SearchQueryRepository @Inject constructor(private val searchQueryDao: SearchQueryDao): ISearchQueryRepository<SearchQueryFlow> {
+class SearchQueryRepository @Inject constructor(
+    private val searchQueryDao: SearchQueryDao
+): ISearchQueryRepository<SearchQueryFlow> {
 
     companion object {
         const val QUERY_PAGE_SIZE = 20
@@ -19,7 +21,7 @@ class SearchQueryRepository @Inject constructor(private val searchQueryDao: Sear
 
     override suspend fun getQueries(): SearchQueryFlow {
         return Pager(PagingConfig(QUERY_PAGE_SIZE)) {
-            searchQueryDao.readAll()
+            searchQueryDao.getQueries()
         }.flow.map { item ->
             item.map { SearchItemMapper.toModel(it) }
         }
@@ -27,7 +29,7 @@ class SearchQueryRepository @Inject constructor(private val searchQueryDao: Sear
 
     override suspend fun getFavoriteQueries(): SearchQueryFlow {
         return Pager(PagingConfig(QUERY_PAGE_SIZE)) {
-            searchQueryDao.readFavorite()
+            searchQueryDao.getFavoriteQueries()
         }.flow.map { item ->
             item.map { SearchItemMapper.toModel(it) }
         }

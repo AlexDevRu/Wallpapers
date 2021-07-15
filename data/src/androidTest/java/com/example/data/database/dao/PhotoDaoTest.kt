@@ -1,13 +1,11 @@
-package com.example.kulakov_p3_wallpapers_app.database.dao
+package com.example.data.database.dao
 
 import android.util.Log
-import androidx.paging.PagingSource
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.SmallTest
 import com.example.data.database.PhotoDatabase
-import com.example.data.database.dao.PhotoDao
 import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.database.entities.UserEntity
 import kotlinx.coroutines.runBlocking
@@ -38,12 +36,6 @@ class PhotoDaoTest {
         database.close()
     }
 
-    private suspend fun getPhotoItemById(id: String): PhotoItemEntity? {
-        val pagingSource = dao.getPhotos()
-        val actual = pagingSource.load(PagingSource.LoadParams.Refresh(1, 50, false))
-        return (actual as? PagingSource.LoadResult.Page)?.data?.find { it.id == id }
-    }
-
     @Test
     fun createPhotoItem() {
         runBlocking {
@@ -61,7 +53,7 @@ class PhotoDaoTest {
 
             dao.createPhotoItem(photoItem)
 
-            val addedPhoto = getPhotoItemById(photoItem.id)
+            val addedPhoto = dao.getPhotoById(photoItem.id)
 
             assertFalse("photo did not be inserted in the database", addedPhoto == null)
         }
@@ -85,7 +77,7 @@ class PhotoDaoTest {
             dao.createPhotoItem(photoItem)
             dao.deletePhotoItem(photoItem)
 
-            val deletedPhoto = getPhotoItemById(photoItem.id)
+            val deletedPhoto = dao.getPhotoById(photoItem.id)
 
             assertFalse("photo did not be deleted from the database", deletedPhoto != null)
         }
@@ -131,6 +123,34 @@ class PhotoDaoTest {
             val deletedUser = dao.getUserById(user.id)
 
             assertFalse("user did not be deleted from the database", deletedUser != null)
+        }
+    }
+
+    @Test
+    fun getCountPhotosByUserId() {
+        runBlocking {
+            val user = UserEntity(
+                "3",
+                "bio",
+                "inst",
+                "name",
+                "portfolio",
+                "twitter",
+                "username",
+                "photo url"
+            )
+            dao.insertUser(user)
+
+            val photo1 = PhotoItemEntity(id = "1", userId = user.id)
+            val photo2 = PhotoItemEntity(id = "2", userId = user.id)
+            val photo3 = PhotoItemEntity(id = "3", userId = user.id)
+            dao.createPhotoItem(photo1)
+            dao.createPhotoItem(photo2)
+            dao.createPhotoItem(photo3)
+
+            val count = dao.getCountPhotosByUserId(user.id)
+
+            assertFalse("count photos by user is wrong", count != 3)
         }
     }
 }

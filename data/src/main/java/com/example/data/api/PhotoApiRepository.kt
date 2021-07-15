@@ -2,27 +2,21 @@ package com.example.data.api
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.example.data.aliases.InsertQueryUseCase
 import com.example.data.aliases.PhotoItemFlow
-import com.example.data.aliases.SearchQueryFlow
 import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
 import com.example.data.api.sources.PhotosPageSource
-import com.example.data.database.dao.SearchQueryDao
+import com.example.domain.common.Result
 import com.example.domain.models.MetaInfoPhotoSearch
+import com.example.domain.models.SearchItem
 import com.example.domain.repositories.remote.IPhotoApiRepository
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import com.example.domain.common.Result
-import com.example.domain.models.SearchItem
-import com.example.domain.repositories.local.ISearchQueryRepository
-import com.example.domain.use_cases.queries.InsertQueryUseCase
-import java.lang.Exception
 import javax.inject.Inject
 
 class PhotoApiRepository @Inject constructor(
-    private val searchQueryRepository: ISearchQueryRepository<SearchQueryFlow>
+    private val insertQueryUseCase: InsertQueryUseCase
 ): IPhotoApiRepository<PhotoItemFlow> {
-
-    private val insertQueryUseCase = InsertQueryUseCase(searchQueryRepository)
 
     companion object {
         const val BASE_URL = "https://api.unsplash.com/"
@@ -41,11 +35,6 @@ class PhotoApiRepository @Inject constructor(
                 pageSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
-            /*remoteMediator = UnsplashRemoteMediator(
-                query,
-                service,
-                database
-            ),*/
             pagingSourceFactory = {
                 PhotosPageSource(service, query, insertQueryUseCase)
             }
@@ -60,19 +49,4 @@ class PhotoApiRepository @Inject constructor(
         }
         return Result.Failure(Exception(meta?.errors?.joinToString("\n")))
     }
-
-
-    //override fun getMetaInfoPhotoSearch() = meta?.errors
-    //override fun getResultsCount() = meta?.resultsCount
-
-    /*override suspend fun getMetaFromPhotosSearch(query: String): Result<SearchItem> {
-        return try {
-            val response = service.getPhotos(query = query,
-                clientId = PhotosPageSource.ACCESS_KEY
-            )
-            Result.Success(SearchItem(query = query, resultsCount = response.total))
-        } catch (e: Exception) {
-            Result.Failure(e)
-        }
-    }*/
 }

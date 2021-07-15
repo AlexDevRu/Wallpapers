@@ -3,6 +3,7 @@ package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.aliases.AddToFavoritePhotoItemUseCase
@@ -21,9 +22,14 @@ class PhotoFunctionsVM @Inject constructor(
     private val addToFavoritePhotoItemUseCase: AddToFavoritePhotoItemUseCase
 ): BaseVM() {
 
-    val liveSetWallpapers = MutableLiveData<Bitmap>()
-    val liveSetLockScreen = MutableLiveData<Bitmap>()
-    val closeDialog = MutableLiveData(false)
+    private val _liveSetWallpapers = MutableLiveData<Bitmap>()
+    val liveSetWallpapers: LiveData<Bitmap> = _liveSetWallpapers
+
+    private val _liveSetLockScreen = MutableLiveData<Bitmap>()
+    val liveSetLockScreen: LiveData<Bitmap> = _liveSetLockScreen
+
+    private val _closeDialog = MutableLiveData(false)
+    val closeDialog: LiveData<Boolean> = _closeDialog
 
     private var setDesktopJob: Job? = null
     private var saveFavoriteJob: Job? = null
@@ -40,8 +46,8 @@ class PhotoFunctionsVM @Inject constructor(
             setDesktopJob = viewModelScope.launch(Dispatchers.IO) {
                 val url = URL(photoItem!!.regular)
                 val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                liveSetWallpapers.postValue(image)
-                closeDialog.postValue(true)
+                _liveSetWallpapers.postValue(image)
+                _closeDialog.postValue(true)
             }
         }
     }
@@ -53,8 +59,8 @@ class PhotoFunctionsVM @Inject constructor(
             setDesktopJob = viewModelScope.launch(Dispatchers.IO) {
                 val url = URL(photoItem!!.regular)
                 val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
-                liveSetLockScreen.postValue(image)
-                closeDialog.postValue(true)
+                _liveSetLockScreen.postValue(image)
+                _closeDialog.postValue(true)
             }
         }
     }
@@ -64,7 +70,7 @@ class PhotoFunctionsVM @Inject constructor(
             saveFavoriteJob?.cancel()
             saveFavoriteJob = viewModelScope.launch(Dispatchers.IO) {
                 addToFavoritePhotoItemUseCase.invoke(photoItem!!)
-                closeDialog.postValue(true)
+                _closeDialog.postValue(true)
             }
         }
     }

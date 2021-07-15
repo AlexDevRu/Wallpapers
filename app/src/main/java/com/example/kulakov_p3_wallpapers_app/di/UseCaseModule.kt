@@ -28,10 +28,6 @@ object UseCaseModule {
             = GetFavoritePhotosUseCase(repository)
 
     @Provides
-    fun providesGetMetaInfoPhotoSearchUseCase(repository: IPhotoApiRepository<PhotoItemFlow>)
-            = GetMetaInfoPhotoSearchUseCase(repository)
-
-    @Provides
     fun providesGetPhotosUseCase(repository: IPhotoApiRepository<PhotoItemFlow>)
             = GetPhotosUseCase(repository)
 
