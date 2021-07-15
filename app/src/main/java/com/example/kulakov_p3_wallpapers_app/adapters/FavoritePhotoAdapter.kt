@@ -6,18 +6,17 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.aliases.PhotoItemFlow
+import com.example.data.aliases.DeleteFromFavoritePhotoItemUseCase
 import com.example.domain.models.PhotoItem
-import com.example.domain.repositories.local.IPhotoRepository
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM
 
-class FavoriteImagesAdapter(
-    private val repository: IPhotoRepository<PhotoItemFlow>
-): PagingDataAdapter<PhotoItem, FavoriteImagesAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
+class FavoritePhotoAdapter(
+    private val deleteFromFavoritePhotoItemUseCase: DeleteFromFavoritePhotoItemUseCase
+): PagingDataAdapter<PhotoItem, FavoritePhotoAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
     override fun onBindViewHolder(holder: PhotoItemViewHolder, position: Int) {
         getItem(position)?.let { photoItem -> holder.bind(photoItem) }
@@ -31,7 +30,7 @@ class FavoriteImagesAdapter(
             false
         )
 
-        return PhotoItemViewHolder(binding, repository)
+        return PhotoItemViewHolder(binding)
     }
 
     interface Delegate {
@@ -39,11 +38,10 @@ class FavoriteImagesAdapter(
     }
 
     inner class PhotoItemViewHolder(
-        private val binding: PhotoFavoriteItemBinding,
-        repository: IPhotoRepository<PhotoItemFlow>
+        private val binding: PhotoFavoriteItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = FavoritePhotoItemVM(repository) { refresh() }
+            val viewModel = FavoritePhotoItemVM(deleteFromFavoritePhotoItemUseCase) { refresh() }
             binding.viewModel = viewModel
         }
 

@@ -6,10 +6,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.data.aliases.PhotoItemFlow
+import com.example.data.aliases.GetPhotosUseCase
 import com.example.domain.models.PhotoItem
-import com.example.domain.repositories.remote.IPhotoApiRepository
-import com.example.domain.use_cases.photo.GetPhotosUseCase
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
@@ -20,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchVM @Inject constructor(
-    apiRepository: IPhotoApiRepository<PhotoItemFlow>
+    private val getPhotosUseCase: GetPhotosUseCase
 ) : BaseVM() {
 
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
@@ -34,9 +32,6 @@ class SearchVM @Inject constructor(
     val scrollList = SingleLiveEvent<Int>()
 
     var initialSearch = true
-
-    private val getPhotosUseCase = GetPhotosUseCase(apiRepository)
-
 
     init {
         compositeDisposable.add(searchQuery

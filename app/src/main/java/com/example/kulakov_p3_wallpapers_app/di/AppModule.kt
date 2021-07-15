@@ -5,15 +5,14 @@ import androidx.room.Room
 import com.example.data.aliases.PhotoItemFlow
 import com.example.data.aliases.SearchQueryFlow
 import com.example.data.api.PhotoApiRepository
-import com.example.data.database.dao.PhotoDao
 import com.example.data.database.PhotoDatabase
-import com.example.data.database.repositories.PhotoRepository
+import com.example.data.database.dao.PhotoDao
 import com.example.data.database.dao.SearchQueryDao
+import com.example.data.database.repositories.PhotoRepository
 import com.example.data.database.repositories.SearchQueryRepository
 import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository
-import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

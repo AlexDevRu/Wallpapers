@@ -6,7 +6,7 @@ import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.views.fragments.SearchFragmentDirections
 
 class SearchFragmentNavigator(navController: NavController): BaseNavigator(navController) {
-    fun showPhotoDetail(photoItem: PhotoItem?, extras: androidx.navigation.Navigator.Extras?) {
+    fun showPhotoDetail(photoItem: PhotoItem?, extras: androidx.navigation.Navigator.Extras? = null) {
         val arg = PhotoItemParcelable(photoItem)
         val direction = SearchFragmentDirections.actionSearchFragmentToPhotoDetailFragment(arg)
         navigate(direction, extras)

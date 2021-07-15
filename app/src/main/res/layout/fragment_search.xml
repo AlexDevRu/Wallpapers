@@ -56,17 +56,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchView" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
+<!--        <ProgressBar-->
+<!--            android:id="@+id/progressBar"-->
+<!--            style="?android:attr/progressBarStyle"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:visibility="@{viewModel.loading}"-->
+<!--            tools:visibility="gone"-->
+<!--            app:layout_constraintBottom_toBottomOf="@id/photoList"-->
+<!--            app:layout_constraintEnd_toEndOf="@id/photoList"-->
+<!--            app:layout_constraintStart_toStartOf="@id/photoList"-->
+<!--            app:layout_constraintTop_toTopOf="@id/photoList" />-->
+
+        <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{viewModel.loading}"
-            tools:visibility="gone"
+            layout="@layout/item_loading"
             app:layout_constraintBottom_toBottomOf="@id/photoList"
             app:layout_constraintEnd_toEndOf="@id/photoList"
             app:layout_constraintStart_toStartOf="@id/photoList"
-            app:layout_constraintTop_toTopOf="@id/photoList" />
+            app:layout_constraintTop_toTopOf="@id/photoList"
+            android:visibility="@{viewModel.loading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
 
         <include
             android:layout_width="wrap_content"

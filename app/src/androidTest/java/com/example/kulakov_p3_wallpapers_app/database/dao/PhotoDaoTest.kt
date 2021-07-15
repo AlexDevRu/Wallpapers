@@ -1,10 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.database.dao
 
 import android.util.Log
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import androidx.paging.map
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -13,21 +10,12 @@ import com.example.data.database.PhotoDatabase
 import com.example.data.database.dao.PhotoDao
 import com.example.data.database.entities.PhotoItemEntity
 import com.example.data.database.entities.UserEntity
-import com.example.data.database.repositories.PhotoRepository
-import com.example.data.mappers.PhotoItemMapper
-import com.example.domain.models.PhotoItem
-import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.After
+import org.junit.Assert.assertFalse
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.junit.Assert.*
 
 @RunWith(AndroidJUnit4::class)
 @SmallTest

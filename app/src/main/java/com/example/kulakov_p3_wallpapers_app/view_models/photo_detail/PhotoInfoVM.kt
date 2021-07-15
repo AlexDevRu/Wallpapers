@@ -1,13 +1,9 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 
-import android.content.Intent
-import android.net.Uri
 import androidx.databinding.Bindable
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.database.repositories.PhotoRepository
+import com.example.data.aliases.GetUserByPhotoUseCase
 import com.example.domain.models.PhotoItem
-import com.example.domain.use_cases.photo.GetUserByPhotoUseCase
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,13 +16,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotoInfoVM @Inject constructor(
-    repository: PhotoRepository
+    private val getUserByPhotoUseCase: GetUserByPhotoUseCase
 ): BaseVM() {
     val openLink = SingleLiveEvent<String>()
 
     private var userJob: Job? = null
-
-    private val getUserByPhotoUseCase = GetUserByPhotoUseCase(repository)
 
     @Bindable
     var photoItem: PhotoItem? = null

@@ -5,12 +5,9 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.aliases.PhotoItemFlow
-import com.example.data.aliases.SearchQueryFlow
-import com.example.data.database.repositories.PhotoRepository
+import com.example.data.aliases.DeleteQueryUseCase
+import com.example.data.aliases.UpdateQueryUseCase
 import com.example.domain.models.SearchItem
-import com.example.domain.repositories.local.IPhotoRepository
-import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.SearchItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.SearchItemBinding
@@ -18,7 +15,8 @@ import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.HistorySearchItemVM
 
 class SearchHistoryAdapter(
-    private val repository: ISearchQueryRepository<SearchQueryFlow>
+    private val updateQueryUseCase: UpdateQueryUseCase,
+    private val deleteQueryUseCase: DeleteQueryUseCase
 ): PagingDataAdapter<SearchItem, SearchHistoryAdapter.SearchItemViewHolder>(SearchItemDiff()) {
 
     override fun onBindViewHolder(holder: SearchItemViewHolder, position: Int) {
@@ -33,7 +31,7 @@ class SearchHistoryAdapter(
             false
         )
 
-        return SearchItemViewHolder(binding, repository)
+        return SearchItemViewHolder(binding)
     }
 
     interface Delegate {
@@ -41,11 +39,12 @@ class SearchHistoryAdapter(
     }
 
     inner class SearchItemViewHolder(
-        private val binding: SearchItemBinding,
-        repository: ISearchQueryRepository<SearchQueryFlow>
+        private val binding: SearchItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
+
+        private val viewModel = HistorySearchItemVM(updateQueryUseCase, deleteQueryUseCase)
+
         init {
-            val viewModel = HistorySearchItemVM(repository)
             binding.viewModel = viewModel
         }
 
@@ -59,6 +58,10 @@ class SearchHistoryAdapter(
                 }
                 executePendingBindings()
             }
+        }
+
+        fun deleteItemFromDb() {
+            viewModel.deleteFromDb()
         }
     }
 }

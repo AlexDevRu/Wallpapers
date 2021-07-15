@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoLoadStateAdapter
@@ -30,7 +31,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
 
     private var searchJob: Job? = null
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -48,9 +48,22 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
                 else null
         }
 
+        val headerAdapter = PhotoLoadStateAdapter { adapter.retry() }
+        val footerAdapter = PhotoLoadStateAdapter { adapter.retry() }
+
         binding.photoList.adapter = adapter.withLoadStateHeaderAndFooter(
-            PhotoLoadStateAdapter(), PhotoLoadStateAdapter()
+            headerAdapter, footerAdapter
         )
+
+        (binding.photoList.layoutManager as GridLayoutManager).spanSizeLookup =  object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return if (position == adapter.itemCount && footerAdapter.itemCount > 0) {
+                    viewModel.columnListCount
+                } else {
+                    1
+                }
+            }
+        }
 
         observe()
     }

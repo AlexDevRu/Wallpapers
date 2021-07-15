@@ -3,7 +3,6 @@ package com.example.kulakov_p3_wallpapers_app.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.PhotoItem
@@ -44,13 +43,9 @@ class PhotoAdapter: PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(P
         fun bind(photoItem: PhotoItem) {
             binding.apply {
                 viewModel?.photoItem = photoItem
-                photoImageView.transitionName = photoItem.id
                 delegate = object: Delegate {
                     override fun onItemClick() {
-                        val extras = FragmentNavigatorExtras(
-                            binding.photoImageView to photoItem.id
-                        )
-                        Navigator.getInstance().searchFragmentNavigator.showPhotoDetail(photoItem, extras)
+                        Navigator.getInstance().searchFragmentNavigator.showPhotoDetail(photoItem)
                     }
                 }
                 executePendingBindings()

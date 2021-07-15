@@ -10,7 +10,7 @@
 
         <variable
             name="delegate"
-            type="com.example.kulakov_p3_wallpapers_app.adapters.FavoriteImagesAdapter.Delegate" />
+            type="com.example.kulakov_p3_wallpapers_app.adapters.FavoritePhotoAdapter.Delegate" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

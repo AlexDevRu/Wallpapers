@@ -20,7 +20,7 @@
     <dimen name="manager_change_button_size">34dp</dimen>
     <dimen name="manager_change_button_mr">12dp</dimen>
     <dimen name="photo_search_list_mt">16dp</dimen>
-    <dimen name="error_message_text_photo_item_size">18sp</dimen>
+    <dimen name="error_message_text_photo_item_size">16sp</dimen>
     <dimen name="base_item_radius">20dp</dimen>
     <dimen name="base_item_indent">6dp</dimen>
     <dimen name="search_item_info_mt">6dp</dimen>
