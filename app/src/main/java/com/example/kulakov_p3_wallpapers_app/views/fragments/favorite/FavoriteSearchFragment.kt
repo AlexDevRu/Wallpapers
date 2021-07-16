@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.data.aliases.UpdateQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.FavoriteSearchItemsAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentFavoriteSearchBinding
@@ -23,17 +22,14 @@ class FavoriteSearchFragment: BaseFragment<FragmentFavoriteSearchBinding>
 
     private val viewModel: FavoriteSearchVM by viewModels()
 
-    private lateinit var adapter: FavoriteSearchItemsAdapter
+    @Inject
+    lateinit var adapter: FavoriteSearchItemsAdapter
 
     private var getJob: Job? = null
-
-    @Inject
-    lateinit var updateQueryUseCase: UpdateQueryUseCase
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        adapter = FavoriteSearchItemsAdapter(updateQueryUseCase)
         binding.queriesList.adapter = adapter
         getQueries()
     }

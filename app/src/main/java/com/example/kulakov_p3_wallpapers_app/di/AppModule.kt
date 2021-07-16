@@ -6,6 +6,7 @@ import androidx.room.Room
 import com.example.data.aliases.PhotoItemFlow
 import com.example.data.aliases.SearchQueryFlow
 import com.example.data.api.PhotoApiRepository
+import com.example.data.api.PhotoApiService
 import com.example.data.database.PhotoDatabase
 import com.example.data.database.dao.PhotoDao
 import com.example.data.database.dao.SearchQueryDao
@@ -49,7 +50,7 @@ object AppModule {
     = SearchQueryRepository(searchQueryDao)
 
     @Provides
-    fun providesApiRepository(insertQueryUseCase: InsertQueryUseCase<SearchQueryFlow>)
+    fun providesApiRepository(insertQueryUseCase: InsertQueryUseCase<SearchQueryFlow>, service: PhotoApiService)
     : IPhotoApiRepository<PhotoItemFlow>
-    = PhotoApiRepository(insertQueryUseCase)
+    = PhotoApiRepository(service, insertQueryUseCase)
 }

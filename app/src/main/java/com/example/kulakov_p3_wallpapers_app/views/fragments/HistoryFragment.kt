@@ -6,8 +6,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.aliases.DeleteQueryUseCase
-import com.example.data.aliases.UpdateQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.SearchHistoryAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentHistoryBinding
@@ -26,21 +24,14 @@ class HistoryFragment: BaseFragment<FragmentHistoryBinding>
 
     private val viewModel: HistoryVM by viewModels()
 
-    private lateinit var adapter: SearchHistoryAdapter
+    @Inject
+    lateinit var adapter: SearchHistoryAdapter
 
     private var getJob: Job? = null
-
-    @Inject
-    lateinit var updateQueryUseCase: UpdateQueryUseCase
-
-    @Inject
-    lateinit var deleteQueryUseCase: DeleteQueryUseCase
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-
-        adapter = SearchHistoryAdapter(updateQueryUseCase, deleteQueryUseCase)
 
         binding.historyList.adapter = adapter
 

@@ -13,11 +13,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kulakov_P3_Wallpapers_app">
-        <activity android:name=".views.HomeActivity" />
+
         <activity
-            android:name=".views.MainActivity"
-            android:noHistory="true"
-            android:theme="@style/Theme.SplashTheme">
+            android:name=".views.HomeActivity"
+
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

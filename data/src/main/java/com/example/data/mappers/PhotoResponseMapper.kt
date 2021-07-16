@@ -1,6 +1,5 @@
 package com.example.data.mappers
 
-
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User
 import com.example.domain.mappers.IMapper
@@ -40,6 +39,27 @@ object PhotoResponseMapper: IMapper<PhotoItemApiResponse, PhotoItem> {
     }
 
     override fun fromModel(model: PhotoItem): PhotoItemApiResponse {
-        TODO("Not yet implemented")
+
+        val user = model.user!!
+
+        return PhotoItemApiResponse(
+            model.id,
+            model.color,
+            SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(model.created),
+            model.height,
+            PhotoItemApiResponse.Urls(model.full, model.regular, model.thumb),
+            PhotoItemApiResponse.User(
+                user.id,
+                user.bio,
+                user.instagram_username,
+                user.name,
+                user.portfolio_url,
+                user.twitter_username,
+                user.username,
+                PhotoItemApiResponse.User.ProfileImage(user.photoUrl)
+            ),
+            model.width,
+            model.description
+        )
     }
 }
