@@ -3,6 +3,7 @@ package com.example.data.parcelables
 import android.os.Parcel
 import android.os.Parcelable
 import com.example.domain.models.PhotoItem
+import com.example.domain.models.User
 import java.util.*
 
 class PhotoItemParcelable(val model: PhotoItem?): Parcelable {
@@ -17,6 +18,8 @@ class PhotoItemParcelable(val model: PhotoItem?): Parcelable {
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
+            parcel.readString(),
+            parcel.readParcelable(User::class.java.classLoader)
         )
     )
 
@@ -30,6 +33,7 @@ class PhotoItemParcelable(val model: PhotoItem?): Parcelable {
         parcel.writeString(model?.thumb)
         parcel.writeString(model?.regular)
         parcel.writeString(model?.full)
+        parcel.writeString(model?.localPhotoPath)
         parcel.writeParcelable(UserParcelable(model?.user), 0)
     }
 

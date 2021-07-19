@@ -67,6 +67,16 @@ class PhotoInfoVM @Inject constructor(
     val hasDescription: Boolean
         get() = !photoItem?.user?.bio.isNullOrEmpty()
 
+
+    val photoUrl: String?
+        get() = if(photoItem?.localPhotoPath == null) photoItem?.regular else "file://${photoItem?.localPhotoPath}"
+
+    val userPhotoUrl: String?
+        get() = if(photoItem?.user?.localPhotoPath == null)
+            photoItem?.user?.photoUrl
+        else "file://${photoItem?.user?.localPhotoPath}"
+
+
     fun openTwitter() {
         openLink.value = "https://twitter.com/${photoItem?.user?.twitter_username}"
     }

@@ -1,19 +1,18 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.data.aliases.AddToFavoritePhotoItemUseCase
 import com.example.domain.models.PhotoItem
+import com.example.kulakov_p3_wallpapers_app.utils.Utils
 import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.net.URL
 import javax.inject.Inject
 
 
@@ -44,8 +43,7 @@ class PhotoFunctionsVM @Inject constructor(
         if(photoItem != null) {
             setDesktopJob?.cancel()
             setDesktopJob = viewModelScope.launch(Dispatchers.IO) {
-                val url = URL(photoItem!!.regular)
-                val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                val image = Utils.getBitmap(photoItem!!.regular!!)
                 _liveSetWallpapers.postValue(image)
                 _closeDialog.postValue(true)
             }
@@ -57,21 +55,16 @@ class PhotoFunctionsVM @Inject constructor(
             Log.w("asd", "setWallpapersLockScreen")
             setDesktopJob?.cancel()
             setDesktopJob = viewModelScope.launch(Dispatchers.IO) {
-                val url = URL(photoItem!!.regular)
-                val image = BitmapFactory.decodeStream(url.openConnection().getInputStream())
+                val image = Utils.getBitmap(photoItem!!.regular!!)
                 _liveSetLockScreen.postValue(image)
                 _closeDialog.postValue(true)
             }
         }
     }
 
-    fun saveToFavorite() {
-        if(photoItem != null) {
-            saveFavoriteJob?.cancel()
-            saveFavoriteJob = viewModelScope.launch(Dispatchers.IO) {
-                addToFavoritePhotoItemUseCase.invoke(photoItem!!)
-                _closeDialog.postValue(true)
-            }
-        }
+    suspend fun saveToFavorite() {
+        Log.e("asd", "photo path ${photoItem!!.localPhotoPath}")
+        Log.e("asd", "user path ${photoItem!!.user!!.localPhotoPath}")
+        addToFavoritePhotoItemUseCase.invoke(photoItem!!)
     }
 }

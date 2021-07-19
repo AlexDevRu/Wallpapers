@@ -26,7 +26,7 @@
             style="@style/baseImageViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:photo="@{viewModel.photoItem.regular}"
+            app:photo="@{viewModel.photoUrl}"
             android:contentDescription="@string/photo" />
 
         <ImageButton
@@ -56,7 +56,7 @@
                     android:layout_width="@dimen/photo_author_size"
                     android:layout_height="@dimen/photo_author_size"
                     style="@style/baseImageViewStyle"
-                    app:photo="@{viewModel.photoItem.user.photoUrl ?? @drawable/no_avatar}"
+                    app:photo="@{viewModel.userPhotoUrl ?? @drawable/no_avatar}"
                     app:layout_constraintEnd_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circleImage" />

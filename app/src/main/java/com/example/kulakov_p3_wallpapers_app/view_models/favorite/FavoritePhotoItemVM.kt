@@ -23,7 +23,7 @@ class FavoritePhotoItemVM(
 
     @get:Bindable
     val photoUrl: String?
-        get() = photoItem?.regular
+        get() = if(photoItem?.localPhotoPath == null) photoItem?.regular else "file://${photoItem?.localPhotoPath}"
 
     fun deleteFromFavorite() {
         refresh()

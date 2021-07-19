@@ -30,4 +30,6 @@
     <string name="photo_functions">Actions photo</string>
     <string name="author_info">Information about author</string>
     <string name="icon">Icon</string>
+
+    <string name="wallpaper_not_support">Wallpaper didn\'t supported</string>
 </resources>

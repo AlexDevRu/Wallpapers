@@ -10,5 +10,6 @@ data class User (
     var portfolio_url: String? = null,
     var twitter_username: String? = null,
     var username: String? = null,
-    var photoUrl: String? = null
+    var photoUrl: String? = null,
+    var localPhotoPath: String? = null,
 )

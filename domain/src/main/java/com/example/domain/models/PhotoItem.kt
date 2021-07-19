@@ -12,5 +12,6 @@ data class PhotoItem (
     var thumb: String? = null,
     var regular: String? = null,
     var full: String? = null,
+    var localPhotoPath: String? = null,
     var user: User? = null
 )

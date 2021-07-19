@@ -15,5 +15,6 @@ data class PhotoItemEntity(
     var thumb: String? = null,
     var regular: String? = null,
     var full: String? = null,
+    var localPhotoPath: String? = null,
     var userId: String
 )

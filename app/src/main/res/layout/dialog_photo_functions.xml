@@ -36,7 +36,7 @@
             app:drawableStartCompat="@drawable/ic_baseline_wallpaper_24" />
 
         <TextView
-            android:onClick="@{() -> viewModel.saveToFavorite()}"
+            android:id="@+id/saveToFavoriteButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/save_to_favorite"

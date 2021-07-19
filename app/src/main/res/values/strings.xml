@@ -29,4 +29,6 @@
     <string name="photo_functions">Действия фото</string>
     <string name="author_info">Информация об авторе</string>
     <string name="icon">Иконка</string>
+
+    <string name="wallpaper_not_support">Обои не поддерживаются</string>
 </resources>

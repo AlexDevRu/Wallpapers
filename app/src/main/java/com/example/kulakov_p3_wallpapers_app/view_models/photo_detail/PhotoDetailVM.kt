@@ -18,7 +18,7 @@ class PhotoDetailVM: BaseVM() {
 
     @get:Bindable
     val fullImage: String?
-        get() = photoItem?.regular
+        get() = if(photoItem?.localPhotoPath == null) photoItem?.regular else "file://${photoItem?.localPhotoPath}"
 
     @get:Bindable
     val toolbarTitle: String?
