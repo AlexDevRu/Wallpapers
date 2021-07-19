@@ -14,7 +14,8 @@ object UserMapper: IMapper<UserEntity, User> {
             entity.portfolio_url,
             entity.twitter_username,
             entity.username,
-            entity.photoUrl
+            entity.photoUrl,
+            entity.localPhotoPath
         )
     }
 
@@ -27,7 +28,8 @@ object UserMapper: IMapper<UserEntity, User> {
             model.portfolio_url,
             model.twitter_username,
             model.username,
-            model.photoUrl
+            model.photoUrl,
+            model.localPhotoPath
         )
     }
 }

@@ -1,4 +1,4 @@
-package com.example.kulakov_p3_wallpapers_app.view_models
+package com.example.kulakov_p3_wallpapers_app.view_models.base
 
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry

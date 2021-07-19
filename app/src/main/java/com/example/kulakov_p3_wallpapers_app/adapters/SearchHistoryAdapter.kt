@@ -53,7 +53,7 @@ class SearchHistoryAdapter(
                 viewModel?.searchItem = searchItem
                 delegate = object: Delegate {
                     override fun onItemClick() {
-                        Navigator.getInstance().historyFragmentNavigator.showSearch(viewModel?.searchQuery)
+                        Navigator.getInstance().historyFragmentNavigator.showSearch(viewModel?.searchItem?.query)
                     }
                 }
                 executePendingBindings()

@@ -1,25 +1,26 @@
-package com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item
+package com.example.kulakov_p3_wallpapers_app.view_models.base
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
 import com.example.data.aliases.UpdateQueryUseCase
 import com.example.domain.models.SearchItem
-import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-abstract class SearchItemVM(
-    private val updateQueryUseCase: UpdateQueryUseCase
-): BaseVM() {
-    private var searchJob: Job? = null
+open class SearchItemVM(private val updateQueryUseCase: UpdateQueryUseCase? = null): BaseVM() {
 
-    var searchItem: SearchItem? = null
+    private var searchJob: Job? = null
+    val searchItemObservable = ObservableField<SearchItem>()
+
+    var searchItem: SearchItem?
+        get() = searchItemObservable.get()
         set(value) {
-            field = value
+            searchItemObservable.set(value)
             notifyChange()
         }
 
@@ -28,25 +29,17 @@ abstract class SearchItemVM(
         get() = if(searchItem == null) false else searchItem!!.isFavorite
 
     @get:Bindable
-    val searchQuery: String?
-        get() = searchItem?.query
-
-    @get:Bindable
     val searchDate: String?
         get() = if(searchItem != null)
             SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(searchItem!!.date)
         else null
-
-    @get:Bindable
-    val resultsCount: Int?
-        get() = searchItem?.resultsCount
 
 
     protected fun updateQuery() {
         searchJob?.cancel()
         searchJob = viewModelScope.launch(Dispatchers.IO) {
             if(searchItem != null)
-                updateQueryUseCase.invoke(searchItem!!)
+                updateQueryUseCase?.invoke(searchItem!!)
         }
         notifyPropertyChanged(BR.favorite)
     }

@@ -6,6 +6,7 @@ import com.example.data.aliases.SearchQueryFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.example.data.aliases.GetQueriesUseCase
+import com.example.kulakov_p3_wallpapers_app.view_models.base.BaseVM
 
 @HiltViewModel
 class HistoryVM @Inject constructor(

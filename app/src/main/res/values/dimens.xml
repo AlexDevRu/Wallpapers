@@ -25,4 +25,5 @@
     <dimen name="base_item_indent">6dp</dimen>
     <dimen name="search_item_info_mt">6dp</dimen>
     <dimen name="search_item_card_elevation">6dp</dimen>
+    <dimen name="webview_progressbar_height">10dp</dimen>
 </resources>

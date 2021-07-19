@@ -7,7 +7,7 @@ import com.example.data.database.entities.UserEntity
 
 @Dao
 interface PhotoDao {
-    @Query("select * from photos")
+    @Query("select * from photos order by addedToFavorite desc")
     fun getPhotos(): PagingSource<Int, PhotoItemEntity>
 
     @Query("select * from photos where id=:id")

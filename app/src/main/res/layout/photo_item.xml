@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.PhotoItemVM"/>
+            type="com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM"/>
 
         <variable
             name="delegate"
@@ -29,7 +29,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:photo="@{viewModel.thumb}"
+            app:photo="@{viewModel.photoItem.thumb}"
             app:shapeAppearanceOverlay="@style/roundedImage" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

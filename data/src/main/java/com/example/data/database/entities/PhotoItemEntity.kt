@@ -16,5 +16,6 @@ data class PhotoItemEntity(
     var regular: String? = null,
     var full: String? = null,
     var localPhotoPath: String? = null,
+    var addedToFavorite: Date? = null,
     var userId: String
 )

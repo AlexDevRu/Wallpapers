@@ -10,7 +10,7 @@ import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoItemBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
-import com.example.kulakov_p3_wallpapers_app.view_models.PhotoItemVM
+import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 
 class PhotoAdapter: PagingDataAdapter<PhotoItem, PhotoAdapter.PhotoItemHolder>(PhotoItemDiff()) {
 

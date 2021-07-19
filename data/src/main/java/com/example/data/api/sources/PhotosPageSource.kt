@@ -1,6 +1,5 @@
 package com.example.data.api.sources
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.aliases.InsertQueryUseCase
@@ -39,7 +38,6 @@ class PhotosPageSource(private val service: PhotoApiService,
                 service.getPhotos(position, params.loadSize, ACCESS_KEY)
             } else {
                 val response = service.getPhotos(position, query, params.loadSize, ACCESS_KEY)
-                Log.e("asd", "position ${position}")
                 if(position == STARTING_PAGE_INDEX) {
                     val item = SearchItem(query = query, resultsCount = response.total, date = Date())
                     insertQueryUseCase.invoke(item)

@@ -49,7 +49,7 @@ class FavoriteSearchItemsAdapter(
                 viewModel?.searchItem = searchItem
                 delegate = object: Delegate {
                     override fun onItemClick() {
-                        Navigator.getInstance().favoriteFragmentNavigator.showSearch(viewModel?.searchQuery)
+                        Navigator.getInstance().favoriteFragmentNavigator.showSearch(viewModel?.searchItem?.query)
                     }
                 }
                 executePendingBindings()

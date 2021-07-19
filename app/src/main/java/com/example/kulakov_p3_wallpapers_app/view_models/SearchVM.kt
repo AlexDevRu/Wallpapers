@@ -1,7 +1,8 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
-import androidx.databinding.Bindable
-import androidx.databinding.library.baseAdapters.BR
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -10,6 +11,7 @@ import androidx.paging.cachedIn
 import com.example.data.aliases.GetPhotosUseCase
 import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
+import com.example.kulakov_p3_wallpapers_app.view_models.base.BaseVM
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.BehaviorSubject
@@ -36,6 +38,10 @@ class SearchVM @Inject constructor(
 
     private var initialSearch = true
 
+    val error = ObservableField<String>()
+    val loading = ObservableBoolean(false)
+    val columnListCount = ObservableInt(3)
+
     init {
         compositeDisposable.add(searchQuery
             .debounce(1500, TimeUnit.MILLISECONDS)
@@ -46,29 +52,8 @@ class SearchVM @Inject constructor(
         searchByKeyword()
     }
 
-    @Bindable
-    var error: String? = null
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.error)
-        }
-
-    @Bindable
-    var loading: Boolean = false
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.loading)
-        }
-
-    @Bindable
-    var columnListCount = 3
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.columnListCount)
-        }
-
     fun changeColumnCount() {
-        columnListCount = if(columnListCount == 2) 3 else 2
+        columnListCount.set(if(columnListCount.get() == 2) 3 else 2)
     }
 
     fun retrySearch() {
@@ -96,7 +81,6 @@ class SearchVM @Inject constructor(
 
         return newResult
     }
-
 
     override fun onCleared() {
         super.onCleared()

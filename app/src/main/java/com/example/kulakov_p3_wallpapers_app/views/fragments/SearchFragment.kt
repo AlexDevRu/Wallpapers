@@ -41,11 +41,11 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
         }
 
         adapter.addLoadStateListener { state ->
-            viewModel.loading = state.refresh == LoadState.Loading
-            viewModel.error =
-                if(state.refresh is LoadState.Error)
-                    (state.refresh as LoadState.Error).error.localizedMessage
-                else null
+            viewModel.loading.set(state.refresh == LoadState.Loading)
+            viewModel.error.set(if(state.refresh is LoadState.Error)
+                (state.refresh as LoadState.Error).error.localizedMessage
+            else null)
+
         }
 
         val headerAdapter = PhotoLoadStateAdapter { adapter.retry() }
@@ -58,7 +58,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
         (binding.photoList.layoutManager as GridLayoutManager).spanSizeLookup =  object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return if (position == adapter.itemCount && footerAdapter.itemCount > 0) {
-                    viewModel.columnListCount
+                    viewModel.columnListCount.get()
                 } else {
                     1
                 }

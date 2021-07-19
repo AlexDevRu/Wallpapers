@@ -31,13 +31,12 @@
             android:visibility="@{loadProgress &lt; 100}"
             android:max="100"
 
-            android:layout_marginTop="50dp"
-            android:layout_gravity="center"
+            android:layout_gravity="top"
             android:progressBackgroundTint="@color/gray"
             android:progressTint="@color/blue"
 
-            android:layout_width="200dp"
-            android:layout_height="16dp" />
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/webview_progressbar_height" />
 
     </FrameLayout>
 

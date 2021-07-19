@@ -1,10 +1,8 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.favorite
 
-import androidx.databinding.Bindable
 import androidx.lifecycle.viewModelScope
 import com.example.data.aliases.DeleteFromFavoritePhotoItemUseCase
-import com.example.domain.models.PhotoItem
-import com.example.kulakov_p3_wallpapers_app.view_models.BaseVM
+import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
@@ -12,18 +10,8 @@ import kotlinx.coroutines.launch
 class FavoritePhotoItemVM(
     private val deleteFromFavoritePhotoItemUseCase: DeleteFromFavoritePhotoItemUseCase,
     private val refresh: () -> Unit
-): BaseVM() {
+): PhotoItemVM() {
     private var searchJob: Job? = null
-
-    var photoItem: PhotoItem? = null
-        set(value) {
-            field = value
-            notifyChange()
-        }
-
-    @get:Bindable
-    val photoUrl: String?
-        get() = if(photoItem?.localPhotoPath == null) photoItem?.regular else "file://${photoItem?.localPhotoPath}"
 
     fun deleteFromFavorite() {
         refresh()

@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/base_indent"
                 tools:text="sdfjkljf"
-                android:text="@{viewModel.searchQuery}"
+                android:text="@{viewModel.searchItem.query}"
                 app:layout_constraintEnd_toStartOf="@+id/setFavoriteButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -47,8 +47,8 @@
                 android:layout_marginTop="@dimen/base_item_indent"
                 android:layout_marginEnd="@dimen/base_indent"
                 android:layout_height="wrap_content"
-                tools:text="sdfjkljf"
-                android:text="@{@string/search_info(viewModel.resultsCount, viewModel.searchDate)}"
+                tools:text="@{viewModel.searchDate}"
+                android:text="@{@string/search_info(viewModel.searchItem.resultsCount, viewModel.searchDate)}"
                 app:layout_constraintEnd_toStartOf="@+id/setFavoriteButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/searchTitle" />
@@ -63,7 +63,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_favorite_24"
-                android:tint="@{viewModel.favorite ? @color/dark_blue : @color/gray}"
+                android:tint="@{viewModel.searchItem.isFavorite ? @color/dark_blue : @color/gray}"
                 android:contentDescription="@string/add_to_favorite" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

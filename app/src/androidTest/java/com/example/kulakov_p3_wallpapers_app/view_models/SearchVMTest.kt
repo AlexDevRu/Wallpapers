@@ -1,6 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
 import android.util.Log
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
@@ -21,6 +22,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -29,6 +31,9 @@ class SearchVMTest {
     private lateinit var viewModel: SearchVM
     private lateinit var database: PhotoDatabase
     private val service = FakeService()
+
+    @get:Rule
+    var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setup() {
@@ -74,8 +79,6 @@ class SearchVMTest {
         keywords.add("")
         val activeQuery = keywords.random()
         viewModel.searchQuery.onNext(activeQuery)
-
-        viewModel.collectData.getOrAwaitValue()
 
         val job = launch {
             viewModel.searchPhotos().collectLatest {

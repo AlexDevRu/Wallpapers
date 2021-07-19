@@ -13,5 +13,6 @@ data class PhotoItem (
     var regular: String? = null,
     var full: String? = null,
     var localPhotoPath: String? = null,
+    var addedToFavorite: Date? = null,
     var user: User? = null
 )

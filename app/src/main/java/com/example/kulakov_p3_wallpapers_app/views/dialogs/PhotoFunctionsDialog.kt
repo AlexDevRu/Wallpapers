@@ -21,9 +21,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
+import com.example.domain.models.User
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.DialogPhotoFunctionsBinding
+import com.example.kulakov_p3_wallpapers_app.utils.ConnectionLiveData
 import com.example.kulakov_p3_wallpapers_app.utils.Utils
+import com.example.kulakov_p3_wallpapers_app.utils.extensions.isConnected
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFunctionsVM
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,6 +34,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -42,6 +46,10 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
     private lateinit var wm: WallpaperManager
 
     private lateinit var storagePermissions: ActivityResultLauncher<Array<String>>
+
+    private var saveFavoriteJob: Job? = null
+
+    protected lateinit var connectionLiveData: ConnectionLiveData
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -55,6 +63,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         binding = DialogPhotoFunctionsBinding.bind(view)
         binding.viewModel = viewModel
         viewModel.photoItem = args.photoItem?.model
+        connectionLiveData = ConnectionLiveData(requireContext())
         return binding.root
     }
 
@@ -66,15 +75,13 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         ) { permissions ->
             var allAllowed = true
             permissions.entries.forEach {
-                Log.e("asd", "${it.key} = ${it.value}")
                 if(!it.value) {
                     allAllowed = false
                     return@forEach
                 }
             }
-            Log.e("asd", "1 ${allAllowed}")
             if(allAllowed) {
-                savePhoto()
+                saveToFavorite()
             }
         }
     }
@@ -107,23 +114,30 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
             if(it) dismiss()
         })
 
+        connectionLiveData.observe(this) {
+            viewModel.isNetworkAvailable = it
+        }
+        viewModel.isNetworkAvailable = requireContext().isConnected
+
 
         binding.saveToFavoriteButton.setOnClickListener {
             if(!checkStoragePermissions()) {
                 setStoragePermissions()
             } else {
-                savePhoto()
+                saveToFavorite()
             }
         }
     }
 
-    private var saveFavoriteJob: Job? = null
-
-    private fun savePhoto() {
+    private fun saveToFavorite() {
         saveFavoriteJob?.cancel()
         saveFavoriteJob = lifecycleScope.launch(Dispatchers.IO) {
             viewModel.photoItem!!.localPhotoPath = Utils.saveFavoritePhoto(requireContext(), viewModel.photoItem!!)
-            viewModel.photoItem!!.user?.localPhotoPath = Utils.saveFavoriteUser(requireContext(), viewModel.photoItem!!.user!!)
+            if(viewModel.photoItem!!.user == null) {
+                viewModel.photoItem!!.user = User()
+            }
+            viewModel.photoItem!!.user!!.localPhotoPath = Utils.saveFavoriteUser(requireContext(), viewModel.photoItem!!.user!!)
+            viewModel.photoItem!!.addedToFavorite = Date()
             viewModel.saveToFavorite()
             dismiss()
         }
