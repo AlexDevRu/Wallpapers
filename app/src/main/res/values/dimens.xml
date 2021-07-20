@@ -26,4 +26,8 @@
     <dimen name="search_item_info_mt">6dp</dimen>
     <dimen name="search_item_card_elevation">6dp</dimen>
     <dimen name="webview_progressbar_height">10dp</dimen>
+    <dimen name="small_textsize">12sp</dimen>
+    <dimen name="average_textsize">14sp</dimen>
+    <dimen name="bigger_textsize">16sp</dimen>
+    <dimen name="large_textsize">20sp</dimen>
 </resources>
