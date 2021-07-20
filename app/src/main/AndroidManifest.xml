@@ -17,11 +17,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kulakov_P3_Wallpapers_app">
-
+        <activity android:name=".views.HomeActivity" android:exported="false"/>
         <activity
-            android:name=".views.HomeActivity"
-
-            >
+            android:name=".views.MainActivity"
+            android:noHistory="true"
+            android:theme="@style/Theme.SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
