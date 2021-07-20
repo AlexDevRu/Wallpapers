@@ -1,7 +1,6 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.base
 
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
 import com.example.data.aliases.UpdateQueryUseCase
@@ -15,12 +14,11 @@ import java.util.*
 open class SearchItemVM(private val updateQueryUseCase: UpdateQueryUseCase? = null): BaseVM() {
 
     private var searchJob: Job? = null
-    val searchItemObservable = ObservableField<SearchItem>()
 
-    var searchItem: SearchItem?
-        get() = searchItemObservable.get()
+    @Bindable
+    var searchItem: SearchItem? = null
         set(value) {
-            searchItemObservable.set(value)
+            field = value
             notifyChange()
         }
 

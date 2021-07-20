@@ -46,17 +46,14 @@ class PhotoInfoVM @Inject constructor(
     }
 
     fun openTwitter() {
-        Log.e("asd", "twitter https://www.twitter.com/${photoItem?.user?.twitter_username}")
         openLink.value = "https://www.twitter.com/${photoItem?.user?.twitter_username}/"
     }
 
     fun openInstagram() {
-        Log.e("asd", "instagram https://www.instagram.com/${photoItem?.user?.instagram_username}")
         openLink.value = "https://www.instagram.com/${photoItem?.user?.instagram_username}/"
     }
 
     fun openPortfolio() {
-        Log.e("asd", "portfolio ${photoItem?.user?.portfolio_url}")
         openLink.value = photoItem?.user?.portfolio_url
     }
 }

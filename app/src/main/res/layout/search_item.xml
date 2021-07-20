@@ -63,7 +63,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_baseline_favorite_24"
-                android:tint="@{viewModel.searchItem.isFavorite ? @color/dark_blue : @color/gray}"
+                android:tint="@{viewModel.favorite ? @color/dark_blue : @color/gray}"
                 android:contentDescription="@string/add_to_favorite" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
