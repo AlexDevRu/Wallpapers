@@ -1,12 +1,7 @@
 package com.example.domain.repositories.remote
 
-import androidx.paging.PagingData
-import com.example.domain.common.Result
-import com.example.domain.models.PhotoItem
-import com.example.domain.models.SearchItem
-import kotlinx.coroutines.flow.Flow
+import com.example.domain.aliases.PhotoItemFlow
 
 interface IPhotoApiRepository {
-    suspend fun getPhotos(query: String?): Flow<PagingData<PhotoItem>>
-    fun getSearchResult(): Result<SearchItem>
+    suspend fun getPhotos(query: String?): PhotoItemFlow
 }

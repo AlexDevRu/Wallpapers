@@ -1,4 +1,4 @@
-package com.example.data.database.repositories.test
+package com.example.data.repositories.test
 
 import com.example.data.api.PhotoApiService
 import com.example.data.api.responses.PhotoItemApiResponse

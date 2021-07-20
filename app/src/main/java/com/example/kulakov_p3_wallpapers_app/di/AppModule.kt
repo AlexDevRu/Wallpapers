@@ -2,13 +2,13 @@ package com.example.kulakov_p3_wallpapers_app.di
 
 import android.app.Application
 import androidx.room.Room
-import com.example.data.api.PhotoApiRepository
+import com.example.data.repositories.remote.PhotoApiRepository
 import com.example.data.api.PhotoApiService
 import com.example.data.database.PhotoDatabase
 import com.example.data.database.dao.PhotoDao
 import com.example.data.database.dao.SearchQueryDao
-import com.example.data.database.repositories.PhotoRepository
-import com.example.data.database.repositories.SearchQueryRepository
+import com.example.data.repositories.local.PhotoRepository
+import com.example.data.repositories.local.SearchQueryRepository
 import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository

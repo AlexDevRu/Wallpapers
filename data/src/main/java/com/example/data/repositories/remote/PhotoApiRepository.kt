@@ -1,13 +1,11 @@
-package com.example.data.api
+package com.example.data.repositories.remote
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import com.example.domain.aliases.PhotoItemFlow
 import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
+import com.example.data.api.PhotoApiService
 import com.example.data.api.sources.PhotosPageSource
-import com.example.domain.common.Result
-import com.example.domain.models.MetaInfoPhotoSearch
-import com.example.domain.models.SearchItem
+import com.example.domain.aliases.PhotoItemFlow
 import com.example.domain.repositories.remote.IPhotoApiRepository
 import com.example.domain.use_cases.queries.InsertQueryUseCase
 import javax.inject.Inject
@@ -31,14 +29,5 @@ class PhotoApiRepository @Inject constructor(
                 PhotosPageSource(service, query, insertQueryUseCase)
             }
         ).flow
-    }
-
-    private var meta: MetaInfoPhotoSearch? = null
-
-    override fun getSearchResult(): Result<SearchItem> {
-        if(meta?.errors == null) {
-            return Result.Success(meta!!.searchItem)
-        }
-        return Result.Failure(Exception(meta?.errors?.joinToString("\n")))
     }
 }

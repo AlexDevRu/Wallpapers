@@ -1,6 +1,6 @@
 package com.example.kulakov_p3_wallpapers_app.di
 
-import com.example.data.api.PhotoApiRepository
+import com.example.data.repositories.remote.PhotoApiRepository
 import com.example.data.api.PhotoApiService
 import dagger.Module
 import dagger.Provides
