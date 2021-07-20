@@ -3,7 +3,7 @@ package com.example.data.database.repositories
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map
-import com.example.data.aliases.PhotoItemFlow
+import com.example.domain.aliases.PhotoItemFlow
 import com.example.data.database.dao.PhotoDao
 import com.example.data.mappers.PhotoItemMapper
 import com.example.data.mappers.UserMapper
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 class PhotoRepository @Inject constructor(
     private val photoDao: PhotoDao
-): IPhotoRepository<PhotoItemFlow> {
+): IPhotoRepository {
 
     companion object {
         const val PHOTO_PAGE_SIZE = 10

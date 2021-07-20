@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.data.aliases.AddToFavoritePhotoItemUseCase
+import com.example.domain.use_cases.photo.AddToFavoritePhotoItemUseCase
 import com.example.kulakov_p3_wallpapers_app.utils.Utils
 import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import dagger.hilt.android.lifecycle.HiltViewModel

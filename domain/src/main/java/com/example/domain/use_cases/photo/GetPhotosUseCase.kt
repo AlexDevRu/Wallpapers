@@ -2,6 +2,6 @@ package com.example.domain.use_cases.photo
 
 import com.example.domain.repositories.remote.IPhotoApiRepository
 
-class GetPhotosUseCase<TPhotoFlow>(private val photoApiRepository: IPhotoApiRepository<TPhotoFlow>) {
+class GetPhotosUseCase(private val photoApiRepository: IPhotoApiRepository) {
     suspend operator fun invoke(query: String?) = photoApiRepository.getPhotos(query)
 }

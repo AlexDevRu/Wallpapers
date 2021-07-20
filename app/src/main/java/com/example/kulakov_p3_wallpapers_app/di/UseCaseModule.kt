@@ -1,7 +1,5 @@
 package com.example.kulakov_p3_wallpapers_app.di
 
-import com.example.data.aliases.PhotoItemFlow
-import com.example.data.aliases.SearchQueryFlow
 import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository
@@ -16,42 +14,42 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 object UseCaseModule {
     @Provides
-    fun providesAddToFavoritePhotoItemUseCase(repository: IPhotoRepository<PhotoItemFlow>)
+    fun providesAddToFavoritePhotoItemUseCase(repository: IPhotoRepository)
             = AddToFavoritePhotoItemUseCase(repository)
 
     @Provides
-    fun providesDeleteFromFavoritePhotoItemUseCase(repository: IPhotoRepository<PhotoItemFlow>)
+    fun providesDeleteFromFavoritePhotoItemUseCase(repository: IPhotoRepository)
             = DeleteFromFavoritePhotoItemUseCase(repository)
 
     @Provides
-    fun providesGetFavoritePhotosUseCase(repository: IPhotoRepository<PhotoItemFlow>)
+    fun providesGetFavoritePhotosUseCase(repository: IPhotoRepository)
             = GetFavoritePhotosUseCase(repository)
 
     @Provides
-    fun providesGetPhotosUseCase(repository: IPhotoApiRepository<PhotoItemFlow>)
+    fun providesGetPhotosUseCase(repository: IPhotoApiRepository)
             = GetPhotosUseCase(repository)
 
     @Provides
-    fun providesGetUserByPhotoUseCase(repository: IPhotoRepository<PhotoItemFlow>)
+    fun providesGetUserByPhotoUseCase(repository: IPhotoRepository)
             = GetUserByPhotoUseCase(repository)
 
     @Provides
-    fun providesDeleteQueryUseCase(repository: ISearchQueryRepository<SearchQueryFlow>)
+    fun providesDeleteQueryUseCase(repository: ISearchQueryRepository)
             = DeleteQueryUseCase(repository)
 
     @Provides
-    fun providesGetFavoriteQueriesUseCase(repository: ISearchQueryRepository<SearchQueryFlow>)
+    fun providesGetFavoriteQueriesUseCase(repository: ISearchQueryRepository)
             = GetFavoriteQueriesUseCase(repository)
 
     @Provides
-    fun providesGetQueriesUseCase(repository: ISearchQueryRepository<SearchQueryFlow>)
+    fun providesGetQueriesUseCase(repository: ISearchQueryRepository)
             = GetQueriesUseCase(repository)
 
     @Provides
-    fun providesInsertQueryUseCase(repository: ISearchQueryRepository<SearchQueryFlow>)
+    fun providesInsertQueryUseCase(repository: ISearchQueryRepository)
             = InsertQueryUseCase(repository)
 
     @Provides
-    fun providesUpdateQueryUseCase(repository: ISearchQueryRepository<SearchQueryFlow>)
+    fun providesUpdateQueryUseCase(repository: ISearchQueryRepository)
             = UpdateQueryUseCase(repository)
 }

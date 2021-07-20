@@ -2,9 +2,6 @@ package com.example.kulakov_p3_wallpapers_app.di
 
 import android.app.Application
 import androidx.room.Room
-
-import com.example.data.aliases.PhotoItemFlow
-import com.example.data.aliases.SearchQueryFlow
 import com.example.data.api.PhotoApiRepository
 import com.example.data.api.PhotoApiService
 import com.example.data.database.PhotoDatabase
@@ -42,15 +39,14 @@ object AppModule {
     fun providesSearchQueryDao(db: PhotoDatabase) = db.searchQueryDao()
 
     @Provides
-    fun providesPhotoRepository(photoDao: PhotoDao): IPhotoRepository<PhotoItemFlow>
+    fun providesPhotoRepository(photoDao: PhotoDao): IPhotoRepository
     = PhotoRepository(photoDao)
 
     @Provides
-    fun providesSearchQueryRepository(searchQueryDao: SearchQueryDao): ISearchQueryRepository<SearchQueryFlow>
+    fun providesSearchQueryRepository(searchQueryDao: SearchQueryDao): ISearchQueryRepository
     = SearchQueryRepository(searchQueryDao)
 
     @Provides
-    fun providesApiRepository(insertQueryUseCase: InsertQueryUseCase<SearchQueryFlow>, service: PhotoApiService)
-    : IPhotoApiRepository<PhotoItemFlow>
+    fun providesApiRepository(insertQueryUseCase: InsertQueryUseCase, service: PhotoApiService): IPhotoApiRepository
     = PhotoApiRepository(service, insertQueryUseCase)
 }

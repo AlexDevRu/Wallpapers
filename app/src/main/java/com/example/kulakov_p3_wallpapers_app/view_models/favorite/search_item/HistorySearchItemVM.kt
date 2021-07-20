@@ -1,8 +1,8 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item
 
 import androidx.lifecycle.viewModelScope
-import com.example.data.aliases.DeleteQueryUseCase
-import com.example.data.aliases.UpdateQueryUseCase
+import com.example.domain.use_cases.queries.DeleteQueryUseCase
+import com.example.domain.use_cases.queries.UpdateQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.view_models.base.SearchItemVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job

@@ -6,8 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.data.aliases.DeleteFromFavoritePhotoItemUseCase
 import com.example.domain.models.PhotoItem
+import com.example.domain.use_cases.photo.DeleteFromFavoritePhotoItemUseCase
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding

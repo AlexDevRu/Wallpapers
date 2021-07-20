@@ -3,7 +3,7 @@ package com.example.data.database.repositories
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map
-import com.example.data.aliases.SearchQueryFlow
+import com.example.domain.aliases.SearchQueryFlow
 import com.example.data.database.dao.SearchQueryDao
 import com.example.data.mappers.SearchItemMapper
 import com.example.domain.models.SearchItem
@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 class SearchQueryRepository @Inject constructor(
     private val searchQueryDao: SearchQueryDao
-): ISearchQueryRepository<SearchQueryFlow> {
+): ISearchQueryRepository {
 
     companion object {
         const val QUERY_PAGE_SIZE = 20

@@ -3,8 +3,8 @@ package com.example.kulakov_p3_wallpapers_app.view_models.photo_detail
 import android.util.Log
 import androidx.databinding.Observable
 import androidx.lifecycle.viewModelScope
-import com.example.data.aliases.GetUserByPhotoUseCase
 import com.example.domain.common.Result
+import com.example.domain.use_cases.photo.GetUserByPhotoUseCase
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import dagger.hilt.android.lifecycle.HiltViewModel

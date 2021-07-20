@@ -3,8 +3,8 @@ package com.example.kulakov_p3_wallpapers_app.view_models.base
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.viewModelScope
-import com.example.data.aliases.UpdateQueryUseCase
 import com.example.domain.models.SearchItem
+import com.example.domain.use_cases.queries.UpdateQueryUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
