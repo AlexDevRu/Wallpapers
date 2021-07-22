@@ -48,7 +48,7 @@
     </style>
 
     <style name="authorDescription" parent="standardAuthorInfoStyle">
-        <item name="android:textSize">@dimen/average_textsize</item>
+        <item name="android:textSize">@dimen/bigger_textsize</item>
     </style>
 
     <style name="titleParameterStyle">

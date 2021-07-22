@@ -31,4 +31,6 @@
     <string name="icon">Иконка</string>
 
     <string name="wallpaper_not_support">Обои не поддерживаются</string>
+    <string name="no_internet">Нет подключения к интернету</string>
+    <string name="set_as">Установить как:</string>
 </resources>

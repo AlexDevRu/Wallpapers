@@ -48,7 +48,7 @@
                 android:layout_marginStart="@dimen/photo_detail_toolbar_title_ml"
                 android:layout_marginEnd="@dimen/base_indent"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.photoItemObservable.description}"
+                android:text="@{viewModel.photoItem.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/backButton"

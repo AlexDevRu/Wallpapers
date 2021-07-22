@@ -1,7 +1,13 @@
 package com.example.kulakov_p3_wallpapers_app.utils.extensions
 
+import android.app.Dialog
 import android.content.Context
-import android.net.ConnectivityManager
+import androidx.appcompat.app.AlertDialog
+import com.example.kulakov_p3_wallpapers_app.R
 
-val Context.isConnected: Boolean
-    get() = (getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager)?.activeNetworkInfo?.isConnected == true
+val Context.loadingDialog: Dialog
+    get() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Загрузка").setView(R.layout.item_loading)
+        return builder.create()
+    }

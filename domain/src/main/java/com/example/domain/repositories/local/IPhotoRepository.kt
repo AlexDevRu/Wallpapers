@@ -10,4 +10,5 @@ interface IPhotoRepository {
     suspend fun addToFavoritePhotoItem(photoItem: PhotoItem)
     suspend fun deleteFromFavoritePhotoItem(photoItem: PhotoItem)
     suspend fun getUserByPhoto(photoItem: PhotoItem): Result<User>
+    suspend fun isPhotoInFavorite(photoItem: PhotoItem): Boolean
 }

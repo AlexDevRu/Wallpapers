@@ -7,6 +7,7 @@ import com.example.data.api.PhotoApiService
 import com.example.data.api.sources.PhotosPageSource
 import com.example.domain.aliases.PhotoItemFlow
 import com.example.domain.repositories.remote.IPhotoApiRepository
+import com.example.domain.use_cases.photo.CheckFavoritePhotoUseCase
 import com.example.domain.use_cases.queries.InsertQueryUseCase
 import javax.inject.Inject
 
@@ -15,10 +16,6 @@ class PhotoApiRepository @Inject constructor(
     private val insertQueryUseCase: InsertQueryUseCase
 ): IPhotoApiRepository {
 
-    companion object {
-        const val BASE_URL = "https://api.unsplash.com/"
-    }
-
     override suspend fun getPhotos(query: String?): PhotoItemFlow {
         return Pager(
             config = PagingConfig(
@@ -26,7 +23,7 @@ class PhotoApiRepository @Inject constructor(
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                PhotosPageSource(service, query, insertQueryUseCase)
+                PhotosPageSource(service, query) { result -> insertQueryUseCase.invoke(result) }
             }
         ).flow
     }

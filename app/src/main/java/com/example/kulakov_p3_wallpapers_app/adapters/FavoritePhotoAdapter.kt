@@ -8,6 +8,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.domain.models.PhotoItem
 import com.example.domain.use_cases.photo.DeleteFromFavoritePhotoItemUseCase
+import com.example.domain.utils.IFileProvider
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding
@@ -15,7 +16,8 @@ import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
 import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM
 
 class FavoritePhotoAdapter(
-    private val deleteFromFavoritePhotoItemUseCase: DeleteFromFavoritePhotoItemUseCase
+    private val deleteFromFavoritePhotoItemUseCase: DeleteFromFavoritePhotoItemUseCase,
+    private val fileProvider: IFileProvider
 ): PagingDataAdapter<PhotoItem, FavoritePhotoAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
     override fun onBindViewHolder(holder: PhotoItemViewHolder, position: Int) {
@@ -41,7 +43,7 @@ class FavoritePhotoAdapter(
         private val binding: PhotoFavoriteItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
         init {
-            val viewModel = FavoritePhotoItemVM(deleteFromFavoritePhotoItemUseCase) { refresh() }
+            val viewModel = FavoritePhotoItemVM(deleteFromFavoritePhotoItemUseCase, fileProvider) { refresh() }
             binding.viewModel = viewModel
         }
 

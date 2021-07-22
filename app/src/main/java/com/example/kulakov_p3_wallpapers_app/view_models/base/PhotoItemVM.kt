@@ -1,24 +1,42 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.base
 
+import android.util.Log
 import androidx.databinding.Bindable
-import androidx.databinding.ObservableField
+import androidx.databinding.library.baseAdapters.BR
 import com.example.domain.models.PhotoItem
+import com.example.domain.utils.IFileProvider
 import java.text.SimpleDateFormat
 import java.util.*
 
-open class PhotoItemVM: BaseVM() {
-    val photoItemObservable = ObservableField<PhotoItem>()
+open class PhotoItemVM(private val fileProvider: IFileProvider? = null): BaseVM() {
 
-    var photoItem: PhotoItem?
-        get() = photoItemObservable.get()
+    @Bindable
+    var photoItem: PhotoItem? = null
         set(value) {
-            photoItemObservable.set(value)
-            notifyChange()
+            field = value
+            notifyPropertyChanged(BR.photoItem)
         }
+
+    fun isPhotoSaved(): Boolean {
+        if(photoItem != null && fileProvider != null) {
+            val path = fileProvider.getPhotoItemFilePath(photoItem!!)
+            return path != null
+        }
+        return false
+    }
 
     @get:Bindable
     val photoUrl: String?
-        get() = if(photoItem?.localPhotoPath == null) photoItem?.regular else "file://${photoItem?.localPhotoPath}"
+        get() {
+            if(photoItem != null && fileProvider != null) {
+                val path = fileProvider.getPhotoItemFilePath(photoItem!!)
+                Log.e("asd", "path $path")
+                if(path != null)
+                    return "file://${path}"
+            }
+
+            return photoItem?.regular
+        }
 
     @get:Bindable
     val created: String?
@@ -28,9 +46,14 @@ open class PhotoItemVM: BaseVM() {
 
     @get:Bindable
     val userPhotoUrl: String?
-        get() = if(photoItem?.user?.localPhotoPath == null)
-            photoItem?.user?.photoUrl
-        else "file://${photoItem?.user?.localPhotoPath}"
+        get() {
+            if(photoItem?.user != null && fileProvider != null) {
+                val path = fileProvider.getUserFilePath(photoItem!!.user!!)
+                if(path != null)
+                    return "file://${path}"
+            }
+            return photoItem?.user?.photoUrl
+        }
 
 
     @get:Bindable

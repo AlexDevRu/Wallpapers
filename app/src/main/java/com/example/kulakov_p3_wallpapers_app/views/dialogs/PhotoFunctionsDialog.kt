@@ -1,11 +1,10 @@
 package com.example.kulakov_p3_wallpapers_app.views.dialogs
 
 import android.Manifest
+import android.app.Dialog
 import android.app.WallpaperManager
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -17,24 +16,25 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.domain.models.User
+import com.example.domain.utils.IFileProvider
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.DialogPhotoFunctionsBinding
-import com.example.kulakov_p3_wallpapers_app.utils.ConnectionLiveData
+import com.example.kulakov_p3_wallpapers_app.utils.InternetUtil
 import com.example.kulakov_p3_wallpapers_app.utils.Utils
-import com.example.kulakov_p3_wallpapers_app.utils.extensions.isConnected
+import com.example.kulakov_p3_wallpapers_app.utils.extensions.loadingDialog
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFunctionsVM
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
@@ -47,9 +47,16 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
 
     private lateinit var storagePermissions: ActivityResultLauncher<Array<String>>
 
+    private var setDesktopJob: Job? = null
     private var saveFavoriteJob: Job? = null
+    private var setLockScreenJob: Job? = null
 
-    protected lateinit var connectionLiveData: ConnectionLiveData
+    private lateinit var internetObserver: InternetUtil
+
+    private lateinit var loadingDialog: Dialog
+
+    @Inject
+    lateinit var fileProvider: IFileProvider
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,13 +70,15 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         binding = DialogPhotoFunctionsBinding.bind(view)
         binding.viewModel = viewModel
         viewModel.photoItem = args.photoItem?.model
-        connectionLiveData = ConnectionLiveData(requireContext())
+        internetObserver = InternetUtil(requireContext())
         return binding.root
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
         wm = WallpaperManager.getInstance(context.applicationContext)
+
         storagePermissions = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { permissions ->
@@ -84,6 +93,9 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
                 saveToFavorite()
             }
         }
+
+        loadingDialog = requireContext().loadingDialog
+        loadingDialog.setCancelable(false)
     }
 
     override fun onDetach() {
@@ -94,79 +106,27 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.liveSetWallpapers.observe(viewLifecycleOwner, {
-            wm.setBitmap(it)
-        })
+        binding.delegate = object : PhotoFunctionsDelegate {
+            override fun onSetDesktopWallpaper() {
+                setDesktopWallpaper()
+            }
 
-        viewModel.liveSetLockScreen.observe(viewLifecycleOwner, {
-            Log.e("asd", "api level ${Build.VERSION.SDK_INT}")
+            override fun onSetLockScreenWallpaper() {
+                setLockScreenWallpaper()
+            }
 
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                setWallpaperLockScreen(it)
-            } else {
-                if(viewModel.photoItem?.regular != null) {
-                    alternateSetWallpaperLockScreen(viewModel.photoItem!!.regular!!)
+            override fun onSaveToFavorite() {
+                if(!fileProvider.checkStoragePermissions()) {
+                    setStoragePermissions()
+                } else {
+                    saveToFavorite()
                 }
             }
+        }
+
+        viewModel.isLoadingDialogOpen.observe(viewLifecycleOwner, {
+            if(it) loadingDialog.show() else loadingDialog.dismiss()
         })
-
-        viewModel.closeDialog.observe(viewLifecycleOwner, {
-            if(it) dismiss()
-        })
-
-        connectionLiveData.observe(this) {
-            viewModel.isNetworkAvailable = it
-        }
-        viewModel.isNetworkAvailable = requireContext().isConnected
-
-
-        binding.saveToFavoriteButton.setOnClickListener {
-            if(!checkStoragePermissions()) {
-                setStoragePermissions()
-            } else {
-                saveToFavorite()
-            }
-        }
-    }
-
-    private fun saveToFavorite() {
-        saveFavoriteJob?.cancel()
-        saveFavoriteJob = lifecycleScope.launch(Dispatchers.IO) {
-            viewModel.photoItem!!.localPhotoPath = Utils.saveFavoritePhoto(requireContext(), viewModel.photoItem!!)
-            if(viewModel.photoItem!!.user == null) {
-                viewModel.photoItem!!.user = User()
-            }
-            viewModel.photoItem!!.user!!.localPhotoPath = Utils.saveFavoriteUser(requireContext(), viewModel.photoItem!!.user!!)
-            viewModel.photoItem!!.addedToFavorite = Date()
-            viewModel.saveToFavorite()
-            dismiss()
-        }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.N)
-    private fun setWallpaperLockScreen(bitmap: Bitmap) {
-        Log.e("asd", "set wallpapers lock")
-        if(wm.isSetWallpaperAllowed) {
-            wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
-        } else {
-            Toast.makeText(context, resources.getString(R.string.wallpaper_not_support), Toast.LENGTH_SHORT).show()
-        }
-    }
-
-
-    private fun alternateSetWallpaperLockScreen(url: String) {
-        val intent = Intent("android.intent.action.ATTACH_DATA")
-        intent.addCategory("android.intent.category.DEFAULT")
-        val str = "image/*"
-        intent.setDataAndType(Uri.fromFile(File(url)), str)
-        intent.putExtra("mimeType", str)
-        startActivity(Intent.createChooser(intent, "Set As:"))
-    }
-
-    private fun checkStoragePermissions(): Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                && ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 
     private fun setStoragePermissions() {
@@ -176,5 +136,86 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
             )
         )
+    }
+
+    private fun saveToFavorite() {
+        saveFavoriteJob?.cancel()
+        viewModel.isLoadingDialogOpen.value = true
+        Log.e("asd", "url ${viewModel.photoItem!!.regular}")
+
+        saveFavoriteJob = lifecycleScope.launch(Dispatchers.IO) {
+            viewModel.saveToFavorite()
+            viewModel.isLoadingDialogOpen.postValue(false)
+        }
+    }
+
+    private fun setDesktopWallpaper() {
+        setDesktopJob?.cancel()
+        viewModel.isLoadingDialogOpen.value = true
+        setDesktopJob = lifecycleScope.launch(Dispatchers.IO) {
+            if(viewModel.isPhotoSaved()) {
+                val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem!!)!!).inputStream()
+                wm.setStream(data)
+            } else {
+                if(internetObserver.isInternetOn()) {
+                    val bitmap = Utils.getBitmapByUrl(viewModel.photoItem!!.regular!!)
+                    wm.setBitmap(bitmap)
+                }
+            }
+
+            viewModel.isLoadingDialogOpen.postValue(false)
+        }
+    }
+
+    private fun setLockScreenWallpaper() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            mainSetLockScreenWallpaper()
+        } else {
+            alternateSetWallpaperLockScreen()
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun mainSetLockScreenWallpaper() {
+        if(!wm.isSetWallpaperAllowed && !wm.isWallpaperSupported) {
+            Toast.makeText(context, resources.getString(R.string.wallpaper_not_support), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        setLockScreenJob?.cancel()
+        viewModel.isLoadingDialogOpen.value = true
+        setLockScreenJob = lifecycleScope.launch(Dispatchers.IO) {
+            if(viewModel.isPhotoSaved()) {
+                val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem!!)!!).inputStream()
+                wm.setStream(data, null, true, WallpaperManager.FLAG_LOCK)
+            } else {
+                if(internetObserver.isInternetOn()) {
+                    val bitmap = Utils.getBitmapByUrl(viewModel.photoItem!!.regular!!)
+                    wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
+                }
+            }
+            viewModel.isLoadingDialogOpen.postValue(false)
+        }
+    }
+
+    private fun alternateSetWallpaperLockScreen() {
+        setLockScreenJob?.cancel()
+
+        setLockScreenJob = lifecycleScope.launch(Dispatchers.IO) {
+            fileProvider.savePhoto(viewModel.photoItem!!)
+            withContext(Dispatchers.Main) {
+                val intent = Intent("android.intent.action.ATTACH_DATA")
+                intent.addCategory("android.intent.category.DEFAULT")
+                intent.setDataAndType(Uri.fromFile(File(viewModel.photoUrl!!)), "image/*")
+                intent.putExtra("mimeType", "image/*")
+                startActivity(Intent.createChooser(intent, resources.getString(R.string.set_as)))
+            }
+        }
+    }
+
+    interface PhotoFunctionsDelegate {
+        fun onSetDesktopWallpaper()
+        fun onSetLockScreenWallpaper()
+        fun onSaveToFavorite()
     }
 }

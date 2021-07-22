@@ -11,7 +11,7 @@ class PhotoDetailVM: PhotoItemVM() {
     fun share() {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "${photoItemObservable.get()?.full}")
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "${photoItem?.full}")
         sendIntent.type = "text/plain"
         liveIntent.value = sendIntent
     }

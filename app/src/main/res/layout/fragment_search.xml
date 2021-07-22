@@ -56,6 +56,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchView" />
 
+        <!--<include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            layout="@layout/no_internet"
+            app:layout_constraintBottom_toBottomOf="@id/photoList"
+            app:layout_constraintEnd_toEndOf="@id/photoList"
+            app:layout_constraintStart_toStartOf="@id/photoList"
+            app:layout_constraintTop_toTopOf="@id/photoList"
+            android:visibility="@{viewModel.isNetworkAvailable ? View.GONE : View.VISIBLE}"
+            tools:visibility="gone" />-->
+
         <include
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

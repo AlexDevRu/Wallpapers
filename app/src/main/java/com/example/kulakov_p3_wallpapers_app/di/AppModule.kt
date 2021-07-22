@@ -7,12 +7,15 @@ import com.example.data.api.PhotoApiService
 import com.example.data.database.PhotoDatabase
 import com.example.data.database.dao.PhotoDao
 import com.example.data.database.dao.SearchQueryDao
+import com.example.data.preferences.PersistantStorage
 import com.example.data.repositories.local.PhotoRepository
 import com.example.data.repositories.local.SearchQueryRepository
 import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository
 import com.example.domain.use_cases.queries.InsertQueryUseCase
+import com.example.domain.utils.IFileProvider
+import com.example.data.files.FileProvider
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,14 +36,18 @@ object AppModule {
         ).build()
 
     @Provides
+    @Singleton
+    fun providesPersistantStorage(app: Application) = PersistantStorage(app.applicationContext)
+
+    @Provides
     fun providesPhotoDao(db: PhotoDatabase) = db.photoDao()
 
     @Provides
     fun providesSearchQueryDao(db: PhotoDatabase) = db.searchQueryDao()
 
     @Provides
-    fun providesPhotoRepository(photoDao: PhotoDao): IPhotoRepository
-    = PhotoRepository(photoDao)
+    fun providesPhotoRepository(photoDao: PhotoDao, fileProvider: IFileProvider): IPhotoRepository
+    = PhotoRepository(photoDao, fileProvider)
 
     @Provides
     fun providesSearchQueryRepository(searchQueryDao: SearchQueryDao): ISearchQueryRepository
@@ -49,4 +56,7 @@ object AppModule {
     @Provides
     fun providesApiRepository(insertQueryUseCase: InsertQueryUseCase, service: PhotoApiService): IPhotoApiRepository
     = PhotoApiRepository(service, insertQueryUseCase)
+
+    @Provides
+    fun providesFileProvider(app: Application): IFileProvider = FileProvider(app)
 }

@@ -2,20 +2,17 @@ package com.example.data.api.sources
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-
 import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
 import com.example.data.api.PhotoApiService
 import com.example.data.mappers.PhotoResponseMapper
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.SearchItem
-import com.example.domain.use_cases.queries.InsertQueryUseCase
 import retrofit2.HttpException
 import java.io.IOException
-import java.util.*
 
 class PhotosPageSource(private val service: PhotoApiService,
                        private val query: String?,
-                       private val insertQueryUseCase: InsertQueryUseCase
+                       private val onResponse: suspend (response: SearchItem) -> Unit
 ): PagingSource<Int, PhotoItem>() {
 
     companion object {
@@ -41,8 +38,8 @@ class PhotosPageSource(private val service: PhotoApiService,
             } else {
                 val response = service.getPhotos(position, query, params.loadSize, ACCESS_KEY)
                 if(position == STARTING_PAGE_INDEX) {
-                    val item = SearchItem(query = query, resultsCount = response.total, date = Date())
-                    insertQueryUseCase.invoke(item)
+                    val result = SearchItem(query = query, resultsCount = response.total)
+                    onResponse(result)
                 }
                 response.results
             }

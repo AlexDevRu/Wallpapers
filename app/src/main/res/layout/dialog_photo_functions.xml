@@ -6,6 +6,10 @@
         <variable
             name="viewModel"
             type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFunctionsVM" />
+
+        <variable
+            name="delegate"
+            type="com.example.kulakov_p3_wallpapers_app.views.dialogs.PhotoFunctionsDialog.PhotoFunctionsDelegate" />
     </data>
 
     <LinearLayout
@@ -18,28 +22,30 @@
         android:orientation="vertical">
 
         <TextView
-            android:onClick="@{() -> viewModel.setWallpapersDesktop()}"
+            android:onClick="@{() -> delegate.onSetDesktopWallpaper()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/set_wallpapers_main"
-            android:layout_marginBottom="@dimen/base_indent"
             android:drawablePadding="@dimen/base_indent"
             app:drawableStartCompat="@drawable/ic_baseline_wallpaper_24" />
 
         <TextView
-            android:onClick="@{() -> viewModel.setWallpapersLockScreen()}"
+            android:onClick="@{() -> delegate.onSetLockScreenWallpaper()}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/set_wallpapers_lock"
-            android:layout_marginBottom="@dimen/base_indent"
+            android:layout_marginTop="@dimen/base_indent"
             android:drawablePadding="@dimen/base_indent"
             app:drawableStartCompat="@drawable/ic_baseline_wallpaper_24" />
 
         <TextView
             android:id="@+id/saveToFavoriteButton"
+            android:onClick="@{() -> delegate.onSaveToFavorite()}"
+            android:visibility="@{!viewModel.photoItem.favorite}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/save_to_favorite"
+            android:layout_marginTop="@dimen/base_indent"
             android:drawablePadding="@dimen/base_indent"
             app:drawableStartCompat="@drawable/ic_baseline_favorite_24" />
 

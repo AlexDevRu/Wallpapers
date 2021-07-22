@@ -32,4 +32,6 @@
     <string name="icon">Icon</string>
 
     <string name="wallpaper_not_support">Wallpaper didn\'t supported</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="set_as">Set as:</string>
 </resources>

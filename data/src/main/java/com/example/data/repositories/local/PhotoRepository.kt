@@ -11,12 +11,14 @@ import com.example.domain.common.Result
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User
 import com.example.domain.repositories.local.IPhotoRepository
+import com.example.domain.utils.IFileProvider
 import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject
 
 class PhotoRepository @Inject constructor(
-    private val photoDao: PhotoDao
+    private val photoDao: PhotoDao,
+    private val fileProvider: IFileProvider
 ): IPhotoRepository {
 
     companion object {
@@ -27,16 +29,34 @@ class PhotoRepository @Inject constructor(
         return Pager(PagingConfig(PHOTO_PAGE_SIZE)) {
             photoDao.getPhotos()
         }.flow.map { item ->
-            item.map { PhotoItemMapper.toModel(it) }
+            item.map {
+                val model = PhotoItemMapper.toModel(it)
+                model.isFavorite = true
+                return@map model
+            }
         }
     }
 
     override suspend fun addToFavoritePhotoItem(photoItem: PhotoItem) {
-        return photoDao.insertPhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user!!))
+        if(fileProvider.checkStoragePermissions()) {
+            fileProvider.savePhoto(photoItem)
+            if(photoItem.user != null) {
+                fileProvider.saveUser(photoItem.user!!)
+            }
+        }
+
+        photoDao.insertPhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user!!))
     }
 
     override suspend fun deleteFromFavoritePhotoItem(photoItem: PhotoItem) {
-        return photoDao.deletePhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user!!))
+        if(fileProvider.checkStoragePermissions()) {
+            fileProvider.deletePhoto(photoItem)
+            if(photoItem.user != null) {
+                fileProvider.deleteUser(photoItem.user!!)
+            }
+        }
+
+        photoDao.deletePhoto(PhotoItemMapper.fromModel(photoItem), UserMapper.fromModel(photoItem.user!!))
     }
 
     override suspend fun getUserByPhoto(photoItem: PhotoItem): Result<User> {
@@ -44,5 +64,10 @@ class PhotoRepository @Inject constructor(
         if(userFromDb != null)
             return Result.Success(UserMapper.toModel(userFromDb))
         return Result.Failure(Exception("user is not found"))
+    }
+
+    override suspend fun isPhotoInFavorite(photoItem: PhotoItem): Boolean {
+        val photo = photoDao.getPhotoById(photoItem.id)
+        return photo != null
     }
 }

@@ -12,7 +12,7 @@ data class PhotoItem (
     var thumb: String? = null,
     var regular: String? = null,
     var full: String? = null,
-    var localPhotoPath: String? = null,
-    var addedToFavorite: Date? = null,
+    var addedToFavorite: Date = Date(),
+    var isFavorite: Boolean = false,
     var user: User? = null
 )

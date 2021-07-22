@@ -18,7 +18,8 @@ class PhotoItemParcelable(val model: PhotoItem?): Parcelable {
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString(),
+            parcel.readSerializable() as Date,
+            parcel.readInt() == 1,
             parcel.readParcelable(User::class.java.classLoader)
         )
     )
@@ -33,7 +34,8 @@ class PhotoItemParcelable(val model: PhotoItem?): Parcelable {
         parcel.writeString(model?.thumb)
         parcel.writeString(model?.regular)
         parcel.writeString(model?.full)
-        parcel.writeString(model?.localPhotoPath)
+        parcel.writeSerializable(model?.addedToFavorite)
+        parcel.writeInt(if(model?.isFavorite == true) 1 else 0)
         parcel.writeParcelable(UserParcelable(model?.user), 0)
     }
 

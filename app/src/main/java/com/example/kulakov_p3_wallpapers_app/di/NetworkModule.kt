@@ -1,6 +1,6 @@
 package com.example.kulakov_p3_wallpapers_app.di
 
-import com.example.data.repositories.remote.PhotoApiRepository
+import com.example.data.api.ApiConstants.BASE_URL
 import com.example.data.api.PhotoApiService
 import dagger.Module
 import dagger.Provides
@@ -15,7 +15,7 @@ object NetworkModule {
 
     @Provides
     fun providesRetrofit() = Retrofit.Builder()
-        .baseUrl(PhotoApiRepository.BASE_URL)
+        .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 

@@ -8,7 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.example.kulakov_p3_wallpapers_app.utils.ConnectionLiveData
+import com.example.kulakov_p3_wallpapers_app.utils.InternetUtil
 
 abstract class BaseFragment<TBinding: ViewDataBinding>(
     @LayoutRes private val layout: Int
@@ -16,7 +16,7 @@ abstract class BaseFragment<TBinding: ViewDataBinding>(
 
     protected lateinit var binding: TBinding
 
-    protected lateinit var connectionLiveData: ConnectionLiveData
+    protected lateinit var internetObserver: InternetUtil
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -25,7 +25,7 @@ abstract class BaseFragment<TBinding: ViewDataBinding>(
     ): View? {
         binding = DataBindingUtil.inflate(inflater, layout, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
-        connectionLiveData = ConnectionLiveData(requireContext())
+        internetObserver = InternetUtil(requireContext())
         return binding.root
     }
 }

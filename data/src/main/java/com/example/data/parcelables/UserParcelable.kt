@@ -15,7 +15,6 @@ class UserParcelable(val model: User?): Parcelable {
             parcel.readString(),
             parcel.readString(),
             parcel.readString(),
-            parcel.readString(),
             parcel.readString()
         )
     )
@@ -29,7 +28,6 @@ class UserParcelable(val model: User?): Parcelable {
         parcel.writeString(model?.twitter_username)
         parcel.writeString(model?.username)
         parcel.writeString(model?.photoUrl)
-        parcel.writeString(model?.localPhotoPath)
     }
 
     override fun describeContents(): Int {

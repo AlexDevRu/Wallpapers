@@ -1,5 +1,6 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.base
 
+import androidx.databinding.Bindable
 import androidx.databinding.Observable
 import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.ViewModel
@@ -36,4 +37,13 @@ abstract class BaseVM : ViewModel(), Observable {
     fun notifyPropertyChanged(fieldId: Int) {
         callbacks.notifyCallbacks(this, fieldId, null)
     }
+
+
+
+    /*@Bindable
+    var saveArgs: UnsplashPhoto? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.saveArgs)
+        }*/
 }

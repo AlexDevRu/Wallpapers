@@ -17,9 +17,8 @@ object PhotoItemMapper: IMapper<PhotoItemEntity, PhotoItem> {
             entity.thumb,
             entity.regular,
             entity.full,
-            entity.localPhotoPath,
             entity.addedToFavorite,
-            User(entity.userId)
+            user = User(entity.userId)
         )
     }
 
@@ -34,7 +33,6 @@ object PhotoItemMapper: IMapper<PhotoItemEntity, PhotoItem> {
             model.thumb,
             model.regular,
             model.full,
-            model.localPhotoPath,
             model.addedToFavorite,
             model.user!!.id
         )

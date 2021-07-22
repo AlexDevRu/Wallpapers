@@ -31,13 +31,14 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
 
     private var searchJob: Job? = null
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.viewModel = viewModel
 
-        if(savedInstanceState == null) {
-            viewModel.searchQuery.onNext(args.searchQuery.orEmpty())
+        if(savedInstanceState == null && !args.searchQuery.isNullOrEmpty()) {
+            viewModel.searchQuery.onNext(args.searchQuery!!)
         }
 
         adapter.addLoadStateListener { state ->
@@ -45,7 +46,6 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
             viewModel.error.set(if(state.refresh is LoadState.Error)
                 (state.refresh as LoadState.Error).error.localizedMessage
             else null)
-
         }
 
         val headerAdapter = PhotoLoadStateAdapter { adapter.retry() }
@@ -82,10 +82,20 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
             if(it != null)
                 binding.photoList.scrollToPosition(it)
         })
+
+        internetObserver.observe(viewLifecycleOwner, {
+            //viewModel.isNetworkAvailable.set(it)
+
+        })
     }
 
     override fun onResume() {
         super.onResume()
         binding.root.requestFocus()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.saveData()
     }
 }

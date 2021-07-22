@@ -7,6 +7,7 @@ import com.example.domain.common.Result
 import com.example.domain.use_cases.photo.GetUserByPhotoUseCase
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
+import androidx.databinding.library.baseAdapters.BR
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -22,10 +23,10 @@ class PhotoInfoVM @Inject constructor(
     private var userJob: Job? = null
 
     init {
-        photoItemObservable.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+        addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 Log.e("asd", "1 ${photoItem?.user}")
-                if(photoItem?.user?.name == null) {
+                if(propertyId == BR.photoItem && photoItem?.user?.name == null) {
                     getUserFromDb()
                 }
             }

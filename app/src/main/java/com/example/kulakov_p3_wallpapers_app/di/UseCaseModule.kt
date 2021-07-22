@@ -34,6 +34,11 @@ object UseCaseModule {
             = GetUserByPhotoUseCase(repository)
 
     @Provides
+    fun providesCheckFavoritePhotoUseCase(repository: IPhotoRepository)
+            = CheckFavoritePhotoUseCase(repository)
+
+
+    @Provides
     fun providesDeleteQueryUseCase(repository: ISearchQueryRepository)
             = DeleteQueryUseCase(repository)
 

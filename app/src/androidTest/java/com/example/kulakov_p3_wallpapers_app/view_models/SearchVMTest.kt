@@ -5,16 +5,15 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.example.data.aliases.InsertQueryUseCase
 import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
-import com.example.data.api.PhotoApiRepository
+import com.example.data.repositories.remote.PhotoApiRepository
 import com.example.data.database.PhotoDatabase
-import com.example.data.database.repositories.SearchQueryRepository
-import com.example.data.database.repositories.test.FakeService
+import com.example.data.repositories.local.SearchQueryRepository
+import com.example.data.repositories.test.FakeService
 import com.example.domain.models.PhotoItem
 import com.example.domain.use_cases.photo.GetPhotosUseCase
+import com.example.domain.use_cases.queries.InsertQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
-import com.example.kulakov_p3_wallpapers_app.utils.getOrAwaitValue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -100,5 +99,20 @@ class SearchVMTest {
         } finally {
             job.cancel()
         }
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun retryTest() = runBlockingTest {
+        val oldResult = viewModel.searchPhotos()
+        viewModel.retrySearch()
+        assertFalse("data did not reloaded", oldResult == viewModel.searchPhotos())
+    }
+
+    @Test
+    fun changeColumnCount() {
+        val oldColumnCount = viewModel.columnListCount.get()
+        viewModel.changeColumnCount()
+        assertFalse("column count did not changed", viewModel.columnListCount.get() == oldColumnCount)
     }
 }

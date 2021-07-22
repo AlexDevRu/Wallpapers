@@ -45,11 +45,7 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
                     binding.imageView to "imageView",
                     binding.expandButton to "button"
                 )
-                val photoUrl = if(viewModel.photoItem?.localPhotoPath == null)
-                    viewModel.photoItem?.regular
-                else "file://${viewModel.photoItem?.localPhotoPath}"
-
-                Navigator.getInstance().photoDetailFragmentNavigator.showFullscreen(photoUrl, extras)
+                Navigator.getInstance().photoDetailFragmentNavigator.showFullscreen(viewModel.photoUrl, extras)
             }
 
             override fun onOpenInfo() {
