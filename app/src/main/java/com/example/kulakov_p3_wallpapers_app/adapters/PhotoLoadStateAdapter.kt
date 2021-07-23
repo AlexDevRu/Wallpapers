@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -59,8 +60,11 @@ class PhotoLoadStateAdapter(private val retry: () -> Unit): LoadStateAdapter<Pho
 
         override fun bind(loadState: LoadState) {
             require(loadState is LoadState.Error)
-            binding.message = loadState.error.localizedMessage
-            binding.onRetryClick = retry
+            binding.apply {
+                message = ObservableField(loadState.error.localizedMessage)
+                onRetryClick = retry
+                executePendingBindings()
+            }
         }
     }
 }

@@ -8,9 +8,9 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Environment
 import androidx.core.content.ContextCompat
+import com.example.domain.files.IFileProvider
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User
-import com.example.domain.files.IFileProvider
 import java.io.File
 import javax.inject.Inject
 
@@ -45,9 +45,9 @@ class FileProvider @Inject constructor(private val app: Application): IFileProvi
         downloadManager.enqueue(request)
     }
 
-    /*private suspend fun downloadBitmapAndSave(url: String, file: String) {
-        val url = URL(url)
-        var count = 0
+    /*override suspend fun downloadBitmapAndSave(photoItem: PhotoItem) {
+        val url = URL(photoItem.regular!!)
+        var count: Int
 
         val connection = url.openConnection()
         connection.connect()
@@ -55,11 +55,17 @@ class FileProvider @Inject constructor(private val app: Application): IFileProvi
         // input stream to read file - with 8k buffer
         val input = BufferedInputStream(url.openStream(), 8192)
 
+        if(!File(BASE_DIR, IMAGES_DIR).exists())
+            File(BASE_DIR, IMAGES_DIR).mkdirs()
+
+        val f = File(BASE_DIR, IMAGES_DIR + File.separator + "${photoItem.id}.jpg")
+        f.createNewFile()
+
         // Output stream to write file
-        val output = FileOutputStream(file)
+        val output = FileOutputStream(f)
         val data = ByteArray(1024)
 
-        var total: Long = 0
+        var total = 0L
         while (input.read(data).also { count = it } != -1) {
             total += count
 
@@ -78,14 +84,12 @@ class FileProvider @Inject constructor(private val app: Application): IFileProvi
     override suspend fun savePhoto(photoItem: PhotoItem) {
         if(getPhotoItemFilePath(photoItem) != null)
             return
-        //downloadBitmapAndSave(photoItem.regular!!, getPhotoItemFilePath(photoItem)!!)
         downloadBitmapAndSave(photoItem.regular!!, photoItem.id, IMAGES_DIR)
     }
 
     override suspend fun saveUser(user: User) {
         if(getUserFilePath(user) != null)
             return
-        //downloadBitmapAndSave(user.photoUrl!!, getUserFilePath(user)!!)
         downloadBitmapAndSave(user.photoUrl!!, user.id, USERS_DIR)
     }
 

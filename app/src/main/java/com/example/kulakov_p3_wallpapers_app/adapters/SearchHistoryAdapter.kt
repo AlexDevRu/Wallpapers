@@ -53,6 +53,7 @@ class SearchHistoryAdapter(
                 viewModel?.searchItem = searchItem
                 delegate = object: Delegate {
                     override fun onItemClick() {
+                        viewModel?.updateSearchItemDate()
                         Navigator.getInstance().historyFragmentNavigator.showSearch(viewModel?.searchItem?.query)
                     }
                 }

@@ -16,14 +16,14 @@ class PhotoApiRepository @Inject constructor(
     private val insertQueryUseCase: InsertQueryUseCase
 ): IPhotoApiRepository {
 
-    override suspend fun getPhotos(query: String?): PhotoItemFlow {
+    override suspend fun getPhotos(query: String?, isShouldSaveQuery: Boolean): PhotoItemFlow {
         return Pager(
             config = PagingConfig(
                 pageSize = NETWORK_PAGE_SIZE,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = {
-                PhotosPageSource(service, query) { result -> insertQueryUseCase.invoke(result) }
+                PhotosPageSource(service, query) { result -> if(isShouldSaveQuery) insertQueryUseCase.invoke(result) }
             }
         ).flow
     }

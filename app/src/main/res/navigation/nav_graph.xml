@@ -12,6 +12,10 @@
             app:argType="string"
             app:nullable="true"
             android:defaultValue="@null"/>
+        <argument
+            android:name="isShouldSaveQuery"
+            app:argType="boolean"
+            android:defaultValue="true"/>
         <action
             android:id="@+id/action_searchFragment_to_photoDetailFragment"
             app:destination="@id/photoDetailFragment"
@@ -62,6 +66,11 @@
                 app:argType="string"
                 app:nullable="true"
                 android:defaultValue="@null"/>
+
+            <argument
+                android:name="isShouldSaveQuery"
+                app:argType="boolean"
+                android:defaultValue="false"/>
 
         </action>
     </fragment>

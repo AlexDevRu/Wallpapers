@@ -7,6 +7,7 @@ import com.example.kulakov_p3_wallpapers_app.view_models.base.SearchItemVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.util.*
 
 class HistorySearchItemVM(
     updateQueryUseCase: UpdateQueryUseCase,
@@ -29,5 +30,10 @@ class HistorySearchItemVM(
                 deleteQueryUseCase.invoke(searchItem!!)
             }
         }
+    }
+
+    fun updateSearchItemDate() {
+        searchItem?.date = Date()
+        updateQuery()
     }
 }

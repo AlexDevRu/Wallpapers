@@ -1,6 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.views.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +19,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 @AndroidEntryPoint
 class SearchFragment: BaseFragment<FragmentSearchBinding>
@@ -37,15 +40,27 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
 
         binding.viewModel = viewModel
 
-        if(savedInstanceState == null && !args.searchQuery.isNullOrEmpty()) {
-            viewModel.searchQuery.onNext(args.searchQuery!!)
+        if(savedInstanceState == null) {
+            if(!args.searchQuery.isNullOrEmpty())
+                viewModel.searchQuery.onNext(args.searchQuery!!)
+
+            viewModel.isShouldSaveQuery = args.isShouldSaveQuery
         }
 
         adapter.addLoadStateListener { state ->
             viewModel.loading.set(state.refresh == LoadState.Loading)
-            viewModel.error.set(if(state.refresh is LoadState.Error)
-                (state.refresh as LoadState.Error).error.localizedMessage
-            else null)
+            if(state.refresh is LoadState.Error)
+            {
+                Log.e("asd", "error ${(state.refresh as LoadState.Error).error.localizedMessage}")
+                val exception = (state.refresh as LoadState.Error).error
+                val error = when(exception) {
+                    is HttpException -> exception.message()
+                    else -> exception.localizedMessage.orEmpty()
+                }
+                viewModel.error.set(error)
+            } else {
+                viewModel.error.set(null)
+            }
         }
 
         val headerAdapter = PhotoLoadStateAdapter { adapter.retry() }
@@ -84,8 +99,7 @@ class SearchFragment: BaseFragment<FragmentSearchBinding>
         })
 
         internetObserver.observe(viewLifecycleOwner, {
-            //viewModel.isNetworkAvailable.set(it)
-
+            viewModel.isNetworkAvailable.set(it)
         })
     }
 

@@ -17,6 +17,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.domain.files.IFileProvider
@@ -120,7 +121,11 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
             }
 
             override fun onSetLockScreenWallpaper() {
-                setLockScreenWallpaper()
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    setLockScreenWallpaper()
+                } else {
+                    Toast.makeText(context, resources.getString(R.string.wallpaper_not_support), Toast.LENGTH_SHORT).show()
+                }
             }
 
             override fun onSaveToFavorite() {
@@ -175,16 +180,8 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         }
     }
 
-    private fun setLockScreenWallpaper() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            mainSetLockScreenWallpaper()
-        } else {
-            alternateSetWallpaperLockScreen()
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.N)
-    private fun mainSetLockScreenWallpaper() {
+    private fun setLockScreenWallpaper() {
         if(!wm.isSetWallpaperAllowed && !wm.isWallpaperSupported) {
             Toast.makeText(context, resources.getString(R.string.wallpaper_not_support), Toast.LENGTH_SHORT).show()
             return
@@ -203,21 +200,6 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
                 }
             }
             viewModel.isLoadingDialogOpen.postValue(false)
-        }
-    }
-
-    private fun alternateSetWallpaperLockScreen() {
-        setLockScreenJob?.cancel()
-
-        setLockScreenJob = lifecycleScope.launch(Dispatchers.IO) {
-            fileProvider.savePhoto(viewModel.photoItem!!)
-            withContext(Dispatchers.Main) {
-                val intent = Intent("android.intent.action.ATTACH_DATA")
-                intent.addCategory("android.intent.category.DEFAULT")
-                intent.setDataAndType(Uri.fromFile(File(viewModel.photoUrl!!)), "image/*")
-                intent.putExtra("mimeType", "image/*")
-                startActivity(Intent.createChooser(intent, resources.getString(R.string.set_as)))
-            }
         }
     }
 

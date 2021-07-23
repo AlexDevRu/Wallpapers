@@ -1,5 +1,7 @@
 package com.example.data.api.sources
 
+import android.util.Log
+import androidx.paging.LoadState
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.example.data.api.ApiConstants.NETWORK_PAGE_SIZE
@@ -37,6 +39,10 @@ class PhotosPageSource(private val service: PhotoApiService,
                 service.getPhotos(position, params.loadSize, ACCESS_KEY)
             } else {
                 val response = service.getPhotos(position, query, params.loadSize, ACCESS_KEY)
+                if(response.errors != null) {
+                    Log.e("asd", "page source error ${response.errors}")
+                    throw IOException(response.errors.joinToString("\n"))
+                }
                 if(position == STARTING_PAGE_INDEX) {
                     val result = SearchItem(query = query, resultsCount = response.total)
                     onResponse(result)

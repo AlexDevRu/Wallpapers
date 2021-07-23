@@ -1,5 +1,7 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
+import android.util.Log
+import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -38,32 +40,33 @@ class SearchVM @Inject constructor(
 
     val scrollList = SingleLiveEvent<Int>()
 
-    private var initialSearch = true
+    val initialSearch = ObservableBoolean(true)
 
     val error = ObservableField<String>()
     val loading = ObservableBoolean(false)
     val columnListCount = ObservableInt(storage.getColumnCount())
     val isNetworkAvailable = ObservableBoolean(false)
 
+    var isShouldSaveQuery = true
+
     init {
         compositeDisposable.add(searchQuery
-            .filter { isNetworkAvailable.get() && !initialSearch }
+            .filter { isNetworkAvailable.get() && !initialSearch.get() }
             .debounce(1500, TimeUnit.MILLISECONDS)
             .subscribe { _ ->
                 searchByKeyword()
             })
 
-        /*isNetworkAvailable.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
+        isNetworkAvailable.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                Log.e("asd", "inet")
-                if(isNetworkAvailable.get() && initialSearch)
+                Log.e("asd", "isNetworkAvailable ${isNetworkAvailable.get()}")
+                if(isNetworkAvailable.get() && initialSearch.get())
                     searchByKeyword()
             }
-        })*/
+        })
 
-        /*if(isNetworkAvailable.get())
-            searchByKeyword()*/
-        searchByKeyword()
+        if(isNetworkAvailable.get())
+            searchByKeyword()
     }
 
     fun changeColumnCount() {
@@ -71,13 +74,15 @@ class SearchVM @Inject constructor(
     }
 
     fun retrySearch() {
-        currentSearchResult = null
-        searchByKeyword()
+        if(isNetworkAvailable.get()) {
+            currentSearchResult = null
+            searchByKeyword()
+        }
     }
 
     private fun searchByKeyword() {
+        scrollList.postValue(0)
         _collectData.postValue(true)
-        initialSearch = false
     }
 
     suspend fun searchPhotos(): Flow<PagingData<PhotoItem>> {
@@ -88,11 +93,11 @@ class SearchVM @Inject constructor(
 
         currentQueryValue = searchQuery.value
 
-        val newResult = getPhotosUseCase.invoke(searchQuery.value).cachedIn(viewModelScope)
+        val newResult = getPhotosUseCase.invoke(searchQuery.value, isShouldSaveQuery && !initialSearch.get()).cachedIn(viewModelScope)
 
         currentSearchResult = newResult
 
-        scrollList.postValue(0)
+        initialSearch.set(false)
 
         return newResult
     }
@@ -104,6 +109,7 @@ class SearchVM @Inject constructor(
 
     override fun onCleared() {
         super.onCleared()
+        Log.w("asd", "onCleared")
         compositeDisposable.dispose()
     }
 }

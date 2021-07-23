@@ -6,6 +6,7 @@ import com.example.domain.aliases.SearchQueryFlow
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import com.example.domain.use_cases.queries.GetQueriesUseCase
+import com.example.domain.use_cases.queries.UpdateQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.view_models.base.BaseVM
 
 @HiltViewModel
