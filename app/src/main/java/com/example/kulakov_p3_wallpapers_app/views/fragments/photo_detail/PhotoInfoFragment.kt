@@ -41,7 +41,7 @@ class PhotoInfoFragment: BaseFragment<FragmentPhotoInfoBinding>
 
     private fun startAnimations() {
         val translateBt = AnimationUtils.loadAnimation(context, R.anim.translate_bt)
-        val scale = AnimationUtils.loadAnimation(context, R.anim.scale)
+        val scale = AnimationUtils.loadAnimation(context, R.anim.scale_in)
         binding.scrollView.startAnimation(translateBt)
         binding.backButton.startAnimation(scale)
     }

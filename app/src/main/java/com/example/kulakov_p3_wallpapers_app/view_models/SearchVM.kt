@@ -1,7 +1,5 @@
 package com.example.kulakov_p3_wallpapers_app.view_models
 
-import android.util.Log
-import androidx.databinding.Observable
 import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
@@ -10,8 +8,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.data.preferences.PersistantStorage
 import com.example.domain.models.PhotoItem
+import com.example.domain.preferences.IPersistantStorage
 import com.example.domain.use_cases.photo.GetPhotosUseCase
 import com.example.kulakov_p3_wallpapers_app.events.SingleLiveEvent
 import com.example.kulakov_p3_wallpapers_app.view_models.base.BaseVM
@@ -25,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchVM @Inject constructor(
     private val getPhotosUseCase: GetPhotosUseCase,
-    private val storage: PersistantStorage
+    private val storage: IPersistantStorage
 ) : BaseVM() {
 
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null

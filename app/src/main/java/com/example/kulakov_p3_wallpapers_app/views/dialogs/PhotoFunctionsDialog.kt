@@ -19,13 +19,14 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
-import com.example.domain.utils.IFileProvider
+import com.example.domain.files.IFileProvider
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.DialogPhotoFunctionsBinding
 import com.example.kulakov_p3_wallpapers_app.utils.InternetUtil
 import com.example.kulakov_p3_wallpapers_app.utils.Utils
 import com.example.kulakov_p3_wallpapers_app.utils.extensions.loadingDialog
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFunctionsVM
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
@@ -101,6 +102,13 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
     override fun onDetach() {
         super.onDetach()
         storagePermissions.unregister()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        //this forces the sheet to appear at max height even on landscape
+        val behavior = BottomSheetBehavior.from(requireView().parent as View)
+        behavior.state = BottomSheetBehavior.STATE_EXPANDED
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

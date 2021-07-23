@@ -1,4 +1,4 @@
-package com.example.domain.utils
+package com.example.domain.files
 
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User

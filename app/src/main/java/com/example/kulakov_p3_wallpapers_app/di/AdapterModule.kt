@@ -4,7 +4,7 @@ package com.example.kulakov_p3_wallpapers_app.di
 import com.example.domain.use_cases.photo.DeleteFromFavoritePhotoItemUseCase
 import com.example.domain.use_cases.queries.DeleteQueryUseCase
 import com.example.domain.use_cases.queries.UpdateQueryUseCase
-import com.example.domain.utils.IFileProvider
+import com.example.domain.files.IFileProvider
 import com.example.kulakov_p3_wallpapers_app.adapters.FavoritePhotoAdapter
 import com.example.kulakov_p3_wallpapers_app.adapters.FavoriteSearchItemsAdapter
 import com.example.kulakov_p3_wallpapers_app.adapters.SearchHistoryAdapter

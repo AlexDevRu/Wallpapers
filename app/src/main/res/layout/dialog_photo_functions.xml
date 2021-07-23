@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:id="@+id/functionsList"
-        android:padding="@dimen/functions_dialog_padding"
+        android:padding="@dimen/base_item_indent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         android:layout_width="match_parent"
@@ -27,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/set_wallpapers_main"
             android:drawablePadding="@dimen/base_indent"
+            android:padding="@dimen/base_item_indent"
             app:drawableStartCompat="@drawable/ic_baseline_wallpaper_24" />
 
         <TextView
@@ -34,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/set_wallpapers_lock"
-            android:layout_marginTop="@dimen/base_indent"
+            android:padding="@dimen/base_item_indent"
             android:drawablePadding="@dimen/base_indent"
             app:drawableStartCompat="@drawable/ic_baseline_wallpaper_24" />
 
@@ -45,7 +46,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/save_to_favorite"
-            android:layout_marginTop="@dimen/base_indent"
+            android:padding="@dimen/base_item_indent"
             android:drawablePadding="@dimen/base_indent"
             app:drawableStartCompat="@drawable/ic_baseline_favorite_24" />
 

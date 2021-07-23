@@ -11,7 +11,7 @@ import com.example.domain.common.Result
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User
 import com.example.domain.repositories.local.IPhotoRepository
-import com.example.domain.utils.IFileProvider
+import com.example.domain.files.IFileProvider
 import kotlinx.coroutines.flow.map
 import java.lang.Exception
 import javax.inject.Inject

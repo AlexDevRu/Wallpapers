@@ -14,6 +14,7 @@ import com.example.domain.models.PhotoItem
 import com.example.domain.use_cases.photo.GetPhotosUseCase
 import com.example.domain.use_cases.queries.InsertQueryUseCase
 import com.example.kulakov_p3_wallpapers_app.adapters.PhotoAdapter
+import com.example.kulakov_p3_wallpapers_app.test.PersistantStorageTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -48,7 +49,7 @@ class SearchVMTest {
 
         val apiRepository = PhotoApiRepository(service, insertQueryUseCase)
 
-        viewModel = SearchVM(GetPhotosUseCase(apiRepository))
+        viewModel = SearchVM(GetPhotosUseCase(apiRepository), PersistantStorageTest())
     }
 
     @After

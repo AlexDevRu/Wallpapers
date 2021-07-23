@@ -2,8 +2,9 @@ package com.example.data.preferences
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.domain.preferences.IPersistantStorage
 
-class PersistantStorage(context: Context) {
+class PersistantStorage(context: Context): IPersistantStorage {
     private val settings: SharedPreferences = context.getSharedPreferences(STORAGE_NAME, Context.MODE_PRIVATE)
     private val editor: SharedPreferences.Editor = settings.edit()
 
@@ -16,18 +17,18 @@ class PersistantStorage(context: Context) {
         private const val COLUMN_COUNT_DEFAULT = 3
     }
 
-    fun saveColumnCount(value: Int) {
+    override fun saveColumnCount(value: Int) {
         editor.putInt(COLUMN_COUNT, value)
         editor.commit()
     }
 
-    fun getColumnCount() = settings.getInt(COLUMN_COUNT, COLUMN_COUNT_DEFAULT)
+    override fun getColumnCount() = settings.getInt(COLUMN_COUNT, COLUMN_COUNT_DEFAULT)
 
 
-    fun saveQuery(value: String?) {
+    override fun saveQuery(value: String?) {
         editor.putString(QUERY, value)
         editor.commit()
     }
 
-    fun getQuery() = settings.getString(QUERY, null)
+    override fun getQuery() = settings.getString(QUERY, null)
 }

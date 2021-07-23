@@ -10,7 +10,7 @@ import android.os.Environment
 import androidx.core.content.ContextCompat
 import com.example.domain.models.PhotoItem
 import com.example.domain.models.User
-import com.example.domain.utils.IFileProvider
+import com.example.domain.files.IFileProvider
 import java.io.File
 import javax.inject.Inject
 

@@ -14,8 +14,9 @@ import com.example.domain.repositories.local.IPhotoRepository
 import com.example.domain.repositories.local.ISearchQueryRepository
 import com.example.domain.repositories.remote.IPhotoApiRepository
 import com.example.domain.use_cases.queries.InsertQueryUseCase
-import com.example.domain.utils.IFileProvider
+import com.example.domain.files.IFileProvider
 import com.example.data.files.FileProvider
+import com.example.domain.preferences.IPersistantStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,7 +38,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPersistantStorage(app: Application) = PersistantStorage(app.applicationContext)
+    fun providesPersistantStorage(app: Application): IPersistantStorage = PersistantStorage(app.applicationContext)
 
     @Provides
     fun providesPhotoDao(db: PhotoDatabase) = db.photoDao()

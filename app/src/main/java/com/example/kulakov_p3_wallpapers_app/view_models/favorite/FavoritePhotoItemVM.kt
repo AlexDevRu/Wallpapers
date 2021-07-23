@@ -2,7 +2,7 @@ package com.example.kulakov_p3_wallpapers_app.view_models.favorite
 
 import androidx.lifecycle.viewModelScope
 import com.example.domain.use_cases.photo.DeleteFromFavoritePhotoItemUseCase
-import com.example.domain.utils.IFileProvider
+import com.example.domain.files.IFileProvider
 import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
