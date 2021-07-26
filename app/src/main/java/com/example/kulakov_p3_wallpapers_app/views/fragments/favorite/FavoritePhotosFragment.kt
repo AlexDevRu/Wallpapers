@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.example.domain.files.IFileProvider
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.FavoritePhotoAdapter
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentFavoritePhotosBinding
@@ -22,14 +23,19 @@ class FavoritePhotosFragment: BaseFragment<FragmentFavoritePhotosBinding>
 
     private val viewModel: FavoritePhotosVM by viewModels()
 
-    @Inject
-    lateinit var adapter: FavoritePhotoAdapter
+
+    private lateinit var adapter: FavoritePhotoAdapter
 
     private var getJob: Job? = null
+
+    @Inject
+    lateinit var fileProvider: IFileProvider
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+
+        adapter = FavoritePhotoAdapter(viewModel::deleteFromFavoritePhotoItem, fileProvider)
 
         binding.favoritePhotosList.adapter = adapter
 

@@ -4,9 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="androidx.databinding.ObservableField"/>
+        <import type="com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM"/>
+
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM" />
+            type="ObservableField&lt;PhotoItemVM>" />
 
         <variable
             name="delegate"
@@ -39,7 +42,7 @@
                 android:contentDescription="@string/photo" />
 
             <ImageButton
-                android:onClick="@{() -> viewModel.deleteFromFavorite()}"
+                android:onClick="@{() -> delegate.onDeleteFromFavorite()}"
                 style="@style/circleImageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

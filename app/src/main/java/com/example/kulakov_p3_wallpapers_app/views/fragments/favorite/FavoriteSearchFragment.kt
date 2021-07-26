@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class FavoriteSearchFragment: BaseFragment<FragmentFavoriteSearchBinding>
@@ -22,14 +21,14 @@ class FavoriteSearchFragment: BaseFragment<FragmentFavoriteSearchBinding>
 
     private val viewModel: FavoriteSearchVM by viewModels()
 
-    @Inject
-    lateinit var adapter: FavoriteSearchItemsAdapter
+    private lateinit var adapter: FavoriteSearchItemsAdapter
 
     private var getJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+        adapter = FavoriteSearchItemsAdapter(viewModel::deleteFromFavorite)
         binding.queriesList.adapter = adapter
         getQueries()
     }

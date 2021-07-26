@@ -1,21 +1,27 @@
 package com.example.kulakov_p3_wallpapers_app.view_models.base
 
 import android.util.Log
+import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import com.example.domain.models.PhotoItem
 import com.example.domain.files.IFileProvider
+import com.example.domain.models.User
 import java.text.SimpleDateFormat
 import java.util.*
 
-open class PhotoItemVM(private val fileProvider: IFileProvider? = null): BaseVM() {
+open class PhotoItemVM(photoItem: PhotoItem? = null, private val fileProvider: IFileProvider? = null): BaseObservable() {
 
     @Bindable
-    var photoItem: PhotoItem? = null
+    var photoItem: PhotoItem? = photoItem
         set(value) {
             field = value
+            userVM.user = field?.user
             notifyPropertyChanged(BR.photoItem)
         }
+
+    @get:Bindable
+    var userVM: UserVM = UserVM(fileProvider)
 
     fun isPhotoSaved(): Boolean {
         if(photoItem != null && fileProvider != null) {
@@ -43,32 +49,4 @@ open class PhotoItemVM(private val fileProvider: IFileProvider? = null): BaseVM(
         get() = if(photoItem != null)
             SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(photoItem!!.created)
         else null
-
-    @get:Bindable
-    val userPhotoUrl: String?
-        get() {
-            if(photoItem?.user != null && fileProvider != null) {
-                val path = fileProvider.getUserFilePath(photoItem!!.user!!)
-                if(path != null)
-                    return "file://${path}"
-            }
-            return photoItem?.user?.photoUrl
-        }
-
-
-    @get:Bindable
-    val hasInstagram: Boolean
-        get() = !photoItem?.user?.instagram_username.isNullOrEmpty()
-
-    @get:Bindable
-    val hasTwitter: Boolean
-        get() = !photoItem?.user?.twitter_username.isNullOrEmpty()
-
-    @get:Bindable
-    val hasPortfolio: Boolean
-        get() = !photoItem?.user?.portfolio_url.isNullOrEmpty()
-
-    @get:Bindable
-    val hasDescription: Boolean
-        get() = !photoItem?.user?.bio.isNullOrEmpty()
 }

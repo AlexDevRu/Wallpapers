@@ -10,6 +10,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoDetailBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
+import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM
 import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 
@@ -27,7 +28,7 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         if(savedInstanceState == null) {
-            viewModel.photoItem = args.photoItem?.model
+            viewModel.photoItemVM.set(PhotoItemVM(args.photoItem?.model))
             startAnimations()
         }
 
@@ -45,7 +46,7 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
                     binding.imageView to "imageView",
                     binding.expandButton to "button"
                 )
-                Navigator.getInstance().photoDetailFragmentNavigator.showFullscreen(viewModel.photoUrl, extras)
+                Navigator.getInstance().photoDetailFragmentNavigator.showFullscreen(viewModel.photoItemVM.get()?.photoUrl, extras)
             }
 
             override fun onOpenInfo() {

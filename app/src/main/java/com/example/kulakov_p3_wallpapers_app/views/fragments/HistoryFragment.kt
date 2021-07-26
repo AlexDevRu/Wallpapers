@@ -24,14 +24,19 @@ class HistoryFragment: BaseFragment<FragmentHistoryBinding>
 
     private val viewModel: HistoryVM by viewModels()
 
-    @Inject
-    lateinit var adapter: SearchHistoryAdapter
+    private lateinit var adapter: SearchHistoryAdapter
 
     private var getJob: Job? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
+
+        adapter = SearchHistoryAdapter(
+            viewModel::toggleFavoriteStatus,
+            viewModel::updateSearchItemDate,
+            viewModel::deleteFromDb
+        )
 
         binding.historyList.adapter = adapter
 

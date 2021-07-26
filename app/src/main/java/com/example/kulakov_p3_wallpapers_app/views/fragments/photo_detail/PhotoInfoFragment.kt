@@ -8,6 +8,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoInfoBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
+import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoInfoVM
 import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,7 +25,7 @@ class PhotoInfoFragment: BaseFragment<FragmentPhotoInfoBinding>
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         if(savedInstanceState == null) {
-            viewModel.photoItem = args.photoItem?.model
+            viewModel.init(args.photoItem?.model)
             startAnimations()
         }
 

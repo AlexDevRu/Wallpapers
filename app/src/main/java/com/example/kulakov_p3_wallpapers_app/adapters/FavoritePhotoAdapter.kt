@@ -3,20 +3,20 @@ package com.example.kulakov_p3_wallpapers_app.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.databinding.ObservableField
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.domain.models.PhotoItem
-import com.example.domain.use_cases.photo.DeleteFromFavoritePhotoItemUseCase
 import com.example.domain.files.IFileProvider
+import com.example.domain.models.PhotoItem
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.adapters.diff.PhotoItemDiff
 import com.example.kulakov_p3_wallpapers_app.databinding.PhotoFavoriteItemBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
-import com.example.kulakov_p3_wallpapers_app.view_models.favorite.FavoritePhotoItemVM
+import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 
 class FavoritePhotoAdapter(
-    private val deleteFromFavoritePhotoItemUseCase: DeleteFromFavoritePhotoItemUseCase,
+    private val deleteFromFavoriteHandler: (photoItem: PhotoItem) -> Unit,
     private val fileProvider: IFileProvider
 ): PagingDataAdapter<PhotoItem, FavoritePhotoAdapter.PhotoItemViewHolder>(PhotoItemDiff()) {
 
@@ -37,26 +37,26 @@ class FavoritePhotoAdapter(
 
     interface Delegate {
         fun onItemClick()
+        fun onDeleteFromFavorite()
     }
 
     inner class PhotoItemViewHolder(
         private val binding: PhotoFavoriteItemBinding
     ): RecyclerView.ViewHolder(binding.root) {
-        init {
-            val viewModel = FavoritePhotoItemVM(deleteFromFavoritePhotoItemUseCase, fileProvider) { refresh() }
-            binding.viewModel = viewModel
-        }
 
         fun bind(photoItem: PhotoItem) {
+            val vm = ObservableField<PhotoItemVM>()
+            vm.set(PhotoItemVM(photoItem, fileProvider))
             binding.apply {
-                viewModel?.photoItem = photoItem
-                photoImageView.transitionName = photoItem.id
+                viewModel = vm
                 delegate = object: Delegate {
                     override fun onItemClick() {
-                        val extras = FragmentNavigatorExtras(
-                            binding.photoImageView to photoItem.id
-                        )
-                        Navigator.getInstance().favoriteFragmentNavigator.showPhotoDetail(photoItem, extras)
+                        Navigator.getInstance().favoriteFragmentNavigator.showPhotoDetail(photoItem)
+                    }
+
+                    override fun onDeleteFromFavorite() {
+                        deleteFromFavoriteHandler(binding.viewModel?.get()?.photoItem!!)
+                        refresh()
                     }
                 }
                 executePendingBindings()

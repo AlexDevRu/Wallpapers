@@ -4,9 +4,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="androidx.databinding.ObservableField"/>
+        <import type="com.example.kulakov_p3_wallpapers_app.view_models.base.SearchItemVM"/>
+
         <variable
             name="viewModel"
-            type="com.example.kulakov_p3_wallpapers_app.view_models.favorite.search_item.FavoriteSearchItemVM" />
+            type="ObservableField&lt;SearchItemVM>" />
 
         <variable
             name="delegate"
@@ -51,7 +54,7 @@
             <ImageButton
                 android:id="@+id/deleteButton"
                 style="@style/imageButtonStyle"
-                android:onClick="@{() -> viewModel.deleteFromFavorite()}"
+                android:onClick="@{() -> delegate.onDeleteFromFavorite()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"

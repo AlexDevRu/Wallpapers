@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Dialog
 import android.app.WallpaperManager
 import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -17,7 +15,6 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.example.domain.files.IFileProvider
@@ -26,6 +23,7 @@ import com.example.kulakov_p3_wallpapers_app.databinding.DialogPhotoFunctionsBin
 import com.example.kulakov_p3_wallpapers_app.utils.InternetUtil
 import com.example.kulakov_p3_wallpapers_app.utils.Utils
 import com.example.kulakov_p3_wallpapers_app.utils.extensions.loadingDialog
+import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoFunctionsVM
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -33,7 +31,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.File
 import java.util.*
 import javax.inject.Inject
@@ -71,7 +68,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         )
         binding = DialogPhotoFunctionsBinding.bind(view)
         binding.viewModel = viewModel
-        viewModel.photoItem = args.photoItem?.model
+        viewModel.photoItemVM.set(PhotoItemVM(args.photoItem?.model))
         internetObserver = InternetUtil(requireContext())
         return binding.root
     }
@@ -166,7 +163,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         setDesktopJob?.cancel()
         viewModel.isLoadingDialogOpen.value = true
         setDesktopJob = lifecycleScope.launch(Dispatchers.IO) {
-            if(viewModel.isPhotoSaved()) {
+            if(viewModel.photoItemVM.get()!!.isPhotoSaved()) {
                 val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem!!)!!).inputStream()
                 wm.setStream(data)
             } else {
@@ -190,7 +187,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         setLockScreenJob?.cancel()
         viewModel.isLoadingDialogOpen.value = true
         setLockScreenJob = lifecycleScope.launch(Dispatchers.IO) {
-            if(viewModel.isPhotoSaved()) {
+            if(viewModel.photoItemVM.get()!!.isPhotoSaved()) {
                 val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem!!)!!).inputStream()
                 wm.setStream(data, null, true, WallpaperManager.FLAG_LOCK)
             } else {

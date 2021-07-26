@@ -26,7 +26,7 @@
             style="@style/baseImageViewStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:photo="@{viewModel.photoUrl}"
+            app:photo="@{viewModel.photoItemVM.photoUrl}"
             android:contentDescription="@string/photo" />
 
         <ImageButton
@@ -56,7 +56,7 @@
                     android:layout_width="@dimen/photo_author_size"
                     android:layout_height="@dimen/photo_author_size"
                     style="@style/baseImageViewStyle"
-                    app:photo="@{viewModel.userPhotoUrl ?? @drawable/no_avatar}"
+                    app:photo="@{viewModel.photoItemVM.userVM.userPhotoUrl ?? @drawable/no_avatar}"
                     app:layout_constraintEnd_toStartOf="@id/guideline"
                     app:layout_constraintTop_toTopOf="parent"
                     app:shapeAppearanceOverlay="@style/circleImage" />
@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/author_name_ml"
                     android:layout_marginTop="@dimen/base_indent"
-                    android:text="@{viewModel.photoItem.user.name}"
+                    android:text="@{viewModel.photoItemVM.userVM.user.name}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/authorPhoto"
                     app:layout_constraintTop_toTopOf="parent"
@@ -80,7 +80,7 @@
                     android:layout_height="wrap_content"
                     style="@style/twitterUsernameStyle"
                     tools:text="\@shfkldkl"
-                    android:text="@{`@` + viewModel.photoItem.user.username}"
+                    android:text="@{`@` + viewModel.photoItemVM.userVM.user.username}"
                     app:layout_constraintStart_toStartOf="@id/authorName"
                     app:layout_constraintTop_toBottomOf="@id/authorName" />
 
@@ -100,8 +100,8 @@
                     android:drawablePadding="@dimen/base_indent"
                     style="@style/authorLinkStyle"
                     tools:text="sjdfjsdklj"
-                    android:visibility="@{viewModel.hasInstagram}"
-                    android:text="@{viewModel.photoItem.user.instagram_username}"
+                    android:visibility="@{viewModel.photoItemVM.userVM.hasInstagram}"
+                    android:text="@{viewModel.photoItemVM.userVM.user.instagram_username}"
                     app:drawableStartCompat="@drawable/instagram"
                     app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@id/authorPhoto" />
@@ -115,8 +115,8 @@
                     android:drawablePadding="@dimen/base_indent"
                     style="@style/authorLinkStyle"
                     tools:text="sjdfjsdklj"
-                    android:text="@{viewModel.photoItem.user.twitter_username}"
-                    android:visibility="@{viewModel.hasTwitter}"
+                    android:text="@{viewModel.photoItemVM.userVM.user.twitter_username}"
+                    android:visibility="@{viewModel.photoItemVM.userVM.hasTwitter}"
                     app:drawableStartCompat="@drawable/twitter"
                     app:layout_constraintStart_toStartOf="@id/guideline"
                     app:layout_constraintTop_toBottomOf="@id/instagramLink" />
@@ -129,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/author_link_mt"
                     android:text="@string/portfolio"
-                    android:visibility="@{viewModel.hasPortfolio}"
+                    android:visibility="@{viewModel.photoItemVM.userVM.hasPortfolio}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintWidth_percent="0.6"
@@ -150,8 +150,8 @@
                     android:layout_height="wrap_content"
                     style="@style/authorDescription"
                     tools:text="sjdfjsdklj"
-                    android:text="@{viewModel.photoItem.user.bio}"
-                    android:visibility="@{viewModel.hasDescription}"
+                    android:text="@{viewModel.photoItemVM.userVM.user.bio}"
+                    android:visibility="@{viewModel.photoItemVM.userVM.hasDescription}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/view" />
@@ -173,7 +173,7 @@
                         app:colorIcon="@{@color/green}"
                         app:icon="@{@drawable/ic_baseline_access_time_24}"
                         app:title="@{@string/date}"
-                        app:data="@{viewModel.created}"
+                        app:data="@{viewModel.photoItemVM.created}"
                         android:layout_weight="1"
                         android:layout_width="@dimen/parameter_item_size"
                         android:layout_height="@dimen/parameter_item_size" />
@@ -184,7 +184,7 @@
                         app:colorIcon="@{@color/yellow}"
                         app:icon="@{@drawable/ic_baseline_color_lens_24}"
                         app:title="@{@string/color}"
-                        app:data="@{viewModel.photoItem.color}"
+                        app:data="@{viewModel.photoItemVM.photoItem.color}"
                         android:layout_weight="1"
                         android:layout_width="@dimen/parameter_item_size"
                         android:layout_height="@dimen/parameter_item_size"/>
@@ -194,7 +194,7 @@
                         app:colorIcon="@{@color/red}"
                         app:icon="@{@drawable/ic_baseline_aspect_ratio_24}"
                         app:title="@{@string/size}"
-                        app:data="@{`Px: ` + viewModel.photoItem.width + `x` + viewModel.photoItem.height}"
+                        app:data="@{`Px: ` + viewModel.photoItemVM.photoItem.width + `x` + viewModel.photoItemVM.photoItem.height}"
                         android:layout_weight="1"
                         android:layout_width="@dimen/parameter_item_size"
                         android:layout_height="@dimen/parameter_item_size"/>
