@@ -13,7 +13,7 @@
             type="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoDetailFragment.Delegate" />
     </data>
 
-    <androidx.constraintlayout.motion.widget.MotionLayout
+    <com.example.kulakov_p3_wallpapers_app.views.custom.SavingMotionLayout
         android:id="@+id/motionLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -169,5 +169,5 @@
             android:translationZ="11dp"
             app:layout_constraintTop_toBottomOf="parent"/>
 
-    </androidx.constraintlayout.motion.widget.MotionLayout>
+    </com.example.kulakov_p3_wallpapers_app.views.custom.SavingMotionLayout>
 </layout>
