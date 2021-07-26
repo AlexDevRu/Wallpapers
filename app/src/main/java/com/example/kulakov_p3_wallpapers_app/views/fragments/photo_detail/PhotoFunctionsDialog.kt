@@ -1,4 +1,4 @@
-package com.example.kulakov_p3_wallpapers_app.views.dialogs
+package com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail
 
 import android.Manifest
 import android.app.Dialog
@@ -112,7 +112,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.delegate = object : PhotoFunctionsDelegate {
+        binding.delegate = object: Delegate {
             override fun onSetDesktopWallpaper() {
                 setDesktopWallpaper()
             }
@@ -151,7 +151,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
     private fun saveToFavorite() {
         saveFavoriteJob?.cancel()
         viewModel.isLoadingDialogOpen.value = true
-        Log.e("asd", "url ${viewModel.photoItem!!.regular}")
+        Log.e("asd", "url ${viewModel.photoItem.regular}")
 
         saveFavoriteJob = lifecycleScope.launch(Dispatchers.IO) {
             viewModel.saveToFavorite()
@@ -164,11 +164,11 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         viewModel.isLoadingDialogOpen.value = true
         setDesktopJob = lifecycleScope.launch(Dispatchers.IO) {
             if(viewModel.photoItemVM.get()!!.isPhotoSaved()) {
-                val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem!!)!!).inputStream()
+                val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem)!!).inputStream()
                 wm.setStream(data)
             } else {
                 if(internetObserver.isInternetOn()) {
-                    val bitmap = Utils.getBitmapByUrl(viewModel.photoItem!!.regular!!)
+                    val bitmap = Utils.getBitmapByUrl(viewModel.photoItem.regular!!)
                     wm.setBitmap(bitmap)
                 }
             }
@@ -188,11 +188,11 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         viewModel.isLoadingDialogOpen.value = true
         setLockScreenJob = lifecycleScope.launch(Dispatchers.IO) {
             if(viewModel.photoItemVM.get()!!.isPhotoSaved()) {
-                val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem!!)!!).inputStream()
+                val data = File(fileProvider.getPhotoItemFilePath(viewModel.photoItem)!!).inputStream()
                 wm.setStream(data, null, true, WallpaperManager.FLAG_LOCK)
             } else {
                 if(internetObserver.isInternetOn()) {
-                    val bitmap = Utils.getBitmapByUrl(viewModel.photoItem!!.regular!!)
+                    val bitmap = Utils.getBitmapByUrl(viewModel.photoItem.regular!!)
                     wm.setBitmap(bitmap, null, true, WallpaperManager.FLAG_LOCK)
                 }
             }
@@ -200,7 +200,7 @@ class PhotoFunctionsDialog : BottomSheetDialogFragment() {
         }
     }
 
-    interface PhotoFunctionsDelegate {
+    interface Delegate {
         fun onSetDesktopWallpaper()
         fun onSetLockScreenWallpaper()
         fun onSaveToFavorite()

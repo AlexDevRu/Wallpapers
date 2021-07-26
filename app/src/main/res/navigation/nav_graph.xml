@@ -115,7 +115,7 @@
     </fragment>
     <dialog
         android:id="@+id/photoFunctionsDialog"
-        android:name="com.example.kulakov_p3_wallpapers_app.views.dialogs.PhotoFunctionsDialog"
+        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoFunctionsDialog"
         android:label="PhotoFunctionsDialog">
         <argument
             android:name="photoItem"

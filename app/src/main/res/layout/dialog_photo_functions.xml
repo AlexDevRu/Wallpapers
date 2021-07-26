@@ -9,7 +9,7 @@
 
         <variable
             name="delegate"
-            type="com.example.kulakov_p3_wallpapers_app.views.dialogs.PhotoFunctionsDialog.PhotoFunctionsDelegate" />
+            type="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoFunctionsDialog.Delegate" />
     </data>
 
     <LinearLayout

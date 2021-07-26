@@ -4,9 +4,8 @@ import android.util.Log
 import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import com.example.domain.models.PhotoItem
 import com.example.domain.files.IFileProvider
-import com.example.domain.models.User
+import com.example.domain.models.PhotoItem
 import java.text.SimpleDateFormat
 import java.util.*
 
