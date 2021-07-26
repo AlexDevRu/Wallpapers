@@ -32,11 +32,11 @@
 
         <ImageButton
             android:id="@+id/managerChangeButton"
+            style="@style/imageButtonStyle"
             android:layout_width="@dimen/manager_change_button_size"
             android:layout_height="@dimen/manager_change_button_size"
             android:layout_marginEnd="@dimen/manager_change_button_mr"
             android:src="@{viewModel.columnListCount == 3 ? @drawable/grid_two : @drawable/grid_three}"
-            android:background="@null"
             android:onClick="@{() -> viewModel.changeColumnCount()}"
             app:layout_constraintEnd_toEndOf="@id/searchView"
             app:layout_constraintTop_toTopOf="@id/searchView"

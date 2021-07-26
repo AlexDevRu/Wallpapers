@@ -25,16 +25,11 @@
 
         <ProgressBar
             android:id="@+id/progressBar"
-            style="@android:style/Widget.ProgressBar.Horizontal"
+            style="@style/progressBarStyle"
             android:progress="@{loadProgress}"
             tools:progress="50"
             android:visibility="@{loadProgress &lt; 100}"
-            android:max="100"
-
             android:layout_gravity="top"
-            android:progressBackgroundTint="@color/gray"
-            android:progressTint="@color/blue"
-
             android:layout_width="match_parent"
             android:layout_height="@dimen/webview_progressbar_height" />
 

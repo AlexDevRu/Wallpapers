@@ -18,7 +18,7 @@
 
     <androidx.cardview.widget.CardView
         android:onClick="@{() -> delegate.onItemClick()}"
-        app:cardElevation="@dimen/search_item_card_elevation"
+        style="@style/cardViewStyle"
         android:layout_margin="@dimen/base_item_indent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -55,10 +55,10 @@
 
             <ImageButton
                 android:id="@+id/setFavoriteButton"
+                style="@style/imageButtonStyle"
                 android:onClick="@{() -> viewModel.updateFavoriteStatus()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

@@ -78,9 +78,8 @@
         <item name="android:paddingBottom">@dimen/photo_detail_layout_padding_tb</item>
     </style>
 
-    <style name="photoDetailButtonStyle" parent="circleImageButton">
+    <style name="photoDetailButtonStyle" parent="imageButtonStyle">
         <item name="android:padding">@dimen/base_indent</item>
-        <item name="android:elevation">0dp</item>
     </style>
 
     <style name="searchViewStyle">
@@ -109,5 +108,22 @@
 
     <style name="searchItemInfoStyle">
         <item name="android:textSize">@dimen/small_textsize</item>
+    </style>
+
+    <style name="cardViewStyle">
+        <item name="android:foreground">?android:attr/selectableItemBackground</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="cardElevation">@dimen/search_item_card_elevation</item>
+    </style>
+
+    <style name="progressBarStyle" parent="@android:style/Widget.Material.Light.ProgressBar.Horizontal">
+        <item name="android:max">100</item>
+        <item name="android:progressBackgroundTint">@color/gray</item>
+        <item name="android:progressTint">@color/blue</item>
+    </style>
+
+    <style name="imageButtonStyle" parent="circleImageButton">
+        <item name="android:elevation">0dp</item>
     </style>
 </resources>
