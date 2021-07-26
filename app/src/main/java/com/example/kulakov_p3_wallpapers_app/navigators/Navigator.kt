@@ -8,7 +8,6 @@ class Navigator private constructor(private val navController: NavController) {
     val favoriteFragmentNavigator = FavoriteFragmentNavigator(navController)
     val historyFragmentNavigator = HistoryFragmentNavigator(navController)
     val photoDetailFragmentNavigator = PhotoDetailFragmentNavigator(navController)
-    val photoInfoFragmentNavigator = PhotoInfoFragmentNavigator(navController)
 
     fun navigateBack() {
         navController.navigateUp()

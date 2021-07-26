@@ -4,23 +4,22 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.navArgs
 import com.example.kulakov_p3_wallpapers_app.R
 import com.example.kulakov_p3_wallpapers_app.databinding.FragmentPhotoDetailBinding
 import com.example.kulakov_p3_wallpapers_app.navigators.Navigator
-import com.example.kulakov_p3_wallpapers_app.view_models.base.PhotoItemVM
 import com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM
 import com.example.kulakov_p3_wallpapers_app.views.fragments.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
     (R.layout.fragment_photo_detail) {
 
-    private val viewModel: PhotoDetailVM by lazy {
-        ViewModelProvider(this).get(PhotoDetailVM::class.java)
-    }
+    private val viewModel: PhotoDetailVM by viewModels()
 
     private val args: PhotoDetailFragmentArgs by navArgs()
 
@@ -28,7 +27,7 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         if(savedInstanceState == null) {
-            viewModel.photoItemVM.set(PhotoItemVM(args.photoItem?.model))
+            viewModel.init(args.photoItem?.model)
             startAnimations()
         }
 
@@ -45,10 +44,6 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
                 Navigator.getInstance().photoDetailFragmentNavigator.showFullscreen(viewModel.photoItemVM.get()?.photoUrl, extras)
             }
 
-            override fun onOpenInfo() {
-                Navigator.getInstance().photoDetailFragmentNavigator.showInfo(viewModel.photoItem)
-            }
-
             override fun onShare() {
                 val sendIntent = Intent()
                 sendIntent.action = Intent.ACTION_SEND
@@ -61,6 +56,12 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
                 Navigator.getInstance().navigateBack()
             }
         }
+
+        viewModel.openLink.observe(viewLifecycleOwner, {
+            if (it != null) {
+                Navigator.getInstance().photoDetailFragmentNavigator.openLink(it)
+            }
+        })
     }
 
     private fun startAnimations() {
@@ -71,7 +72,6 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
     interface Delegate {
         fun onOpenDialog()
         fun onShowFullscreen()
-        fun onOpenInfo()
         fun onShare()
         fun onBack()
     }

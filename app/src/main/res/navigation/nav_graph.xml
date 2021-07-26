@@ -103,13 +103,15 @@
                 android:defaultValue="@null"/>
         </action>
         <action
-            android:id="@+id/action_photoDetailFragment_to_photoInfoFragment"
-            app:destination="@id/photoInfoFragment">
+            android:id="@+id/action_photoDetailFragment_to_webViewFragment"
+            app:destination="@id/webViewFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
             <argument
-                android:name="photoItem"
-                app:argType="com.example.data.parcelables.PhotoItemParcelable"
-                app:nullable="true"
-                android:defaultValue="@null"/>
+                android:name="url"
+                app:argType="string" />
         </action>
 
     </fragment>
@@ -134,27 +136,6 @@
             app:nullable="true"
             android:defaultValue="@null"/>
 
-    </fragment>
-    <fragment
-        android:id="@+id/photoInfoFragment"
-        android:name="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoInfoFragment"
-        android:label="PhotoInfoFragment">
-        <argument
-            android:name="photoItem"
-            app:argType="com.example.data.parcelables.PhotoItemParcelable"
-            app:nullable="true"
-            android:defaultValue="@null"/>
-        <action
-            android:id="@+id/action_photoInfoFragment_to_webViewFragment"
-            app:destination="@id/webViewFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right">
-            <argument
-                android:name="url"
-                app:argType="string" />
-        </action>
     </fragment>
     <fragment
         android:id="@+id/webViewFragment"

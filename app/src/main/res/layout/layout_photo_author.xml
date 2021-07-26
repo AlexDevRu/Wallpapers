@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.kulakov_p3_wallpapers_app.view_models.photo_detail.PhotoDetailVM" />
+
+        <variable
+            name="delegate"
+            type="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoDetailFragment.Delegate" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_info_bg"
+            android:padding="@dimen/photo_author_info_padding">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/authorPhoto"
+                style="@style/baseImageViewStyle"
+                android:layout_width="@dimen/photo_author_size"
+                android:layout_height="@dimen/photo_author_size"
+                app:layout_constraintEnd_toStartOf="@id/guideline"
+                app:layout_constraintTop_toTopOf="parent"
+                app:photo="@{viewModel.photoItemVM.userVM.userPhotoUrl ?? @drawable/no_avatar}"
+                app:shapeAppearanceOverlay="@style/circleImage" />
+
+            <TextView
+                android:id="@+id/authorName"
+                style="@style/authorUsernameStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/author_name_ml"
+                android:layout_marginTop="@dimen/base_indent"
+                android:text="@{viewModel.photoItemVM.userVM.user.name}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/authorPhoto"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="shfkldkl" />
+
+            <TextView
+                android:id="@+id/twitterUsername"
+                style="@style/twitterUsernameStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{`@` + viewModel.photoItemVM.userVM.user.username}"
+                app:layout_constraintStart_toStartOf="@id/authorName"
+                app:layout_constraintTop_toBottomOf="@id/authorName"
+                tools:text="\@shfkldkl" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.35" />
+
+            <TextView
+                android:id="@+id/instagramLink"
+                style="@style/authorLinkStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/author_instagram_mt"
+                android:drawablePadding="@dimen/base_indent"
+                android:onClick="@{() -> viewModel.openInstagram()}"
+                android:text="@{viewModel.photoItemVM.userVM.user.instagram_username}"
+                android:visibility="@{viewModel.photoItemVM.userVM.hasInstagram}"
+                app:drawableStartCompat="@drawable/instagram"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@id/authorPhoto"
+                tools:text="sjdfjsdklj" />
+
+            <TextView
+                android:id="@+id/twitterLink"
+                style="@style/authorLinkStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/author_link_mt"
+                android:drawablePadding="@dimen/base_indent"
+                android:onClick="@{() -> viewModel.openTwitter()}"
+                android:text="@{viewModel.photoItemVM.userVM.user.twitter_username}"
+                android:visibility="@{viewModel.photoItemVM.userVM.hasTwitter}"
+                app:drawableStartCompat="@drawable/twitter"
+                app:layout_constraintStart_toStartOf="@id/guideline"
+                app:layout_constraintTop_toBottomOf="@id/instagramLink"
+                tools:text="sjdfjsdklj" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/portfolioButton"
+                style="@style/portfolioLinkStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/author_link_mt"
+                android:onClick="@{() -> viewModel.openPortfolio()}"
+                android:text="@string/portfolio"
+                android:visibility="@{viewModel.photoItemVM.userVM.hasPortfolio}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/twitterLink"
+                app:layout_constraintWidth_percent="0.6" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/author_info_line_height"
+                android:layout_marginTop="@dimen/author_info_line_mt"
+                android:background="@color/gray"
+                app:layout_constraintTop_toBottomOf="@id/portfolioButton" />
+
+            <TextView
+                android:id="@+id/authorDescription"
+                style="@style/authorDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/author_info_base_indent"
+                android:text="@{viewModel.photoItemVM.userVM.user.bio}"
+                android:visibility="@{viewModel.photoItemVM.userVM.hasDescription}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view"
+                tools:text="sjdfjsdklj" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/author_info_base_indent"
+                android:baselineAligned="false"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/authorDescription">
+
+                <include
+                    layout="@layout/photo_parameter_item"
+                    android:layout_width="@dimen/parameter_item_size"
+                    android:layout_height="@dimen/parameter_item_size"
+                    android:layout_marginEnd="@dimen/base_indent"
+                    android:layout_weight="1"
+                    app:background="@{@color/light_green}"
+                    app:colorIcon="@{@color/green}"
+                    app:data="@{viewModel.photoItemVM.created}"
+                    app:icon="@{@drawable/ic_baseline_access_time_24}"
+                    app:title="@{@string/date}" />
+
+                <include
+                    layout="@layout/photo_parameter_item"
+                    android:layout_width="@dimen/parameter_item_size"
+                    android:layout_height="@dimen/parameter_item_size"
+                    android:layout_marginEnd="@dimen/base_indent"
+                    android:layout_weight="1"
+                    app:background="@{@color/light_yellow}"
+                    app:colorIcon="@{@color/yellow}"
+                    app:data="@{viewModel.photoItemVM.photoItem.color}"
+                    app:icon="@{@drawable/ic_baseline_color_lens_24}"
+                    app:title="@{@string/color}" />
+
+                <include
+                    layout="@layout/photo_parameter_item"
+                    android:layout_width="@dimen/parameter_item_size"
+                    android:layout_height="@dimen/parameter_item_size"
+                    android:layout_weight="1"
+                    app:background="@{@color/light_red}"
+                    app:colorIcon="@{@color/red}"
+                    app:data="@{`Px: ` + viewModel.photoItemVM.photoItem.width + `x` + viewModel.photoItemVM.photoItem.height}"
+                    app:icon="@{@drawable/ic_baseline_aspect_ratio_24}"
+                    app:title="@{@string/size}" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>

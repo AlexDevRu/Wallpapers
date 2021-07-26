@@ -13,9 +13,11 @@
             type="com.example.kulakov_p3_wallpapers_app.views.fragments.photo_detail.PhotoDetailFragment.Delegate" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.constraintlayout.motion.widget.MotionLayout
+        android:id="@+id/motionLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layoutDescription="@xml/fragment_photo_detail_xml_motionlayout_scene">
 
 
         <androidx.appcompat.widget.Toolbar
@@ -31,28 +33,28 @@
 
             <ImageButton
                 android:id="@+id/backButton"
-                android:transitionName="backButton"
                 style="@style/circleImageButton"
-                android:elevation="0dp"
-                android:onClick="@{() -> delegate.onBack()}"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_baseline_arrow_back_24"
+                android:contentDescription="@string/go_back"
+                android:elevation="0dp"
+                android:onClick="@{() -> delegate.onBack()}"
+                android:transitionName="backButton"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:contentDescription="@string/go_back" />
+                app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
             <TextView
+                style="@style/photoDetailToolbarTitleStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/photoDetailToolbarTitleStyle"
                 android:layout_marginStart="@dimen/photo_detail_toolbar_title_ml"
                 android:layout_marginEnd="@dimen/base_indent"
-                android:text="@{viewModel.photoItem.description}"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:text="@{viewModel.photoItem.description}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/backButton"
@@ -62,42 +64,54 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:transitionName="imageView"
-            app:layout_collapseMode="parallax"
-            tools:background="@color/white"
+            style="@style/baseImageViewStyle"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            style="@style/baseImageViewStyle"
+            android:contentDescription="@string/photo"
+            android:transitionName="imageView"
+            app:layout_collapseMode="parallax"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
             app:photo="@{viewModel.photoItemVM.photoUrl}"
-            android:contentDescription="@string/photo" />
+            tools:background="@color/black" />
+
+        <ImageButton
+            android:id="@+id/backButton2"
+            style="@style/circleImageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/circle_button_margin"
+            android:contentDescription="@string/go_back"
+            android:onClick="@{() -> delegate.onBack()}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:srcCompat="@drawable/ic_baseline_arrow_back_24" />
 
         <ImageButton
             android:id="@+id/expandButton"
-            android:transitionName="button"
-            android:onClick="@{() -> delegate.onShowFullscreen()}"
+            style="@style/circleImageButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/circleImageButton"
             android:layout_margin="@dimen/circle_button_margin"
+            android:contentDescription="@string/expand_image"
+            android:onClick="@{() -> delegate.onShowFullscreen()}"
+            android:transitionName="button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbar"
-            app:srcCompat="@drawable/ic_baseline_crop_free_24"
-            android:contentDescription="@string/expand_image" />
+            app:srcCompat="@drawable/ic_baseline_crop_free_24" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/functions"
+            style="@style/photoDetailButtonContainerStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            style="@style/photoDetailButtonContainerStyle"
-            app:layout_constraintWidth_percent="0.75"
             android:layout_marginBottom="@dimen/photo_detail_buttons_container_mb"
             app:layout_constraintBottom_toBottomOf="@id/imageView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintWidth_percent="0.75">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 style="@style/photoDetailLayoutStyle"
@@ -106,44 +120,54 @@
 
                 <ImageButton
                     android:id="@+id/shareButton"
-                    android:onClick="@{() -> delegate.onShare()}"
                     style="@style/photoDetailButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/share"
+                    android:onClick="@{() -> delegate.onShare()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_share_24"
-                    android:contentDescription="@string/share" />
+                    app:srcCompat="@drawable/ic_baseline_share_24" />
 
                 <ImageButton
                     android:id="@+id/functionButton"
-                    android:onClick="@{() -> delegate.onOpenDialog()}"
                     style="@style/photoDetailButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/photo_functions"
+                    android:onClick="@{() -> delegate.onOpenDialog()}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/infoButton"
                     app:layout_constraintStart_toEndOf="@+id/shareButton"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_tune_24"
-                    android:contentDescription="@string/photo_functions" />
+                    app:srcCompat="@drawable/ic_baseline_tune_24" />
 
                 <ImageButton
                     android:id="@+id/infoButton"
-                    android:onClick="@{() -> delegate.onOpenInfo()}"
                     style="@style/photoDetailButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:contentDescription="@string/author_info"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_info_24"
-                    android:contentDescription="@string/author_info" />
+                    app:srcCompat="@drawable/ic_baseline_info_24" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include
+            android:id="@+id/author_layout"
+            layout="@layout/layout_photo_author"
+            app:viewModel="@{viewModel}"
+            app:delegate="@{delegate}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:translationZ="11dp"
+            app:layout_constraintTop_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.motion.widget.MotionLayout>
 </layout>
