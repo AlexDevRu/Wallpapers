@@ -30,8 +30,8 @@ class SearchVM @Inject constructor(
 
     private var currentSearchResult: Flow<PagingData<PhotoItem>>? = null
 
-    private var currentQueryValue: String? = null
-    val searchQuery = BehaviorSubject.createDefault(storage.getQuery().orEmpty())
+    private var currentQueryValue = storage.getQuery()
+    val searchQuery = BehaviorSubject.createDefault(currentQueryValue)
 
     private val compositeDisposable = CompositeDisposable()
 
