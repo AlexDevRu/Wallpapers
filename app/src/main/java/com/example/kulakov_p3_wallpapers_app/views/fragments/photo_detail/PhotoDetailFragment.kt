@@ -32,10 +32,6 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
             startAnimations()
         }
 
-        viewModel.liveIntent.observe(viewLifecycleOwner, {
-            startActivity(Intent.createChooser(it, resources.getString(R.string.share)))
-        })
-
         binding.delegate = object : Delegate {
             override fun onOpenDialog() {
                 Navigator.getInstance().photoDetailFragmentNavigator.showPhotoFunctions(viewModel.photoItem)
@@ -53,6 +49,14 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
                 Navigator.getInstance().photoDetailFragmentNavigator.showInfo(viewModel.photoItem)
             }
 
+            override fun onShare() {
+                val sendIntent = Intent()
+                sendIntent.action = Intent.ACTION_SEND
+                sendIntent.putExtra(Intent.EXTRA_TEXT, viewModel.photoItem.full)
+                sendIntent.type = "text/plain"
+                startActivity(Intent.createChooser(sendIntent, resources.getString(R.string.share)))
+            }
+
             override fun onBack() {
                 Navigator.getInstance().navigateBack()
             }
@@ -68,6 +72,7 @@ class PhotoDetailFragment: BaseFragment<FragmentPhotoDetailBinding>
         fun onOpenDialog()
         fun onShowFullscreen()
         fun onOpenInfo()
+        fun onShare()
         fun onBack()
     }
 }

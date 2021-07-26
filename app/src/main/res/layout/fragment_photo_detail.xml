@@ -106,7 +106,7 @@
 
                 <ImageButton
                     android:id="@+id/shareButton"
-                    android:onClick="@{() -> viewModel.share()}"
+                    android:onClick="@{() -> delegate.onShare()}"
                     style="@style/photoDetailButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
