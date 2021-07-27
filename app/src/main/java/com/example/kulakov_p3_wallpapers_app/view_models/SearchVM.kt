@@ -60,7 +60,7 @@ class SearchVM @Inject constructor(
         isNetworkAvailable.addOnPropertyChangedCallback(object: Observable.OnPropertyChangedCallback() {
             override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
                 Log.e("asd", "isNetworkAvailable ${isNetworkAvailable.get()}")
-                if(isNetworkAvailable.get() && initialSearch.get())
+                if(isNetworkAvailable.get())
                     searchByKeyword()
             }
         })
